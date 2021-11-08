@@ -6,11 +6,13 @@
 #define ROBOTCOMMANDER_MAINWINDOW_H
 
 #include <QMainWindow>
-
+#include <QSerialPort>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
+
+class SettingsDialog;
 
 class MainWindow : public QMainWindow {
 Q_OBJECT
@@ -21,10 +23,20 @@ public:
     ~MainWindow() override;
 
 public slots:
-    void resizeEvent(QResizeEvent *event) override;
+    void openSerialPort();
+    void closeSerialPort();
+    void about();
+
+    void sendCommand(const QPointF &ratio);
+    void readInfo();
+    void handleError(QSerialPort::SerialPortError error);
 
 private:
     Ui::MainWindow *ui;
+    SettingsDialog *m_settings;
+    QSerialPort *m_serial;
+
+    void showStatusMessage(const QString &message);
 };
 
 

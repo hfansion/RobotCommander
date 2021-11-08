@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>931</width>
-    <height>626</height>
+    <width>1072</width>
+    <height>759</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -18,42 +18,9 @@
     <normaloff>:/icon/icon.png</normaloff>:/icon/icon.png</iconset>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <layout class="QHBoxLayout" name="horizontalLayout">
-    <property name="spacing">
-     <number>0</number>
-    </property>
-    <item>
-     <spacer name="horizontalSpacer">
-      <property name="orientation">
-       <enum>Qt::Horizontal</enum>
-      </property>
-      <property name="sizeHint" stdset="0">
-       <size>
-        <width>398</width>
-        <height>20</height>
-       </size>
-      </property>
-     </spacer>
-    </item>
-    <item>
-     <widget class="MapLabel" name="imageLabel">
-      <property name="text">
-       <string/>
-      </property>
-     </widget>
-    </item>
-    <item>
-     <spacer name="horizontalSpacer_2">
-      <property name="orientation">
-       <enum>Qt::Horizontal</enum>
-      </property>
-      <property name="sizeHint" stdset="0">
-       <size>
-        <width>398</width>
-        <height>20</height>
-       </size>
-      </property>
-     </spacer>
+   <layout class="QGridLayout" name="gridLayout">
+    <item row="0" column="0">
+     <widget class="MapWidget" name="imageWidget" native="true"/>
     </item>
    </layout>
   </widget>
@@ -62,7 +29,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>931</width>
+     <width>1072</width>
      <height>30</height>
     </rect>
    </property>
@@ -80,7 +47,6 @@
      <string>Tools</string>
     </property>
     <addaction name="actionConfigure"/>
-    <addaction name="actionClear"/>
    </widget>
    <widget class="QMenu" name="menuAbout">
     <property name="title">
@@ -104,7 +70,6 @@
    <addaction name="actionConnect"/>
    <addaction name="actionDisconnect"/>
    <addaction name="actionConfigure"/>
-   <addaction name="actionClear"/>
   </widget>
   <action name="actionConnect">
    <property name="icon">
@@ -154,18 +119,6 @@
     <string>Alt+C</string>
    </property>
   </action>
-  <action name="actionClear">
-   <property name="icon">
-    <iconset resource="RobotCommander.qrc">
-     <normaloff>:/icon/clear.png</normaloff>:/icon/clear.png</iconset>
-   </property>
-   <property name="text">
-    <string>Clear</string>
-   </property>
-   <property name="shortcut">
-    <string>Alt+L</string>
-   </property>
-  </action>
   <action name="actionAbout">
    <property name="text">
     <string>About</string>
@@ -182,9 +135,10 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>MapLabel</class>
-   <extends>QLabel</extends>
-   <header location="global">maplabel.h</header>
+   <class>MapWidget</class>
+   <extends>QWidget</extends>
+   <header location="global">mapwidget.h</header>
+   <container>1</container>
   </customwidget>
  </customwidgets>
  <resources>
