@@ -68,6 +68,8 @@ void MapWidget::openMapFile() {
     QString file_name = QFileDialog::getOpenFileName(this, tr("Open Map"), ".",
                                                      QString("%1 (*.png *.jpg *.jpeg);;%2 (*.*)").arg(tr("Image"),
                                                                                                       tr("All files")));
-    m_imgMap = QPixmap(file_name);
-    resizeEvent(nullptr);
+    if (!file_name.isEmpty()) {
+        m_imgMap = QPixmap(file_name);
+        resizeEvent(nullptr);
+    }
 }

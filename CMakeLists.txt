@@ -47,3 +47,5 @@ endif ()
 
 add_executable(${PROJECT_NAME} ${PROJECT_SOURCES})
 target_link_libraries(${PROJECT_NAME} PRIVATE ${REQUIRED_LIBS_QUALIFIED})
+
+add_subdirectory(virtualrobot)

@@ -96,13 +96,15 @@ void MainWindow::handleError(QSerialPort::SerialPortError error) {
 
 void MainWindow::sendCommand(const QPointF &ratio) {
     if (m_serial->isOpen()) {
-        QString command = QString("(%1,%2)").arg((int) (100 * ratio.x()), (int) (100 * ratio.y()));
+        QString command = QString("(%1,%2)").arg((int) (100 * ratio.x())).arg((int) (100 * ratio.y()));
+        showStatusMessage(QString("send: ").append(command));
         m_serial->write(command.toStdString().c_str());
     }
 }
 
 void MainWindow::readInfo() {
     QString data = m_serial->readAll();
+    showStatusMessage(QString("receive: ").append(data));
     int i;
     for (i = 0; i < data.size(); ++i) {
         if (data.at(i) == QChar(','))
@@ -110,5 +112,4 @@ void MainWindow::readInfo() {
     }
     int x = data.sliced(1, i - 1).toInt(), y = data.sliced(i + 1, data.size() - i - 2).toInt();
     ui->imageWidget->infoCurPosition(QPointF((qreal) x / 100.0, (qreal) y / 100.0));
-    showStatusMessage(data);
 }
