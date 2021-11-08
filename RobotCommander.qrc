@@ -1,5 +1,6 @@
 <RCC>
   <qresource prefix="/">
+    <file>resource/map.jpg</file>
     <file>icon/application-exit.png</file>
     <file>icon/icon.png</file>
     <file>icon/robot.png</file>

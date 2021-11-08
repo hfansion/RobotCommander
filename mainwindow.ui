@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1072</width>
-    <height>759</height>
+    <width>995</width>
+    <height>612</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -29,23 +29,25 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1072</width>
-     <height>30</height>
+     <width>995</width>
+     <height>22</height>
     </rect>
    </property>
-   <widget class="QMenu" name="menuSystem">
+   <widget class="QMenu" name="menuFile">
     <property name="title">
-     <string>System</string>
+     <string>File</string>
+    </property>
+    <addaction name="actionOpen_Map"/>
+    <addaction name="separator"/>
+    <addaction name="actionQuit"/>
+   </widget>
+   <widget class="QMenu" name="menuSerial">
+    <property name="title">
+     <string>Serial</string>
     </property>
     <addaction name="actionConnect"/>
     <addaction name="actionDisconnect"/>
     <addaction name="separator"/>
-    <addaction name="actionQuit"/>
-   </widget>
-   <widget class="QMenu" name="menuTools">
-    <property name="title">
-     <string>Tools</string>
-    </property>
     <addaction name="actionConfigure"/>
    </widget>
    <widget class="QMenu" name="menuAbout">
@@ -55,8 +57,8 @@
     <addaction name="actionAbout"/>
     <addaction name="actionAbout_Qt"/>
    </widget>
-   <addaction name="menuSystem"/>
-   <addaction name="menuTools"/>
+   <addaction name="menuFile"/>
+   <addaction name="menuSerial"/>
    <addaction name="menuAbout"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
@@ -130,6 +132,11 @@
   <action name="actionAbout_Qt">
    <property name="text">
     <string>About Qt</string>
+   </property>
+  </action>
+  <action name="actionOpen_Map">
+   <property name="text">
+    <string>Open Map</string>
    </property>
   </action>
  </widget>

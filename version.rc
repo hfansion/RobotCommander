@@ -1,0 +1,42 @@
+IDI_ICON1 ICON DISCARDABLE "E:\Codebase\RobotCommander\icon\icon.ico"
+
+#include <winver.h>
+
+LANGUAGE  0, 0
+
+#define RC_VERSION  0, 0, 1, 0
+
+VS_VERSION_INFO VERSIONINFO
+  FILEVERSION     RC_VERSION
+  PRODUCTVERSION  RC_VERSION
+  FILEFLAGSMASK   VS_FFI_FILEFLAGSMASK
+#if defined(DEBUGBUILD) || defined(_DEBUG)
+  FILEFLAGS VS_FF_DEBUG
+#else
+  FILEFLAGS 0L
+#endif
+  FILEOS      VOS__WINDOWS32
+  FILETYPE    VFT_DLL
+  FILESUBTYPE 0L
+
+BEGIN
+  BLOCK "StringFileInfo"
+  BEGIN
+    BLOCK "040904b0"
+    BEGIN
+      VALUE "CompanyName",      "Fansionia Software\0"
+      VALUE "FileDescription",  "Robot Commander\0"
+      VALUE "FileVersion",      "0.0.1.0\0"
+      VALUE "InternalName",     "RobotCommander\0"
+      VALUE "OriginalFilename", "RobotCommander.exe\0"
+      VALUE "ProductName",      "RobotCommander\0"
+      VALUE "ProductVersion",   "0.0.1.0\0"
+      VALUE "LegalCopyright",   "Copyright (C) 2021 Hamlet Fansion.\0"
+    END
+  END
+
+  BLOCK "VarFileInfo"
+  BEGIN
+    VALUE "Translation", 0x409, 1200
+  END
+END

@@ -20,6 +20,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->actionQuit->setEnabled(true);
     ui->actionConfigure->setEnabled(true);
 
+    connect(ui->actionOpen_Map, &QAction::triggered, ui->imageWidget, &MapWidget::openMapFile);
     connect(ui->actionConnect, &QAction::triggered, this, &MainWindow::openSerialPort);
     connect(ui->actionDisconnect, &QAction::triggered, this, &MainWindow::closeSerialPort);
     connect(ui->actionQuit, &QAction::triggered, this, &MainWindow::close);
@@ -94,11 +95,20 @@ void MainWindow::handleError(QSerialPort::SerialPortError error) {
 }
 
 void MainWindow::sendCommand(const QPointF &ratio) {
-//    m_serial->write()
+    if (m_serial->isOpen()) {
+        QString command = QString("(%1,%2)").arg((int) (100 * ratio.x()), (int) (100 * ratio.y()));
+        m_serial->write(command.toStdString().c_str());
+    }
 }
 
 void MainWindow::readInfo() {
-//    const QByteArray data = m_serial->readAll();
-
-//    ui->imageWidget->infoCurPosition();
+    QString data = m_serial->readAll();
+    int i;
+    for (i = 0; i < data.size(); ++i) {
+        if (data.at(i) == QChar(','))
+            break;
+    }
+    int x = data.sliced(1, i - 1).toInt(), y = data.sliced(i + 1, data.size() - i - 2).toInt();
+    ui->imageWidget->infoCurPosition(QPointF((qreal) x / 100.0, (qreal) y / 100.0));
+    showStatusMessage(data);
 }

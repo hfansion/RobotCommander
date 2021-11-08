@@ -28,6 +28,8 @@ public slots:
 
     void mousePressEvent(QMouseEvent *) override;
 
+    void openMapFile();
+
 private:
     QPixmap m_imgMap;
     QPixmap m_tempMap;

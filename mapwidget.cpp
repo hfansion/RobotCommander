@@ -5,11 +5,12 @@
 #include <QPainter>
 #include <QDebug>
 #include <QMouseEvent>
+#include <QFileDialog>
 #include "mapwidget.h"
 
 MapWidget::MapWidget(QWidget *parent) :
         QWidget(parent),
-        m_imgMap(QPixmap{"/home/hamlet/Codebase/RobotCommander/resource/map.jpg"}),
+        m_imgMap(QPixmap{":/resource/map.jpg"}),
         m_imgRobot(QPixmap{":/icon/robot.png"}.scaled(64, 64)) {
     m_field.setY(0);
     m_curP = m_field.topLeft();
@@ -61,4 +62,12 @@ void MapWidget::mousePressEvent(QMouseEvent *event) {
 void MapWidget::infoCurPosition(const QPointF &pos) {
     m_curP = recoverRatio(m_field, pos);
     repaint();
+}
+
+void MapWidget::openMapFile() {
+    QString file_name = QFileDialog::getOpenFileName(this, tr("Open Map"), ".",
+                                                     QString("%1 (*.png *.jpg *.jpeg);;%2 (*.*)").arg(tr("Image"),
+                                                                                                      tr("All files")));
+    m_imgMap = QPixmap(file_name);
+    resizeEvent(nullptr);
 }

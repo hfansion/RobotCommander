@@ -41,5 +41,9 @@ if (NOT CMAKE_BUILD_TYPE MATCHES "Debug")
     set(PROJECT_SOURCES WIN32 ${PROJECT_SOURCES})
 endif ()
 
+if (CMAKE_HOST_WIN32)
+    set(PROJECT_SOURCES ${PROJECT_SOURCES} version.rc)
+endif ()
+
 add_executable(${PROJECT_NAME} ${PROJECT_SOURCES})
 target_link_libraries(${PROJECT_NAME} PRIVATE ${REQUIRED_LIBS_QUALIFIED})
