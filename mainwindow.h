@@ -21,12 +21,10 @@ public:
     ~MainWindow() override;
 
 public slots:
-    void resizeEvent(QResizeEvent *ev) override;
+    void resizeEvent(QResizeEvent *event) override;
 
 private:
     Ui::MainWindow *ui;
-
-    QImage m_image;
 };
 
 

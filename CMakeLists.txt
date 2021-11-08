@@ -33,7 +33,8 @@ include_directories(.)
 
 # Project sources
 set(PROJECT_SOURCES main.cpp RobotCommander.qrc
-        mainwindow.ui mainwindow.h mainwindow.cpp)
+        mainwindow.ui mainwindow.cpp mainwindow.h
+        maplabel.cpp maplabel.h)
 
 if (NOT CMAKE_BUILD_TYPE MATCHES "Debug")
     set(PROJECT_SOURCES WIN32 ${PROJECT_SOURCES})
