@@ -7,7 +7,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "settingsdialog.h"
-
 #include <QMessageBox>
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -83,7 +82,7 @@ void MainWindow::about() {
                           "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:12pt;\">Version 0.0.1</span></p>\n"
                           "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:12pt;\">Robot Commander is a tool for controlling and debugging the movements of robots in Robocon.</span></p>\n"
                           "<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:12pt;\"><br /></p>\n"
-                          "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><a href=\"https://github.com/hfansion/RobotCommander/blob/main/LICENSE\"><span style=\" font-size:12pt; text-decoration: underline; color:#1d99f3;\">GPL-3.0 License</span></a><span style=\" font-size:12pt;\">: This is free software.</span></p>\n"
+                          "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><a href=\"https://github.com/hfansion/RobotCommander/blob/main/LICENSE\"><span style=\" font-size:12pt; text-decoration: underline; color:#1d99f3;\">GPL-3.0 License</span></a><span style=\" font-size:12pt;\">: This is a free software.</span></p>\n"
                           "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><a href=\"https://github.com/hfansion/RobotCommander\"><span style=\" text-decoration: underline; color:#1d99f3;\">https://github.com/hfansion/RobotCommander</span></a></p></body></html>"));
 }
 
@@ -110,6 +109,10 @@ void MainWindow::readInfo() {
         if (data.at(i) == QChar(','))
             break;
     }
+#if (QT_VERSION >= QT_VERSION_CHECK(6, 0, 0))
     int x = data.sliced(1, i - 1).toInt(), y = data.sliced(i + 1, data.size() - i - 2).toInt();
+#else
+    int x = data.midRef(1, i - 1).toInt(), y = data.midRef(i + 1, data.size() - i - 2).toInt();
+#endif
     ui->imageWidget->infoCurPosition(QPointF((qreal) x / 100.0, (qreal) y / 100.0));
 }
