@@ -96,14 +96,14 @@ void MainWindow::handleError(QSerialPort::SerialPortError error) {
 void MainWindow::sendCommand(const QPointF &ratio) {
     if (m_serial->isOpen()) {
         QString command = QString("(%1,%2)").arg((int) (100 * ratio.x())).arg((int) (100 * ratio.y()));
-        showStatusMessage(QString("send: ").append(command));
+        showStatusMessage(QString(tr("send: ")).append(command));
         m_serial->write(command.toStdString().c_str());
     }
 }
 
 void MainWindow::readInfo() {
     QString data = m_serial->readAll();
-    showStatusMessage(QString("receive: ").append(data));
+    showStatusMessage(QString(tr("receive: ")).append(data));
     int i;
     for (i = 0; i < data.size(); ++i) {
         if (data.at(i) == QChar(','))
