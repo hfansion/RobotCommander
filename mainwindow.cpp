@@ -8,10 +8,18 @@
 #include "ui_mainwindow.h"
 #include "settingsdialog.h"
 #include <QMessageBox>
+#include "compositor.h"
+#include "info/info.h"
 
 MainWindow::MainWindow(QWidget *parent) :
         QMainWindow(parent), ui(new Ui::MainWindow),
-        m_settings(new SettingsDialog), m_serial(new QSerialPort(this)) {
+        m_settings(new SettingsDialog), m_serial(new QSerialPort(this)),
+        m_compositor(new Compositor) {
+
+    // 部分初始化代码
+    Info::X_RANGE = 10000;
+    Info::Y_RANGE = 10000;
+
     ui->setupUi(this);
 
     ui->actionConnect->setEnabled(true);
@@ -28,12 +36,13 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->actionAbout_Qt, &QAction::triggered, qApp, &QApplication::aboutQt);
 
     connect(m_serial, &QSerialPort::errorOccurred, this, &MainWindow::handleError);
-    connect(m_serial, &QSerialPort::readyRead, this, &MainWindow::readInfo);
+    connect(m_serial, &QSerialPort::readyRead, this, &MainWindow::compositorRead);
     connect(ui->imageWidget, &MapWidget::commandGotoPosition, this, &MainWindow::sendCommand);
 }
 
 MainWindow::~MainWindow() {
     delete m_settings;
+    delete m_compositor;
     delete ui;
 }
 
@@ -101,18 +110,18 @@ void MainWindow::sendCommand(const QPointF &ratio) {
     }
 }
 
-void MainWindow::readInfo() {
-    QString data = m_serial->readAll();
-    showStatusMessage(QString(tr("receive: ")).append(data));
-    int i;
-    for (i = 0; i < data.size(); ++i) {
-        if (data.at(i) == QChar(','))
-            break;
+void MainWindow::compositorRead() {
+    QByteArray data = m_serial->readAll();
+    m_compositor->decode(data);
+    Info *info = m_compositor->getInfo();
+    if (info == nullptr) return;
+    showStatusMessage(QString(tr("receive: ")).append(info->toString()));
+    ui->imageWidget->infoCurPosition(QPointF((qreal) info->x / Info::X_RANGE, (qreal) info->y / Info::Y_RANGE));
+}
+
+void MainWindow::compositorSend() {
+    if (m_serial->isOpen()) {
+        m_serial->write(m_compositor->encode());
+        showStatusMessage(QString(tr("send: ")).append(m_compositor->getMessage()));
     }
-#if (QT_VERSION >= QT_VERSION_CHECK(6, 0, 0))
-    int x = data.sliced(1, i - 1).toInt(), y = data.sliced(i + 1, data.size() - i - 2).toInt();
-#else
-    int x = data.midRef(1, i - 1).toInt(), y = data.midRef(i + 1, data.size() - i - 2).toInt();
-#endif
-    ui->imageWidget->infoCurPosition(QPointF((qreal) x / 100.0, (qreal) y / 100.0));
 }
