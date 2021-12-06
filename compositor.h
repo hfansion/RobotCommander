@@ -6,32 +6,40 @@
 #define ROBOTCOMMANDER_COMPOSITOR_H
 
 #include <QObject>
-#include <QStack>
+#include <QQueue>
+#include <vector>
 
 class Info;
 
 class Command;
 
-class Compositor {
+class Compositor : QObject {
 Q_OBJECT
 public:
-    Compositor();
+    Compositor() = default;
 
-    ~Compositor();
+    ~Compositor() override;
 
-    void addCommand(Command *command);        // 追加一条指令
-    const QByteArray &encode();               // 编码操作
-    const QString &getMessage();              // 获取当前编码的显示内容
+    void addCommand(Command *command);                      // 追加一条指令
+    const QByteArray &encode();                             // 编码操作
+    [[nodiscard]] const QString &getEncodeMessage() const;  // 获取当前编码的显示内容
 
-    void *decode(const QByteArray &data);     // 解码信息
-    Info *getInfo();                          // 获取解码结果
+    void decode(const QByteArray &data);                    // 解码信息
+    const Info *getInfo();                                  // 获取解码结果
+    [[nodiscard]] const QString &getDecodeMessage() const;  // 获取当前解码的显示内容
 
 private:
-    // 所有Command和Info的生命周期由本类的这两个stack管理
-    QStack<Command *> m_stkCommand;
-    QStack<Info *> m_stkInfo;
-    QByteArray m_code;
-    QString m_message;
+    // 所有Command和Info的生命周期由本类的这两个queue管理
+    QQueue<Command *> m_queCommand;
+    QQueue<const Info *> m_queInfo;
+    std::vector<Info> m_listInfo;
+    QByteArray m_code, m_data;
+    QString m_encodeMessage;
+    QString m_decodeMessage;
+
+    void checkSumAndPostProcess();
+
+    bool verifyAndPreProcess();
 };
 
 

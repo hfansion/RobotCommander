@@ -35,7 +35,11 @@ include_directories(.)
 set(PROJECT_SOURCES main.cpp RobotCommander.qrc
         mainwindow.ui mainwindow.cpp mainwindow.h
         mapwidget.cpp mapwidget.h
-        settingsdialog.ui settingsdialog.cpp settingsdialog.h command/command.cpp command/command.h info/info.cpp info/info.h compositor.cpp compositor.h)
+        settingsdialog.ui settingsdialog.cpp settingsdialog.h
+        command/command.cpp command/command.h
+        info/info.cpp info/info.h
+        compositor.cpp compositor.h
+        command/positioncommand.cpp command/positioncommand.h)
 
 if (NOT CMAKE_BUILD_TYPE MATCHES "Debug")
     set(PROJECT_SOURCES WIN32 ${PROJECT_SOURCES})

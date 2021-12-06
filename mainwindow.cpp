@@ -15,11 +15,6 @@ MainWindow::MainWindow(QWidget *parent) :
         QMainWindow(parent), ui(new Ui::MainWindow),
         m_settings(new SettingsDialog), m_serial(new QSerialPort(this)),
         m_compositor(new Compositor) {
-
-    // 部分初始化代码
-    Info::X_RANGE = 10000;
-    Info::Y_RANGE = 10000;
-
     ui->setupUi(this);
 
     ui->actionConnect->setEnabled(true);
@@ -113,15 +108,15 @@ void MainWindow::sendCommand(const QPointF &ratio) {
 void MainWindow::compositorRead() {
     QByteArray data = m_serial->readAll();
     m_compositor->decode(data);
-    Info *info = m_compositor->getInfo();
+    const Info *info = m_compositor->getInfo();
     if (info == nullptr) return;
-    showStatusMessage(QString(tr("receive: ")).append(info->toString()));
+    showStatusMessage(QString(tr("receive: ")).append(m_compositor->getDecodeMessage()));
     ui->imageWidget->infoCurPosition(QPointF((qreal) info->x / Info::X_RANGE, (qreal) info->y / Info::Y_RANGE));
 }
 
 void MainWindow::compositorSend() {
     if (m_serial->isOpen()) {
         m_serial->write(m_compositor->encode());
-        showStatusMessage(QString(tr("send: ")).append(m_compositor->getMessage()));
+        showStatusMessage(QString(tr("send: ")).append(m_compositor->getEncodeMessage()));
     }
 }

@@ -19,12 +19,13 @@ class Info {
 public:
     static constexpr int DATA_LENGTH = 4;
     static int X_RANGE, Y_RANGE;
+    static void SET_RANGE(int x_range, int y_range);
 
     static Info decode(const QByteArray &data);
 
     explicit Info(int x, int y);
     ~Info() = default;
-    [[nodiscard]] QString toString() const;
+    [[nodiscard]] const QString &toString() const;
 
     const int x;
     const int y;
