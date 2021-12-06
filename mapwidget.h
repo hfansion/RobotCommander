@@ -7,30 +7,26 @@
 
 #include <QWidget>
 
+class Compositor;
+
 class MapWidget : public QWidget {
 Q_OBJECT
 public:
     explicit MapWidget(QWidget *parent = nullptr);
+    void injectCompositor(Compositor *compositor);
 
     ~MapWidget() override;
 
-signals:
-
-    void commandGotoPosition(const QPointF &pos);
-
 public slots:
-
     void infoCurPosition(const QPointF &pos);
-
     void paintEvent(QPaintEvent *) override;
-
     void resizeEvent(QResizeEvent *) override;
-
     void mousePressEvent(QMouseEvent *) override;
-
     void openMapFile();
 
 private:
+    Compositor *m_compositor = nullptr;
+
     QPixmap m_imgMap;
     QPixmap m_tempMap;
     QPixmap m_imgRobot;

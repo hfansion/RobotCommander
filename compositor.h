@@ -13,11 +13,10 @@ class Info;
 
 class Command;
 
-class Compositor : QObject {
+class Compositor : public QObject {
 Q_OBJECT
 public:
     Compositor() = default;
-
     ~Compositor() override;
 
     void addCommand(Command *command);                      // 追加一条指令
@@ -27,6 +26,9 @@ public:
     void decode(const QByteArray &data);                    // 解码信息
     const Info *getInfo();                                  // 获取解码结果
     [[nodiscard]] const QString &getDecodeMessage() const;  // 获取当前解码的显示内容
+
+signals:
+    void needSendCommand();
 
 private:
     // 所有Command和Info的生命周期由本类的这两个queue管理

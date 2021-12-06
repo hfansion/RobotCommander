@@ -25,7 +25,7 @@ public:
 
     explicit Info(int x, int y);
     ~Info() = default;
-    [[nodiscard]] const QString &toString() const;
+    [[nodiscard]] QString toString() const;
 
     const int x;
     const int y;

@@ -10,8 +10,8 @@ int Info::Y_RANGE{10000};
 Info::Info(int x, int y) : x(x), y(y) {
 }
 
-const QString &Info::toString() const {
-    return qMove(QString("(%1,%2)").arg(x).arg(y));
+QString Info::toString() const {
+    return qMove(QString("Position(%1,%2)").arg(x).arg(y));
 }
 
 Info Info::decode(const QByteArray &data) {

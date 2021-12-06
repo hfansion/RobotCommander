@@ -13,6 +13,7 @@ namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
 
 class SettingsDialog;
+class Settings;
 class Compositor;
 
 class MainWindow : public QMainWindow {
@@ -29,13 +30,14 @@ public slots:
     void about();
 
     void compositorSend();
-    void sendCommand(const QPointF &ratio);
     void compositorRead();
     void handleError(QSerialPort::SerialPortError error);
 
 private:
     Ui::MainWindow *ui;
-    SettingsDialog *m_settings;
+    SettingsDialog *m_settingsDialog;
+    const Settings *m_settings;
+
     QSerialPort *m_serial;
     Compositor *m_compositor;
 

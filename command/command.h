@@ -9,9 +9,9 @@
 
 class Command {
 public:
-    virtual ~Command() = 0;
-    [[nodiscard]] virtual const QByteArray &encode() const = 0;
-    [[nodiscard]] virtual const QString &toString() const = 0;
+    virtual ~Command() = default;
+    [[nodiscard]] virtual QByteArray encode() const = 0;
+    [[nodiscard]] virtual QString toString() const = 0;
 };
 
 

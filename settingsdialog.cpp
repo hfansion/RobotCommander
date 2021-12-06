@@ -76,15 +76,67 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
     fillPortsParameters();
     fillPortsInfo();
 
-    updateSettings();
+    //*****************************
+    auto &s = m_settings;
+    s.mapPic = ":/resource/map.jpg";
+    s.RCP_picThanShape = true;
+    s.RCP_robotPic = ":/resource/map.jpg";
+    s.RCP_picSize = 64;
+    s.RCP_shape = Settings::Circular;
+    s.RCP_shapeSize = 20;
+    s.RCP_color = QColor(255, 255, 0);
+    s.RTP_picThanShape = false;
+    s.RTP_robotPic = "";
+    s.RTP_picSize = 64;
+    s.RTP_shape = Settings::Square;
+    s.RTP_shapeSize = 20;
+    s.RTP_color = QColor(255, 0, 0);
+    s.language = Settings::Chinese;
+
+
+    connect(m_ui->radioButton_RCP_Pic, &QRadioButton::toggled, this, &SettingsDialog::mod_RCP_widget_change);
+    connect(m_ui->radioButton_RTP_Pic, &QRadioButton::toggled, this, &SettingsDialog::mod_RTP_widget_change);
+    m_ui->radioButton_RTP_Shape->setChecked(true);
+    // TODO 差一些connect没有做
+    //*****************************
+
+
+    m_settings.name = m_ui->serialPortInfoListBox->currentText();
+
+    if (m_ui->baudRateBox->currentIndex() == 4) {
+        m_settings.baudRate = m_ui->baudRateBox->currentText().toInt();
+    } else {
+        m_settings.baudRate = static_cast<QSerialPort::BaudRate>(
+                m_ui->baudRateBox->itemData(m_ui->baudRateBox->currentIndex()).toInt());
+    }
+    m_settings.stringBaudRate = QString::number(m_settings.baudRate);
+
+    m_settings.dataBits = static_cast<QSerialPort::DataBits>(
+            m_ui->dataBitsBox->itemData(m_ui->dataBitsBox->currentIndex()).toInt());
+    m_settings.stringDataBits = m_ui->dataBitsBox->currentText();
+
+    m_settings.parity = static_cast<QSerialPort::Parity>(
+            m_ui->parityBox->itemData(m_ui->parityBox->currentIndex()).toInt());
+    m_settings.stringParity = m_ui->parityBox->currentText();
+
+    m_settings.stopBits = static_cast<QSerialPort::StopBits>(
+            m_ui->stopBitsBox->itemData(m_ui->stopBitsBox->currentIndex()).toInt());
+    m_settings.stringStopBits = m_ui->stopBitsBox->currentText();
+
+    m_settings.flowControl = static_cast<QSerialPort::FlowControl>(
+            m_ui->flowControlBox->itemData(m_ui->flowControlBox->currentIndex()).toInt());
+    m_settings.stringFlowControl = m_ui->flowControlBox->currentText();
+
+
+    recoverSettings();
 }
 
 SettingsDialog::~SettingsDialog() {
     delete m_ui;
 }
 
-SettingsDialog::Settings SettingsDialog::settings() const {
-    return m_currentSettings;
+const Settings *SettingsDialog::settings() const {
+    return &m_settings;
 }
 
 void SettingsDialog::showPortInfo(int idx) {
@@ -178,29 +230,90 @@ void SettingsDialog::fillPortsInfo() {
 }
 
 void SettingsDialog::updateSettings() {
-    m_currentSettings.name = m_ui->serialPortInfoListBox->currentText();
+    m_settings.name = m_ui->serialPortInfoListBox->currentText();
 
     if (m_ui->baudRateBox->currentIndex() == 4) {
-        m_currentSettings.baudRate = m_ui->baudRateBox->currentText().toInt();
+        m_settings.baudRate = m_ui->baudRateBox->currentText().toInt();
     } else {
-        m_currentSettings.baudRate = static_cast<QSerialPort::BaudRate>(
+        m_settings.baudRate = static_cast<QSerialPort::BaudRate>(
                 m_ui->baudRateBox->itemData(m_ui->baudRateBox->currentIndex()).toInt());
     }
-    m_currentSettings.stringBaudRate = QString::number(m_currentSettings.baudRate);
+    m_settings.stringBaudRate = QString::number(m_settings.baudRate);
 
-    m_currentSettings.dataBits = static_cast<QSerialPort::DataBits>(
+    m_settings.dataBits = static_cast<QSerialPort::DataBits>(
             m_ui->dataBitsBox->itemData(m_ui->dataBitsBox->currentIndex()).toInt());
-    m_currentSettings.stringDataBits = m_ui->dataBitsBox->currentText();
+    m_settings.stringDataBits = m_ui->dataBitsBox->currentText();
 
-    m_currentSettings.parity = static_cast<QSerialPort::Parity>(
+    m_settings.parity = static_cast<QSerialPort::Parity>(
             m_ui->parityBox->itemData(m_ui->parityBox->currentIndex()).toInt());
-    m_currentSettings.stringParity = m_ui->parityBox->currentText();
+    m_settings.stringParity = m_ui->parityBox->currentText();
 
-    m_currentSettings.stopBits = static_cast<QSerialPort::StopBits>(
+    m_settings.stopBits = static_cast<QSerialPort::StopBits>(
             m_ui->stopBitsBox->itemData(m_ui->stopBitsBox->currentIndex()).toInt());
-    m_currentSettings.stringStopBits = m_ui->stopBitsBox->currentText();
+    m_settings.stringStopBits = m_ui->stopBitsBox->currentText();
 
-    m_currentSettings.flowControl = static_cast<QSerialPort::FlowControl>(
+    m_settings.flowControl = static_cast<QSerialPort::FlowControl>(
             m_ui->flowControlBox->itemData(m_ui->flowControlBox->currentIndex()).toInt());
-    m_currentSettings.stringFlowControl = m_ui->flowControlBox->currentText();
+    m_settings.stringFlowControl = m_ui->flowControlBox->currentText();
+
+
+    //*****************************
+    auto &s = m_settings;
+    s.mapPic = m_ui->lineEdit_MapPic->text();
+    s.RCP_picThanShape = m_ui->radioButton_RCP_Pic->isChecked();
+    s.RCP_robotPic = m_ui->lineEdit_RCP_Pic->text();
+    const auto &text0 = m_ui->comboBox_RCP_iconSize->currentText();
+    s.RCP_picSize = text0.midRef(0, text0.size() / 2).toInt();
+    s.RCP_shape = static_cast<Settings::Shape>(m_ui->comboBox_RCP_Shape->currentIndex());
+    s.RCP_shapeSize = m_ui->comboBox_RCP_Size->currentText().toInt();
+    const auto &color0 = m_ui->pushButton_RCP_Color->toolTip().split(',');
+    s.RCP_color = QColor(color0[0].toInt(), color0[1].toInt(), color0[2].toInt());
+    s.RTP_robotPic = m_ui->lineEdit_RTP_Pic->text();
+    const auto &text1 = m_ui->comboBox_RTP_iconSize->currentText();
+    s.RTP_picSize = text1.midRef(0, text1.size() / 2).toInt();
+    s.RTP_shape = static_cast<Settings::Shape>(m_ui->comboBox_RTP_Shape->currentIndex());
+    s.RTP_shapeSize = m_ui->comboBox_RTP_Size->currentText().toInt();
+    const auto &color1 = m_ui->pushButton_RTP_Color->toolTip().split(',');
+    s.RTP_color = QColor(color1[0].toInt(), color1[1].toInt(), color1[2].toInt());
+    s.language = static_cast<Settings::Language>(m_ui->comboBox->currentIndex());
+
+
+    // TODO 引发各种Signal
+    //*****************************
+}
+
+void SettingsDialog::mod_RCP_widget_change(bool state) {
+    m_ui->widget_RCP_Pic->setVisible(state);
+    m_ui->widget_RCP_Shape->setVisible(!state);
+}
+
+void SettingsDialog::mod_RTP_widget_change(bool state) {
+    m_ui->widget_RTP_Pic->setVisible(state);
+    m_ui->widget_RTP_Shape->setVisible(!state);
+}
+
+void SettingsDialog::recoverSettings() {
+    auto &s = m_settings;
+    m_ui->lineEdit_MapPic->setText(s.mapPic);
+    m_ui->radioButton_RCP_Pic->setChecked(s.RCP_picThanShape);
+    m_ui->lineEdit_RCP_Pic->setText(s.RCP_robotPic);
+    m_ui->comboBox_RCP_iconSize->setCurrentText(QString("%1×%1").arg(s.RCP_picSize));
+    m_ui->comboBox_RCP_Shape->setCurrentIndex((int) s.RCP_shape);
+    m_ui->comboBox_RCP_Size->setCurrentText(QString::number(s.RCP_shapeSize));
+    m_ui->pushButton_RCP_Color->setStyleSheet(
+            QString("background-color:rgb(%1, %2, %3)").arg(s.RCP_color.red()).arg(s.RCP_color.green()).arg(
+                    s.RCP_color.blue()));
+    m_ui->pushButton_RCP_Color->setToolTip(QString("%1,%2,%3").arg(s.RCP_color.red()).arg(s.RCP_color.green()).arg(
+            s.RCP_color.blue()));
+    m_ui->radioButton_RTP_Pic->setChecked(s.RTP_picThanShape);
+    m_ui->lineEdit_RTP_Pic->setText(s.RTP_robotPic);
+    m_ui->comboBox_RTP_iconSize->setCurrentText(QString("%1×%1").arg(s.RTP_picSize));
+    m_ui->comboBox_RTP_Shape->setCurrentIndex((int) s.RTP_shape);
+    m_ui->comboBox_RTP_Size->setCurrentText(QString::number(s.RTP_shapeSize));
+    m_ui->pushButton_RTP_Color->setStyleSheet(
+            QString("background-color:rgb(%1, %2, %3)").arg(s.RTP_color.red()).arg(s.RTP_color.green()).arg(
+                    s.RTP_color.blue()));
+    m_ui->pushButton_RTP_Color->setToolTip(QString("%1,%2,%3").arg(s.RTP_color.red()).arg(s.RTP_color.green()).arg(
+            s.RTP_color.blue()));
+    m_ui->comboBox->setCurrentIndex((int) s.language);
 }

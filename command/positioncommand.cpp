@@ -4,11 +4,15 @@
 
 #include "positioncommand.h"
 
-const QByteArray &PositionCommand::encode() const {
+QByteArray PositionCommand::encode() const {
     QByteArray code{};
     auto *p = (char8_t *) &(this->x);
-    code.append((char) (p[0])).append((char) (p[1]));
+    code.append((char) (p[1])).append((char) (p[0]));
     p = (char8_t *) &(this->y);
-    code.append((char) (p[0])).append((char) (p[1]));
+    code.append((char) (p[1])).append((char) (p[0]));
     return qMove(code);
+}
+
+QString PositionCommand::toString() const {
+    return Info::toString();
 }

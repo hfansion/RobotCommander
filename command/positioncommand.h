@@ -11,9 +11,9 @@
 class PositionCommand : public Info, public Command {
 public:
     using Info::Info;
-    using Info::toString;
 
-    [[nodiscard]] const QByteArray &encode() const override;
+    [[nodiscard]] QByteArray encode() const override;
+    [[nodiscard]] QString toString() const override;
 };
 
 #endif //ROBOTCOMMANDER_POSITIONCOMMAND_H

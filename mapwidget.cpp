@@ -7,6 +7,10 @@
 #include <QMouseEvent>
 #include <QFileDialog>
 #include "mapwidget.h"
+#include "compositor.h"
+#include "command/command.h"
+#include "command/positioncommand.h"
+#include "info/info.h"
 
 MapWidget::MapWidget(QWidget *parent) :
         QWidget(parent),
@@ -54,7 +58,9 @@ void MapWidget::mousePressEvent(QMouseEvent *event) {
     if (event->button() == Qt::LeftButton && isInside(m_field, event->pos())) {
         m_gotoP = event->pos();
         repaint();
-        emit commandGotoPosition(pointRatio(m_field, m_gotoP));
+        QPointF ratio = pointRatio(m_field, m_gotoP);
+        Command *command = new PositionCommand((int) (Info::X_RANGE * ratio.x()), (int) (Info::Y_RANGE * ratio.y()));
+        m_compositor->addCommand(command);
         event->accept();
     }
 }
@@ -72,4 +78,8 @@ void MapWidget::openMapFile() {
         m_imgMap = QPixmap(file_name);
         resizeEvent(nullptr);
     }
+}
+
+void MapWidget::injectCompositor(Compositor *compositor) {
+    m_compositor = compositor;
 }

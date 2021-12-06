@@ -10,12 +10,16 @@
 #include <QMessageBox>
 #include "compositor.h"
 #include "info/info.h"
+#include "settings.h"
 
 MainWindow::MainWindow(QWidget *parent) :
         QMainWindow(parent), ui(new Ui::MainWindow),
-        m_settings(new SettingsDialog), m_serial(new QSerialPort(this)),
+        m_settingsDialog(new SettingsDialog), m_serial(new QSerialPort(this)),
         m_compositor(new Compositor) {
     ui->setupUi(this);
+    m_settings = m_settingsDialog->settings();
+
+    ui->imageWidget->injectCompositor(m_compositor);
 
     ui->actionConnect->setEnabled(true);
     ui->actionDisconnect->setEnabled(false);
@@ -26,23 +30,23 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->actionConnect, &QAction::triggered, this, &MainWindow::openSerialPort);
     connect(ui->actionDisconnect, &QAction::triggered, this, &MainWindow::closeSerialPort);
     connect(ui->actionQuit, &QAction::triggered, this, &MainWindow::close);
-    connect(ui->actionConfigure, &QAction::triggered, m_settings, &SettingsDialog::show);
+    connect(ui->actionConfigure, &QAction::triggered, m_settingsDialog, &SettingsDialog::show);
     connect(ui->actionAbout, &QAction::triggered, this, &MainWindow::about);
     connect(ui->actionAbout_Qt, &QAction::triggered, qApp, &QApplication::aboutQt);
 
     connect(m_serial, &QSerialPort::errorOccurred, this, &MainWindow::handleError);
     connect(m_serial, &QSerialPort::readyRead, this, &MainWindow::compositorRead);
-    connect(ui->imageWidget, &MapWidget::commandGotoPosition, this, &MainWindow::sendCommand);
+    connect(m_compositor, &Compositor::needSendCommand, this, &MainWindow::compositorSend);
 }
 
 MainWindow::~MainWindow() {
-    delete m_settings;
+    delete m_settingsDialog;
     delete m_compositor;
     delete ui;
 }
 
 void MainWindow::openSerialPort() {
-    const SettingsDialog::Settings p = m_settings->settings();
+    const auto &p = *m_settings;
     m_serial->setPortName(p.name);
     m_serial->setBaudRate(p.baudRate);
     m_serial->setDataBits(p.dataBits);
@@ -97,14 +101,6 @@ void MainWindow::handleError(QSerialPort::SerialPortError error) {
     }
 }
 
-void MainWindow::sendCommand(const QPointF &ratio) {
-    if (m_serial->isOpen()) {
-        QString command = QString("(%1,%2)").arg((int) (100 * ratio.x())).arg((int) (100 * ratio.y()));
-        showStatusMessage(QString(tr("send: ")).append(command));
-        m_serial->write(command.toStdString().c_str());
-    }
-}
-
 void MainWindow::compositorRead() {
     QByteArray data = m_serial->readAll();
     m_compositor->decode(data);
@@ -117,6 +113,7 @@ void MainWindow::compositorRead() {
 void MainWindow::compositorSend() {
     if (m_serial->isOpen()) {
         m_serial->write(m_compositor->encode());
-        showStatusMessage(QString(tr("send: ")).append(m_compositor->getEncodeMessage()));
     }
+    m_compositor->encode();
+    showStatusMessage(QString(tr("send: ")).append(m_compositor->getEncodeMessage()));
 }
