@@ -51,10 +51,11 @@
 
 #include "settingsdialog.h"
 #include "ui_settingsdialog.h"
-
+#include <QFileDialog>
 #include <QIntValidator>
 #include <QLineEdit>
 #include <QSerialPortInfo>
+#include <QColorDialog>
 
 static const char blankString[] = QT_TRANSLATE_NOOP("SettingsDialog", "N/A");
 
@@ -66,12 +67,12 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
 
     m_ui->baudRateBox->setInsertPolicy(QComboBox::NoInsert);
 
-    connect(m_ui->applyButton, &QPushButton::clicked,
-            this, &SettingsDialog::apply);
+    connect(m_ui->applyButton, &QPushButton::clicked, this, &SettingsDialog::apply);
+    connect(m_ui->cancelButton, &QPushButton::clicked, this, &SettingsDialog::cancel);
     connect(m_ui->serialPortInfoListBox, SIGNAL(currentIndexChanged(int)), this, SLOT(showPortInfo(int)));
     connect(m_ui->baudRateBox, SIGNAL(currentIndexChanged(int)), this, SLOT(checkCustomBaudRatePolicy(int)));
     connect(m_ui->serialPortInfoListBox, SIGNAL(currentIndexChanged(int)), this,
-            SLOT(checkCustomDevicePathPolicy(int)));
+    SLOT(checkCustomDevicePathPolicy(int)));
 
     fillPortsParameters();
     fillPortsInfo();
@@ -97,7 +98,14 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
     connect(m_ui->radioButton_RCP_Pic, &QRadioButton::toggled, this, &SettingsDialog::mod_RCP_widget_change);
     connect(m_ui->radioButton_RTP_Pic, &QRadioButton::toggled, this, &SettingsDialog::mod_RTP_widget_change);
     m_ui->radioButton_RTP_Shape->setChecked(true);
-    // TODO 差一些connect没有做
+    m_ui->widget_RTP_Pic->setVisible(false);
+
+    connect(m_ui->pushButton_MapPic, &QPushButton::clicked, this, &SettingsDialog::chooseFile_Map);
+    connect(m_ui->pushButton_RCP_Pic, &QPushButton::clicked, this, &SettingsDialog::chooseFile_RCP);
+    connect(m_ui->pushButton_RTP_Pic, &QPushButton::clicked, this, &SettingsDialog::chooseFile_RTP);
+    connect(m_ui->pushButton_RCP_Color, &QPushButton::clicked, this, &SettingsDialog::chooseColor_RCP);
+    connect(m_ui->pushButton_RTP_Color, &QPushButton::clicked, this, &SettingsDialog::chooseColor_RTP);
+
     //*****************************
 
 
@@ -154,6 +162,12 @@ void SettingsDialog::showPortInfo(int idx) {
 
 void SettingsDialog::apply() {
     updateSettings();
+    hide();
+    emit needUpdateSettings();
+}
+
+void SettingsDialog::cancel() {
+    recoverSettings();
     hide();
 }
 
@@ -276,9 +290,6 @@ void SettingsDialog::updateSettings() {
     const auto &color1 = m_ui->pushButton_RTP_Color->toolTip().split(',');
     s.RTP_color = QColor(color1[0].toInt(), color1[1].toInt(), color1[2].toInt());
     s.language = static_cast<Settings::Language>(m_ui->comboBox->currentIndex());
-
-
-    // TODO 引发各种Signal
     //*****************************
 }
 
@@ -316,4 +327,37 @@ void SettingsDialog::recoverSettings() {
     m_ui->pushButton_RTP_Color->setToolTip(QString("%1,%2,%3").arg(s.RTP_color.red()).arg(s.RTP_color.green()).arg(
             s.RTP_color.blue()));
     m_ui->comboBox->setCurrentIndex((int) s.language);
+}
+
+void SettingsDialog::chooseFile_Map() {
+    QString file = QFileDialog::getOpenFileName(this, tr("Choose Picture"), ".");
+    if (!file.isEmpty()) m_ui->lineEdit_MapPic->setText(file);
+}
+
+void SettingsDialog::chooseFile_RCP() {
+    QString file = QFileDialog::getOpenFileName(this, tr("Choose Picture"), ".");
+    if (!file.isEmpty()) m_ui->lineEdit_RCP_Pic->setText(file);
+}
+
+void SettingsDialog::chooseFile_RTP() {
+    QString file = QFileDialog::getOpenFileName(this, tr("Choose Picture"), ".");
+    if (!file.isEmpty()) m_ui->lineEdit_RCP_Pic->setText(file);
+}
+
+void SettingsDialog::chooseColor_RCP() {
+    QColor color = QColorDialog::getColor();
+    m_ui->pushButton_RCP_Color->setStyleSheet(
+            QString("background-color:rgb(%1, %2, %3)").arg(color.red()).arg(color.green()).arg(color.blue()));
+    m_ui->pushButton_RCP_Color->setToolTip(QString("%1,%2,%3").arg(color.red()).arg(color.green()).arg(color.blue()));
+}
+
+void SettingsDialog::chooseColor_RTP() {
+    QColor color = QColorDialog::getColor();
+    m_ui->pushButton_RTP_Color->setStyleSheet(
+            QString("background-color:rgb(%1, %2, %3)").arg(color.red()).arg(color.green()).arg(color.blue()));
+    m_ui->pushButton_RTP_Color->setToolTip(QString("%1,%2,%3").arg(color.red()).arg(color.green()).arg(color.blue()));
+}
+
+void SettingsDialog::setPage(int index) {
+    m_ui->tabWidget->setCurrentIndex(index);
 }

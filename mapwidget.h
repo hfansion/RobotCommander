@@ -8,12 +8,14 @@
 #include <QWidget>
 
 class Compositor;
+class Settings;
 
 class MapWidget : public QWidget {
 Q_OBJECT
 public:
     explicit MapWidget(QWidget *parent = nullptr);
     void injectCompositor(Compositor *compositor);
+    void injectSettings(const Settings *settings);
 
     ~MapWidget() override;
 
@@ -22,10 +24,13 @@ public slots:
     void paintEvent(QPaintEvent *) override;
     void resizeEvent(QResizeEvent *) override;
     void mousePressEvent(QMouseEvent *) override;
-    void openMapFile();
+
+    void updateSettings();
 
 private:
+    // inject
     Compositor *m_compositor = nullptr;
+    const Settings *m_settings = nullptr;
 
     QPixmap m_imgMap;
     QPixmap m_tempMap;
@@ -34,8 +39,7 @@ private:
     QPoint m_gotoP;
     QRect m_field;
 
-    constexpr static const QPoint ROBOT_SIZE{32, 32};
-    constexpr static const QColor ANCHOR_COLOR{255, 0, 0};
+    QColor ANCHOR_COLOR{255, 0, 0};
 };
 
 #endif //ROBOTCOMMANDER_MAPWIDGET_H

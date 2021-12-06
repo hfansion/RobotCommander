@@ -74,19 +74,30 @@ public:
     ~SettingsDialog() override;
 
     [[nodiscard]] const Settings *settings() const;
+    void setPage(int index);
+
+signals:
+    void needUpdateSettings();
 
 private slots:
     void showPortInfo(int idx);
     void apply();
+    void cancel();
     void checkCustomBaudRatePolicy(int idx);
     void checkCustomDevicePathPolicy(int idx);
 
     void mod_RCP_widget_change(bool state);
     void mod_RTP_widget_change(bool state);
+    void chooseFile_Map();
+    void chooseFile_RCP();
+    void chooseFile_RTP();
+    void chooseColor_RCP();
+    void chooseColor_RTP();
 
 private:
     void fillPortsParameters();
     void fillPortsInfo();
+
     void recoverSettings();
     void updateSettings();
 

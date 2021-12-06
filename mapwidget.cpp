@@ -11,6 +11,7 @@
 #include "command/command.h"
 #include "command/positioncommand.h"
 #include "info/info.h"
+#include "settings.h"
 
 MapWidget::MapWidget(QWidget *parent) :
         QWidget(parent),
@@ -39,7 +40,8 @@ inline QPoint recoverRatio(const QRect &rect, const QPointF &ratio) {
 void MapWidget::paintEvent(QPaintEvent *event) {
     QPainter painter{this};
     painter.drawPixmap(m_field.topLeft(), m_tempMap);
-    painter.drawPixmap(m_curP - ROBOT_SIZE, m_imgRobot);
+    int size = m_settings->RCP_picSize / 2;
+    painter.drawPixmap(m_curP - QPoint(size, size), m_imgRobot);
     painter.fillRect(m_gotoP.x() - 10, m_gotoP.y() - 10, 20, 20, ANCHOR_COLOR);
 }
 
@@ -70,16 +72,19 @@ void MapWidget::infoCurPosition(const QPointF &pos) {
     repaint();
 }
 
-void MapWidget::openMapFile() {
-    QString file_name = QFileDialog::getOpenFileName(this, tr("Open Map"), ".",
-                                                     QString("%1 (*.png *.jpg *.jpeg);;%2 (*.*)").arg(tr("Image"),
-                                                                                                      tr("All files")));
-    if (!file_name.isEmpty()) {
-        m_imgMap = QPixmap(file_name);
-        resizeEvent(nullptr);
-    }
-}
-
 void MapWidget::injectCompositor(Compositor *compositor) {
     m_compositor = compositor;
+}
+
+void MapWidget::injectSettings(const Settings *settings) {
+    m_settings = settings;
+}
+
+void MapWidget::updateSettings() {
+    // TODO 整体画图设计已经落后，需要重构
+    const auto &s = *m_settings;
+    m_imgMap = QPixmap(s.mapPic);
+    m_imgRobot = QPixmap{s.RCP_robotPic}.scaled(s.RCP_picSize, s.RCP_picSize);
+    ANCHOR_COLOR = s.RTP_color;
+    resizeEvent(nullptr);
 }

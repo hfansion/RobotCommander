@@ -33,7 +33,7 @@
           <property name="geometry">
            <rect>
             <x>0</x>
-            <y>-137</y>
+            <y>-205</y>
             <width>416</width>
             <height>636</height>
            </rect>
@@ -256,11 +256,6 @@
                      <string>20</string>
                     </property>
                    </item>
-                   <item>
-                    <property name="text">
-                     <string>Custom</string>
-                    </property>
-                   </item>
                   </widget>
                  </item>
                  <item>
@@ -329,7 +324,7 @@
                     <widget class="QLineEdit" name="lineEdit_RTP_Pic"/>
                    </item>
                    <item>
-                    <widget class="QPushButton" name="pushButton_MapPic_2">
+                    <widget class="QPushButton" name="pushButton_RTP_Pic">
                      <property name="text">
                       <string>Choose Picture</string>
                      </property>
@@ -470,11 +465,6 @@
                    <item>
                     <property name="text">
                      <string>20</string>
-                    </property>
-                   </item>
-                   <item>
-                    <property name="text">
-                     <string>Custom</string>
                     </property>
                    </item>
                   </widget>

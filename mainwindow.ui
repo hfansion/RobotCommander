@@ -30,14 +30,14 @@
      <x>0</x>
      <y>0</y>
      <width>995</width>
-     <height>22</height>
+     <height>30</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
     <property name="title">
      <string>File</string>
     </property>
-    <addaction name="actionOpen_Map"/>
+    <addaction name="actionPreferences"/>
     <addaction name="separator"/>
     <addaction name="actionQuit"/>
    </widget>
@@ -57,8 +57,16 @@
     <addaction name="actionAbout"/>
     <addaction name="actionAbout_Qt"/>
    </widget>
+   <widget class="QMenu" name="menuView">
+    <property name="title">
+     <string>View</string>
+    </property>
+    <addaction name="actionLittle_Sender"/>
+    <addaction name="actionConsole"/>
+   </widget>
    <addaction name="menuFile"/>
    <addaction name="menuSerial"/>
+   <addaction name="menuView"/>
    <addaction name="menuAbout"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
@@ -134,9 +142,32 @@
     <string>About Qt</string>
    </property>
   </action>
-  <action name="actionOpen_Map">
+  <action name="actionPreferences">
+   <property name="icon">
+    <iconset resource="RobotCommander.qrc">
+     <normaloff>:/icon/settings.png</normaloff>:/icon/settings.png</iconset>
+   </property>
    <property name="text">
-    <string>Open Map</string>
+    <string>Preferences</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+P</string>
+   </property>
+  </action>
+  <action name="actionLittle_Sender">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Little Sender</string>
+   </property>
+  </action>
+  <action name="actionConsole">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Console</string>
    </property>
   </action>
  </widget>

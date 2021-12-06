@@ -20,23 +20,25 @@ MainWindow::MainWindow(QWidget *parent) :
     m_settings = m_settingsDialog->settings();
 
     ui->imageWidget->injectCompositor(m_compositor);
+    ui->imageWidget->injectSettings(m_settings);
 
     ui->actionConnect->setEnabled(true);
     ui->actionDisconnect->setEnabled(false);
     ui->actionQuit->setEnabled(true);
     ui->actionConfigure->setEnabled(true);
 
-    connect(ui->actionOpen_Map, &QAction::triggered, ui->imageWidget, &MapWidget::openMapFile);
     connect(ui->actionConnect, &QAction::triggered, this, &MainWindow::openSerialPort);
     connect(ui->actionDisconnect, &QAction::triggered, this, &MainWindow::closeSerialPort);
     connect(ui->actionQuit, &QAction::triggered, this, &MainWindow::close);
-    connect(ui->actionConfigure, &QAction::triggered, m_settingsDialog, &SettingsDialog::show);
+    connect(ui->actionPreferences, &QAction::triggered, this, &MainWindow::showPreferences);
+    connect(ui->actionConfigure, &QAction::triggered, this, &MainWindow::showConfigure);
     connect(ui->actionAbout, &QAction::triggered, this, &MainWindow::about);
     connect(ui->actionAbout_Qt, &QAction::triggered, qApp, &QApplication::aboutQt);
 
     connect(m_serial, &QSerialPort::errorOccurred, this, &MainWindow::handleError);
     connect(m_serial, &QSerialPort::readyRead, this, &MainWindow::compositorRead);
     connect(m_compositor, &Compositor::needSendCommand, this, &MainWindow::compositorSend);
+    connect(m_settingsDialog, &SettingsDialog::needUpdateSettings, ui->imageWidget, &MapWidget::updateSettings);
 }
 
 MainWindow::~MainWindow() {
@@ -116,4 +118,14 @@ void MainWindow::compositorSend() {
     }
     m_compositor->encode();
     showStatusMessage(QString(tr("send: ")).append(m_compositor->getEncodeMessage()));
+}
+
+void MainWindow::showPreferences() {
+    m_settingsDialog->setPage(0);
+    m_settingsDialog->show();
+}
+
+void MainWindow::showConfigure() {
+    m_settingsDialog->setPage(1);
+    m_settingsDialog->show();
 }

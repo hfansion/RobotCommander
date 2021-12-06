@@ -33,6 +33,9 @@ public slots:
     void compositorRead();
     void handleError(QSerialPort::SerialPortError error);
 
+    void showPreferences();
+    void showConfigure();
+
 private:
     Ui::MainWindow *ui;
     SettingsDialog *m_settingsDialog;
