@@ -15,6 +15,7 @@ QT_END_NAMESPACE
 class SettingsDialog;
 class Settings;
 class Compositor;
+class QTranslator;
 
 class MainWindow : public QMainWindow {
 Q_OBJECT
@@ -36,10 +37,13 @@ public slots:
     void showPreferences();
     void showConfigure();
 
+    void updateSettings();
+
 private:
     Ui::MainWindow *ui;
     SettingsDialog *m_settingsDialog;
     const Settings *m_settings;
+    QTranslator *m_translator;
 
     QSerialPort *m_serial;
     Compositor *m_compositor;

@@ -11,11 +11,20 @@
 #include "compositor.h"
 #include "info/info.h"
 #include "settings.h"
+#include <QTranslator>
+
+#ifdef QT_DEBUG
+
+#include <QDebug>
+
+#endif
 
 MainWindow::MainWindow(QWidget *parent) :
-        QMainWindow(parent), ui(new Ui::MainWindow),
+        QMainWindow(parent), ui(new Ui::MainWindow), m_translator(new QTranslator()),
         m_settingsDialog(new SettingsDialog), m_serial(new QSerialPort(this)),
         m_compositor(new Compositor) {
+    m_translator->load(":/translation/RobotCommander_zh.qm");
+    qApp->installTranslator(m_translator);
     ui->setupUi(this);
     m_settings = m_settingsDialog->settings();
 
@@ -39,11 +48,13 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(m_serial, &QSerialPort::readyRead, this, &MainWindow::compositorRead);
     connect(m_compositor, &Compositor::needSendCommand, this, &MainWindow::compositorSend);
     connect(m_settingsDialog, &SettingsDialog::needUpdateSettings, ui->imageWidget, &MapWidget::updateSettings);
+    connect(m_settingsDialog, &SettingsDialog::needUpdateSettings, this, &MainWindow::updateSettings);
 }
 
 MainWindow::~MainWindow() {
     delete m_settingsDialog;
     delete m_compositor;
+    delete m_translator;
     delete ui;
 }
 
@@ -128,4 +139,22 @@ void MainWindow::showPreferences() {
 void MainWindow::showConfigure() {
     m_settingsDialog->setPage(1);
     m_settingsDialog->show();
+}
+
+void MainWindow::updateSettings() {
+    switch (m_settings->language) {
+        case Settings::Chinese: {
+            qDebug() << "Chinese";
+            m_translator->load(":/translation/RobotCommander_zh.qm");
+            qApp->installTranslator(m_translator);
+            break;
+        }
+        case Settings::English: {
+            qDebug() << "English";
+            m_translator->load(":/translation/RobotCommander_en.qm");
+            qApp->installTranslator(m_translator);
+            break;
+        }
+    }
+    ui->retranslateUi(this);
 }

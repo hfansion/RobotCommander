@@ -56,13 +56,16 @@
 #include <QLineEdit>
 #include <QSerialPortInfo>
 #include <QColorDialog>
+#include <QTranslator>
 
 static const char blankString[] = QT_TRANSLATE_NOOP("SettingsDialog", "N/A");
 
 SettingsDialog::SettingsDialog(QWidget *parent) :
-        QDialog(parent),
+        QDialog(parent), m_translator(new QTranslator()),
         m_ui(new Ui::SettingsDialog),
         m_intValidator(new QIntValidator(0, 4000000, this)) {
+    m_translator->load(":/translation/RobotCommander_zh.qm");
+    qApp->installTranslator(m_translator);
     m_ui->setupUi(this);
 
     m_ui->baudRateBox->setInsertPolicy(QComboBox::NoInsert);
@@ -141,6 +144,7 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
 
 SettingsDialog::~SettingsDialog() {
     delete m_ui;
+    delete m_translator;
 }
 
 const Settings *SettingsDialog::settings() const {
@@ -164,6 +168,20 @@ void SettingsDialog::apply() {
     updateSettings();
     hide();
     emit needUpdateSettings();
+
+    switch (m_settings.language) {
+        case Settings::Chinese: {
+            m_translator->load(":/translation/RobotCommander_zh.qm");
+            qApp->installTranslator(m_translator);
+            break;
+        }
+        case Settings::English: {
+            m_translator->load(":/translation/RobotCommander_en.qm");
+            qApp->installTranslator(m_translator);
+            break;
+        }
+    }
+    m_ui->retranslateUi(this);
 }
 
 void SettingsDialog::cancel() {

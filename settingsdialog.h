@@ -62,6 +62,7 @@ class SettingsDialog;
 }
 
 class QIntValidator;
+class QTranslator;
 
 QT_END_NAMESPACE
 
@@ -105,6 +106,7 @@ private:
     Ui::SettingsDialog *m_ui = nullptr;
     Settings m_settings;
     QIntValidator *m_intValidator = nullptr;
+    QTranslator *m_translator;
 };
 
 #endif // SETTINGSDIALOG_H

@@ -8,28 +8,21 @@
 #include <QWidget>
 
 class Compositor;
-
 class Settings;
 
 class MapWidget : public QWidget {
 Q_OBJECT
 public:
     explicit MapWidget(QWidget *parent = nullptr);
-
-    void injectCompositor(Compositor *compositor);
-
-    void injectSettings(const Settings *settings);
-
     ~MapWidget() override;
 
+    void injectCompositor(Compositor *compositor);
+    void injectSettings(const Settings *settings);
+
 public slots:
-
     void infoCurPosition(const QPointF &pos);
-
     void paintEvent(QPaintEvent *) override;
-
     void resizeEvent(QResizeEvent *) override;
-
     void mousePressEvent(QMouseEvent *) override;
 
     void updateSettings();

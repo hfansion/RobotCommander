@@ -5,10 +5,10 @@
 #include "compositor.h"
 #include "command/command.h"
 #include "info/info.h"
-#include <QDebug>
 
 #ifdef QT_DEBUG
 
+#include <QDebug>
 #include <iostream>
 
 #endif

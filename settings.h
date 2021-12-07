@@ -12,11 +12,11 @@
 
 struct Settings {
     enum Shape {
-        Square = 0, Triangle = 1, Circular = 2
+        Square = 0, Triangle, Circular
     };
 
     enum Language {
-        Chinese = 0, English = 0
+        Chinese = 0, English
     };
 
     // Appearance

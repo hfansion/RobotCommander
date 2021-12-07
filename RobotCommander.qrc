@@ -1,5 +1,7 @@
 <RCC>
   <qresource prefix="/">
+    <file>translation/RobotCommander_en.qm</file>
+    <file>translation/RobotCommander_zh.qm</file>
     <file>resource/map.jpg</file>
     <file>icon/application-exit.png</file>
     <file>icon/icon.png</file>
