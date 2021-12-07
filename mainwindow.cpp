@@ -21,12 +21,11 @@
 
 MainWindow::MainWindow(QWidget *parent) :
         QMainWindow(parent), ui(new Ui::MainWindow), m_translator(new QTranslator()),
-        m_settingsDialog(new SettingsDialog), m_serial(new QSerialPort(this)),
+        m_settingsDialog(new SettingsDialog(this)), m_serial(new QSerialPort(this)),
         m_compositor(new Compositor) {
-    m_translator->load(":/translation/RobotCommander_zh.qm");
-    qApp->installTranslator(m_translator);
     ui->setupUi(this);
     m_settings = m_settingsDialog->settings();
+    updateSettings();
 
     ui->imageWidget->injectCompositor(m_compositor);
     ui->imageWidget->injectSettings(m_settings);
@@ -144,15 +143,15 @@ void MainWindow::showConfigure() {
 void MainWindow::updateSettings() {
     switch (m_settings->language) {
         case Settings::Chinese: {
-            qDebug() << "Chinese";
-            m_translator->load(":/translation/RobotCommander_zh.qm");
-            qApp->installTranslator(m_translator);
+            bool rs = m_translator->load(":/translation/RobotCommander_zh.qm");
+            if (rs) qApp->installTranslator(m_translator);
+            else showStatusMessage(tr("Cannot open translation file."));
             break;
         }
         case Settings::English: {
-            qDebug() << "English";
-            m_translator->load(":/translation/RobotCommander_en.qm");
-            qApp->installTranslator(m_translator);
+            bool rs = m_translator->load(":/translation/RobotCommander_en.qm");
+            if (rs) qApp->installTranslator(m_translator);
+            else showStatusMessage(tr("Cannot open translation file."));
             break;
         }
     }

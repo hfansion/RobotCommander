@@ -64,8 +64,8 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
         QDialog(parent), m_translator(new QTranslator()),
         m_ui(new Ui::SettingsDialog),
         m_intValidator(new QIntValidator(0, 4000000, this)) {
-    m_translator->load(":/translation/RobotCommander_zh.qm");
-    qApp->installTranslator(m_translator);
+    bool rs = m_translator->load(":/translation/RobotCommander_zh.qm");
+    if (rs) qApp->installTranslator(m_translator);
     m_ui->setupUi(this);
 
     m_ui->baudRateBox->setInsertPolicy(QComboBox::NoInsert);
@@ -75,7 +75,7 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
     connect(m_ui->serialPortInfoListBox, SIGNAL(currentIndexChanged(int)), this, SLOT(showPortInfo(int)));
     connect(m_ui->baudRateBox, SIGNAL(currentIndexChanged(int)), this, SLOT(checkCustomBaudRatePolicy(int)));
     connect(m_ui->serialPortInfoListBox, SIGNAL(currentIndexChanged(int)), this,
-    SLOT(checkCustomDevicePathPolicy(int)));
+            SLOT(checkCustomDevicePathPolicy(int)));
 
     fillPortsParameters();
     fillPortsInfo();
@@ -171,12 +171,13 @@ void SettingsDialog::apply() {
 
     switch (m_settings.language) {
         case Settings::Chinese: {
-            m_translator->load(":/translation/RobotCommander_zh.qm");
-            qApp->installTranslator(m_translator);
+            bool rs = m_translator->load(":/translation/RobotCommander_zh.qm");
+            if (rs) qApp->installTranslator(m_translator);
             break;
         }
         case Settings::English: {
-            m_translator->load(":/translation/RobotCommander_en.qm");
+            bool rs = m_translator->load(":/translation/RobotCommander_en.qm");
+            if (rs) qApp->installTranslator(m_translator);
             qApp->installTranslator(m_translator);
             break;
         }
@@ -295,7 +296,11 @@ void SettingsDialog::updateSettings() {
     s.RCP_picThanShape = m_ui->radioButton_RCP_Pic->isChecked();
     s.RCP_robotPic = m_ui->lineEdit_RCP_Pic->text();
     const auto &text0 = m_ui->comboBox_RCP_iconSize->currentText();
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+    s.RCP_picSize = text0.first(text0.size() / 2).toInt();
+#else
     s.RCP_picSize = text0.midRef(0, text0.size() / 2).toInt();
+#endif
     s.RCP_shape = static_cast<Settings::Shape>(m_ui->comboBox_RCP_Shape->currentIndex());
     s.RCP_shapeSize = m_ui->comboBox_RCP_Size->currentText().toInt();
     const auto &color0 = m_ui->pushButton_RCP_Color->toolTip().split(',');
@@ -303,7 +308,11 @@ void SettingsDialog::updateSettings() {
     s.RTP_picThanShape = m_ui->radioButton_RTP_Pic->isChecked();
     s.RTP_robotPic = m_ui->lineEdit_RTP_Pic->text();
     const auto &text1 = m_ui->comboBox_RTP_iconSize->currentText();
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+    s.RTP_picSize = text1.first(text1.size() / 2).toInt();
+#else
     s.RTP_picSize = text1.midRef(0, text1.size() / 2).toInt();
+#endif
     s.RTP_shape = static_cast<Settings::Shape>(m_ui->comboBox_RTP_Shape->currentIndex());
     s.RTP_shapeSize = m_ui->comboBox_RTP_Size->currentText().toInt();
     const auto &color1 = m_ui->pushButton_RTP_Color->toolTip().split(',');

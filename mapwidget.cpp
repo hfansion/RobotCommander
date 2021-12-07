@@ -56,7 +56,8 @@ void MapWidget::paintEvent(QPaintEvent *event) {
                 QPainterPath path;
                 QVector<QPointF> points{QPointF(m_curP.x(), m_curP.y() - size),
                                         QPointF(m_curP.x() - size, m_curP.y() + size),
-                                        QPointF(m_curP.x() + size, m_curP.y() + size)};
+                                        QPointF(m_curP.x() + size, m_curP.y() + size),
+                                        QPointF(m_curP.x(), m_curP.y() - size)};
                 path.addPolygon(QPolygonF(points));
                 painter.drawPath(path);
                 break;
@@ -87,7 +88,8 @@ void MapWidget::paintEvent(QPaintEvent *event) {
                 QPainterPath path;
                 QVector<QPointF> points{QPointF(m_tarP.x(), m_tarP.y() - size),
                                         QPointF(m_tarP.x() - size, m_tarP.y() + size),
-                                        QPointF(m_tarP.x() + size, m_tarP.y() + size)};
+                                        QPointF(m_tarP.x() + size, m_tarP.y() + size),
+                                        QPointF(m_tarP.x(), m_tarP.y() - size)};
                 path.addPolygon(QPolygonF(points));
                 painter.drawPath(path);
                 break;

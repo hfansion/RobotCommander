@@ -9,7 +9,11 @@
 #include <QQueue>
 #include <vector>
 
+#ifdef Q_OS_WIN
+#include "info/info.h"
+#else
 class Info;
+#endif
 
 class Command;
 
