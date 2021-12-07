@@ -7,14 +7,9 @@
 
 #include <QObject>
 #include <QQueue>
-#include <QVector>
+#include <protocol.h>
 
-#ifdef Q_OS_WIN
-#include "info/info.h"
-#else
 class Info;
-#endif
-
 class Command;
 
 class Compositor : public QObject {
@@ -25,6 +20,7 @@ public:
 
     void addCommand(Command *command);                      // 追加一条指令
     const QByteArray &encode();                             // 编码操作
+    static QByteArray previewEncode(const Command *command);// 预览编码
     [[nodiscard]] const QString &getEncodeMessage() const;  // 获取当前编码的显示内容
 
     void decode(const QByteArray &data);                    // 解码信息
@@ -38,14 +34,13 @@ private:
     // 所有Command和Info的生命周期由本类的这两个queue管理
     QQueue<Command *> m_queCommand;
     QQueue<const Info *> m_queInfo;
-    QVector<Info *> m_listInfo;
-    QByteArray m_code, m_data;
+    QList<Info *> m_listInfo;
+    QByteArray m_sendCode, m_receiveCode;
     QString m_encodeMessage;
     QString m_decodeMessage;
 
-    void checkSumAndPostProcess();
-
-    bool verifyAndPreProcess();
+    static void checkSumAndPostProcess(QByteArray &code);
+    static bool verifyAndPreProcess(QByteArray &code);
 };
 
 

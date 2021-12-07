@@ -7,6 +7,7 @@
 
 QByteArray PositionCommand::encode() const {
     QByteArray code{};
+    code.append(static_cast<char8_t>(ProtocolSend::Position));
     auto *p = (char8_t *) &(this->x);
     code.append((char) (p[1])).append((char) (p[0]));
     p = (char8_t *) &(this->y);

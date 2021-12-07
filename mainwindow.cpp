@@ -9,7 +9,10 @@
 #include "settingsdialog.h"
 #include <QMessageBox>
 #include "compositor.h"
+#include "command/anycommand.h"
 #include "info/info.h"
+#include "info/positioninfo.h"
+#include "data/hexdisplayer.h"
 #include "settings.h"
 #include <QTranslator>
 
@@ -53,9 +56,16 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(m_compositor, &Compositor::needSendCommand, this, &MainWindow::compositorSend);
     connect(m_settingsDialog, &SettingsDialog::needUpdateSettings, ui->imageWidget, &MapWidget::updateSettings);
     connect(m_settingsDialog, &SettingsDialog::needUpdateSettings, this, &MainWindow::updateSettings);
+
+    // LittleSender
+    connect(ui->lineEdit_LS, &QLineEdit::textChanged, this, &MainWindow::LS_preview);
+    connect(ui->radioButton_LS_hex, &QRadioButton::pressed, this, &MainWindow::LS_preview_hex);
+    connect(ui->radioButton_LS_str, &QRadioButton::pressed, this, &MainWindow::LS_preview_str);
+    connect(ui->pushButton_LS_Send, &QPushButton::clicked, this, &MainWindow::LS_send);
 }
 
 MainWindow::~MainWindow() {
+    delete m_tmpCmd;
     delete m_settingsDialog;
     delete m_compositor;
     delete m_translator;
@@ -122,9 +132,20 @@ void MainWindow::compositorRead() {
     QByteArray data = m_serial->readAll();
     m_compositor->decode(data);
     const Info *info = m_compositor->getInfo();
-    if (info == nullptr) return;
-    showStatusMessage(QString(tr("receive: ")).append(m_compositor->getDecodeMessage()));
-    ui->imageWidget->infoCurPosition(QPointF((qreal) info->x / Info::X_RANGE, (qreal) info->y / Info::Y_RANGE));
+    while (info != nullptr) {
+        showStatusMessage(QString(tr("receive: ")).append(info->toString()));
+        switch (info->getInfoType()) {
+            case ProtocolReceive::Position: {
+                auto *p = (PositionInfo *) info;
+                ui->imageWidget->infoCurPosition(
+                        QPointF((qreal) p->x / Position::X_RANGE, (qreal) p->y / Position::Y_RANGE));
+                break;
+            }
+            case ProtocolReceive::Any:
+                break;
+        }
+        info = m_compositor->getInfo();
+    }
 }
 
 void MainWindow::compositorSend() {
@@ -180,4 +201,39 @@ void MainWindow::showConsole(bool checked) {
 void MainWindow::checkToolWindowVisible() {
     ui->actionLittle_Sender->setChecked(ui->dockWidget_LittleSender->isVisible());
     ui->actionConsole->setChecked(ui->dockWidget_Console->isVisible());
+}
+
+inline char hexToDec(char i) {
+    return (char) (('0' <= i && i <= '9') ? (i - '0') : (i - 'A' + 10));
+}
+
+void MainWindow::LS_preview(const QString &data) {
+    delete m_tmpCmd;
+    if (m_isHexThanStr) {
+        QByteArray code{};
+        bool isOdd = data.length() % 2 == 1;
+        if (isOdd)
+            code.append(hexToDec(data.at(0).toLatin1()));
+        for (int i = isOdd ? 1 : 0; i < data.length(); i += 2)
+            code.append((char) ((hexToDec(data.at(i).toLatin1()) << 4) + hexToDec(data.at(i + 1).toLatin1())));
+        m_tmpCmd = new AnyCommand(code);
+    } else {
+        m_tmpCmd = new AnyCommand(data.toLocal8Bit());
+    }
+    ui->label_LS_result->setText(HexDisplayer::toString(Compositor::previewEncode(m_tmpCmd)));
+}
+
+void MainWindow::LS_send() {
+    m_compositor->addCommand(m_tmpCmd);
+    m_tmpCmd = nullptr;
+}
+
+void MainWindow::LS_preview_hex() {
+    m_isHexThanStr = true;
+    LS_preview(ui->lineEdit_LS->text());
+}
+
+void MainWindow::LS_preview_str() {
+    m_isHexThanStr = false;
+    LS_preview(ui->lineEdit_LS->text());
 }

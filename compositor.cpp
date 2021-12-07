@@ -5,20 +5,25 @@
 #include "compositor.h"
 #include "command/command.h"
 #include "info/info.h"
+#include "info/positioninfo.h"
+#include "info/anyinfo.h"
+#include "data/hexdisplayer.h"
 
 #ifdef QT_DEBUG
 
 #include <QDebug>
-#include <iostream>
 
 #endif
 
+template<typename T>
+inline void deleteAllPointers(QList<T> anyList) {
+    for (const T p: anyList)
+        delete p;
+}
+
 Compositor::~Compositor() {
-    for (const Command *c: m_queCommand)
-        delete c;
-    for (const Info *i: m_listInfo) {
-        delete i;
-    }
+    deleteAllPointers(m_queCommand);
+    deleteAllPointers(m_listInfo);
 }
 
 void Compositor::addCommand(Command *command) {
@@ -27,49 +32,26 @@ void Compositor::addCommand(Command *command) {
     emit needSendCommand();
 }
 
-#ifdef QT_DEBUG
-
-inline char decToHex(char i) {
-    return (char) (i < 10 ? ('0' + i) : ('A' + (i - 10)));
+QByteArray Compositor::previewEncode(const Command *command) {
+    QByteArray code;
+    code.append(command->encode());
+    checkSumAndPostProcess(code);
+    return std::move(code);
 }
-
-void printData(const QByteArray &data) {
-    for (const auto &c: data) {
-        switch (c) {
-            case '#':
-//            case '&':
-//            case '@':
-                std::cout << c;
-                break;
-            default: {
-                char d1 = (char) ((char8_t) c >> 4), d2 = (char) ((char8_t) c - (d1 << 4));
-                std::cout << decToHex(d1) << decToHex(d2);
-            }
-        }
-    }
-    std::cout << std::endl;
-}
-
-#endif
 
 const QByteArray &Compositor::encode() {
-    if (m_queCommand.isEmpty()) return m_code;
-    m_code.clear();
+    if (m_queCommand.isEmpty()) return m_sendCode;
+    m_sendCode.clear();
     m_encodeMessage.clear();
     while (!m_queCommand.isEmpty()) {
         Command *command = m_queCommand.dequeue();
         const auto &c = command->encode();
-        m_code.append(c);
-        m_code.append('&');
+        m_sendCode.append(c);
         m_encodeMessage.append(tr(" [command] ")).append(command->toString()).append('\n');
         delete command;
     }
-    m_code.replace(m_code.size() - 1, 1, "@");
-    checkSumAndPostProcess();
-#ifdef QT_DEBUG
-    printData(m_code);
-#endif
-    return m_code;
+    checkSumAndPostProcess(m_sendCode);
+    return m_sendCode;
 }
 
 const QString &Compositor::getEncodeMessage() const {
@@ -77,36 +59,60 @@ const QString &Compositor::getEncodeMessage() const {
 }
 
 void Compositor::decode(const QByteArray &data) {
-    m_data = data;
+    m_receiveCode = data;
     m_decodeMessage.clear();
-    if (verifyAndPreProcess()) {
+    if (verifyAndPreProcess(m_receiveCode)) {
         m_queInfo.clear();
+        deleteAllPointers(m_listInfo);
         m_listInfo.clear();
-        auto list = m_data.split('&');
-        // 暂时的操作
-        m_listInfo.push_back(Info::decode(list[0]));
-        m_queInfo.enqueue(&m_listInfo[0]);
-        m_decodeMessage.append(tr(" [info] ")).append(m_listInfo[0].toString()).append('\n');
+        while (!m_receiveCode.isEmpty()) {
+            char8_t typeData = m_receiveCode.at(0);
+            m_receiveCode.remove(0, 1);
+            Info *info;
+            if (typeData & '\x80') {  // 第一位为1，即为Any类型
+                int data_length = (typeData << 1) >> 1;
+                info = new AnyInfo(m_receiveCode.remove(0, data_length));
+            } else {
+                switch (static_cast<ProtocolReceive>(typeData)) {
+                    case ProtocolReceive::Position: {
+                        info = PositionInfo::decode(m_receiveCode.remove(0, PositionInfo::DATA_LENGTH));
+                        break;
+                    }
+                    default: {
+                        m_decodeMessage.append(tr(" [ERROR] cannot decode information")).append('\n');
+                        goto OUT;
+                    }
+                }
+            }
+            m_listInfo.append(info);
+            m_queInfo.enqueue(info);
+            m_decodeMessage.append(tr(" [info] ")).append(info->toString()).append('\n');
+        }
     } else {
-        m_data.clear();
+        m_decodeMessage.append(tr(" [ERROR] information is broken")).append('\n');
+        m_receiveCode.clear();
     }
+    OUT:;
 }
 
-void Compositor::checkSumAndPostProcess() {
+void Compositor::checkSumAndPostProcess(QByteArray &code) {
     // 这里省略计算校验和的方法
-    m_code.append('\0');
+    code.append('\0');
 
-    m_code.push_front("###");
-    m_code.push_back("###");
+    code.push_front("###");
+    code.push_back("###");
+#ifdef QT_DEBUG
+    qDebug() << HexDisplayer::toString(code);
+#endif
 }
 
-bool Compositor::verifyAndPreProcess() {
-    if (m_code.startsWith("###") && m_code.endsWith("###")) {
-        m_code.remove(0, 3);
-        m_code.remove(m_code.size() - 3, 3);
+bool Compositor::verifyAndPreProcess(QByteArray &code) {
+    if (code.startsWith("###") && code.endsWith("###")) {
+        code.remove(0, 3);
+        code.remove(code.size() - 3, 3);
 
         // 这里省略计算校验和的方法
-        m_code.remove(m_code.size() - 2, 2);
+        code.remove(code.size() - 1, 1);
         return true;
     } else {
         return false;

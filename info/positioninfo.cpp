@@ -4,11 +4,11 @@
 
 #include "positioninfo.h"
 
-PositionInfo PositionInfo::decode(const QByteArray &data) {
-    if (data.length() != DATA_LENGTH) return std::move(PositionInfo{-1, -1});
+PositionInfo *PositionInfo::decode(const QByteArray &data) {  // 送出所有权
+    if (data.length() != DATA_LENGTH) return new PositionInfo{-1, -1};
     int x = (((int) ((char8_t) data.at(0))) << 8) + (int) ((char8_t) data.at(1));
     int y = (((int) ((char8_t) data.at(2))) << 8) + (int) ((char8_t) data.at(3));
-    return std::move(PositionInfo{x, y});
+    return new PositionInfo{x, y};
 }
 
 ProtocolReceive PositionInfo::getInfoType() const {

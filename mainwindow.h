@@ -15,6 +15,7 @@ QT_END_NAMESPACE
 class SettingsDialog;
 class Settings;
 class Compositor;
+class Command;
 class QTranslator;
 
 class MainWindow : public QMainWindow {
@@ -42,6 +43,12 @@ public slots:
 
     void updateSettings();
 
+    // LittleSender
+    void LS_preview(const QString &);
+    void LS_preview_hex();
+    void LS_preview_str();
+    void LS_send();
+
 private:
     Ui::MainWindow *ui;
     SettingsDialog *m_settingsDialog;
@@ -52,6 +59,10 @@ private:
     Compositor *m_compositor;
 
     void showStatusMessage(const QString &message);
+
+    // LittleSender
+    Command *m_tmpCmd = nullptr;
+    bool m_isHexThanStr = true;
 };
 
 

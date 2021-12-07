@@ -6,6 +6,7 @@
 #define ROBOTCOMMANDER_COMMAND_H
 
 #include <QByteArray>
+#include "../protocol.h"
 
 class Command {
 public:

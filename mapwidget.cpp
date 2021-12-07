@@ -122,7 +122,7 @@ void MapWidget::mousePressEvent(QMouseEvent *event) {
         m_tarP = event->pos();
         repaint();
         QPointF ratio = pointRatio(m_field, m_tarP);
-        Command *command = new PositionCommand((int) (Info::X_RANGE * ratio.x()), (int) (Info::Y_RANGE * ratio.y()));
+        Command *command = new PositionCommand((int) (Position::X_RANGE * ratio.x()), (int) (Position::Y_RANGE * ratio.y()));
         m_compositor->addCommand(command);
         event->accept();
     }
