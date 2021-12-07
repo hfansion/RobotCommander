@@ -5,12 +5,14 @@
 #ifndef ROBOTCOMMANDER_POSITIONCOMMAND_H
 #define ROBOTCOMMANDER_POSITIONCOMMAND_H
 
-#include "../info/info.h"
+#include "../data/position.h"
 #include "command.h"
 
-class PositionCommand : public Info, public Command {
+class PositionCommand : public Position, public Command {
 public:
-    using Info::Info;
+    static constexpr int DATA_LENGTH = 4;
+
+    using Position::Position;
 
     [[nodiscard]] QByteArray encode() const override;
     [[nodiscard]] QString toString() const override;

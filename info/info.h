@@ -14,22 +14,14 @@
 #define ROBOTCOMMANDER_INFO_H
 
 #include <QString>
+#include "../data/position.h"
+#include "../protocol.h"
 
-class Info {
+class Info{
 public:
-    static constexpr int DATA_LENGTH = 4;
-    static int X_RANGE, Y_RANGE;
-    static void SET_RANGE(int x_range, int y_range);
-
-    static Info decode(const QByteArray &data);
-
-    explicit Info(int x, int y);
-    ~Info() = default;
-    [[nodiscard]] QString toString() const;
-
-    const int x;
-    const int y;
+    virtual ~Info() = default;
+    [[nodiscard]] virtual ProtocolReceive getInfoType() const = 0;
+    [[nodiscard]] virtual QString toString() const = 0;
 };
-
 
 #endif //ROBOTCOMMANDER_INFO_H

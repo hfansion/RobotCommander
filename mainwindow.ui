@@ -30,7 +30,7 @@
      <x>0</x>
      <y>0</y>
      <width>995</width>
-     <height>30</height>
+     <height>31</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -100,8 +100,8 @@
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>316</width>
-          <height>289</height>
+          <width>351</width>
+          <height>220</height>
          </rect>
         </property>
         <layout class="QVBoxLayout" name="verticalLayout">
@@ -111,6 +111,9 @@
             <widget class="QRadioButton" name="radioButton_LS_hex">
              <property name="text">
               <string>Hexadecimal digit</string>
+             </property>
+             <property name="checked">
+              <bool>true</bool>
              </property>
             </widget>
            </item>
@@ -388,8 +391,8 @@
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>727</width>
-          <height>127</height>
+          <width>720</width>
+          <height>194</height>
          </rect>
         </property>
         <layout class="QGridLayout" name="gridLayout_3">

@@ -16,6 +16,9 @@
 Compositor::~Compositor() {
     for (const Command *c: m_queCommand)
         delete c;
+    for (const Info *i: m_listInfo) {
+        delete i;
+    }
 }
 
 void Compositor::addCommand(Command *command) {
@@ -34,8 +37,8 @@ void printData(const QByteArray &data) {
     for (const auto &c: data) {
         switch (c) {
             case '#':
-            case '&':
-            case '@':
+//            case '&':
+//            case '@':
                 std::cout << c;
                 break;
             default: {

@@ -34,6 +34,8 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->actionDisconnect->setEnabled(false);
     ui->actionQuit->setEnabled(true);
     ui->actionConfigure->setEnabled(true);
+    ui->actionLittle_Sender->setChecked(true);
+    ui->actionConsole->setChecked(true);
 
     connect(ui->actionConnect, &QAction::triggered, this, &MainWindow::openSerialPort);
     connect(ui->actionDisconnect, &QAction::triggered, this, &MainWindow::closeSerialPort);
@@ -42,6 +44,9 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->actionConfigure, &QAction::triggered, this, &MainWindow::showConfigure);
     connect(ui->actionAbout, &QAction::triggered, this, &MainWindow::about);
     connect(ui->actionAbout_Qt, &QAction::triggered, qApp, &QApplication::aboutQt);
+    connect(ui->actionLittle_Sender, &QAction::triggered, this, &MainWindow::showLittleSender);
+    connect(ui->actionConsole, &QAction::triggered, this, &MainWindow::showConsole);
+    connect(ui->menuView, &QMenu::aboutToShow, this, &MainWindow::checkToolWindowVisible);
 
     connect(m_serial, &QSerialPort::errorOccurred, this, &MainWindow::handleError);
     connect(m_serial, &QSerialPort::readyRead, this, &MainWindow::compositorRead);
@@ -156,4 +161,23 @@ void MainWindow::updateSettings() {
         }
     }
     ui->retranslateUi(this);
+}
+
+void MainWindow::showLittleSender(bool checked) {
+    if (checked)
+        ui->dockWidget_LittleSender->show();
+    else
+        ui->dockWidget_LittleSender->hide();
+}
+
+void MainWindow::showConsole(bool checked) {
+    if (checked)
+        ui->dockWidget_Console->show();
+    else
+        ui->dockWidget_Console->hide();
+}
+
+void MainWindow::checkToolWindowVisible() {
+    ui->actionLittle_Sender->setChecked(ui->dockWidget_LittleSender->isVisible());
+    ui->actionConsole->setChecked(ui->dockWidget_Console->isVisible());
 }

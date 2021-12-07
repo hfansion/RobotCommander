@@ -3,6 +3,7 @@
 //
 
 #include "positioncommand.h"
+#include <QString>
 
 QByteArray PositionCommand::encode() const {
     QByteArray code{};
@@ -14,5 +15,5 @@ QByteArray PositionCommand::encode() const {
 }
 
 QString PositionCommand::toString() const {
-    return Info::toString();
+    return Position::toString();
 }

@@ -36,6 +36,9 @@ public slots:
 
     void showPreferences();
     void showConfigure();
+    void showLittleSender(bool checked);
+    void showConsole(bool checked);
+    void checkToolWindowVisible();
 
     void updateSettings();
 

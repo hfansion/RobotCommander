@@ -7,7 +7,7 @@
 
 #include <QObject>
 #include <QQueue>
-#include <vector>
+#include <QVector>
 
 #ifdef Q_OS_WIN
 #include "info/info.h"
@@ -38,7 +38,7 @@ private:
     // 所有Command和Info的生命周期由本类的这两个queue管理
     QQueue<Command *> m_queCommand;
     QQueue<const Info *> m_queInfo;
-    std::vector<Info> m_listInfo;
+    QVector<Info *> m_listInfo;
     QByteArray m_code, m_data;
     QString m_encodeMessage;
     QString m_decodeMessage;
