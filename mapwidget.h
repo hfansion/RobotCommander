@@ -8,21 +8,28 @@
 #include <QWidget>
 
 class Compositor;
+
 class Settings;
 
 class MapWidget : public QWidget {
 Q_OBJECT
 public:
     explicit MapWidget(QWidget *parent = nullptr);
+
     void injectCompositor(Compositor *compositor);
+
     void injectSettings(const Settings *settings);
 
     ~MapWidget() override;
 
 public slots:
+
     void infoCurPosition(const QPointF &pos);
+
     void paintEvent(QPaintEvent *) override;
+
     void resizeEvent(QResizeEvent *) override;
+
     void mousePressEvent(QMouseEvent *) override;
 
     void updateSettings();
@@ -34,12 +41,11 @@ private:
 
     QPixmap m_imgMap;
     QPixmap m_tempMap;
-    QPixmap m_imgRobot;
+    QPixmap m_imgRobotCur;
+    QPixmap m_imgRobotTar;
     QPoint m_curP;
-    QPoint m_gotoP;
+    QPoint m_tarP;
     QRect m_field;
-
-    QColor ANCHOR_COLOR{255, 0, 0};
 };
 
 #endif //ROBOTCOMMANDER_MAPWIDGET_H

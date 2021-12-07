@@ -81,7 +81,7 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
     auto &s = m_settings;
     s.mapPic = ":/resource/map.jpg";
     s.RCP_picThanShape = true;
-    s.RCP_robotPic = ":/resource/map.jpg";
+    s.RCP_robotPic = ":/icon/robot.png";
     s.RCP_picSize = 64;
     s.RCP_shape = Settings::Circular;
     s.RCP_shapeSize = 20;
@@ -282,6 +282,7 @@ void SettingsDialog::updateSettings() {
     s.RCP_shapeSize = m_ui->comboBox_RCP_Size->currentText().toInt();
     const auto &color0 = m_ui->pushButton_RCP_Color->toolTip().split(',');
     s.RCP_color = QColor(color0[0].toInt(), color0[1].toInt(), color0[2].toInt());
+    s.RTP_picThanShape = m_ui->radioButton_RTP_Pic->isChecked();
     s.RTP_robotPic = m_ui->lineEdit_RTP_Pic->text();
     const auto &text1 = m_ui->comboBox_RTP_iconSize->currentText();
     s.RTP_picSize = text1.midRef(0, text1.size() / 2).toInt();
@@ -341,7 +342,7 @@ void SettingsDialog::chooseFile_RCP() {
 
 void SettingsDialog::chooseFile_RTP() {
     QString file = QFileDialog::getOpenFileName(this, tr("Choose Picture"), ".");
-    if (!file.isEmpty()) m_ui->lineEdit_RCP_Pic->setText(file);
+    if (!file.isEmpty()) m_ui->lineEdit_RTP_Pic->setText(file);
 }
 
 void SettingsDialog::chooseColor_RCP() {
