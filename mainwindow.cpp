@@ -19,12 +19,11 @@
 
 #ifdef QT_DEBUG
 
-#include <QDebug>
 
 #endif
 
 template<typename T>
-inline void deleteAllPointers(QList<T> anyList) {
+inline void deleteAllPointers(const QList<T> &anyList) {
     for (const T p: anyList)
         delete p;
 }
@@ -84,6 +83,7 @@ MainWindow::MainWindow(QWidget *parent) :
 }
 
 MainWindow::~MainWindow() {
+    closeSerialPort();
     deleteAllPointers(m_CS_content);
     delete m_LS_tmpCmd;
     delete m_settingsDialog;
@@ -155,7 +155,7 @@ void MainWindow::compositorRead() {
     m_compositor->decode(data);
     const Info *info = m_compositor->getInfo();
     while (info != nullptr) {
-        showStatusMessage(tr("receive: ").append(info->toString()));
+        showStatusMessage(tr("receive: ").append(m_compositor->getDecodeMessage()));
         switch (info->getInfoType()) {
             case ProtocolReceive::Position: {
                 auto *p = (PositionInfo *) info;

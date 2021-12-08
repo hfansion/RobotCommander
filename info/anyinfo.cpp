@@ -12,7 +12,8 @@ ProtocolReceive AnyInfo::getInfoType() const {
 }
 
 QString AnyInfo::toString() const {
-    return std::move(HexDisplayer::toString(DATA));
+    QString text = QString("Any(%1)").arg(HexDisplayer::toString(DATA));
+    return std::move(text);
 }
 
 AnyInfo::AnyInfo(QByteArray data)

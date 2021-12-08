@@ -16,7 +16,7 @@
 #endif
 
 template<typename T>
-inline void deleteAllPointers(QList<T> anyList) {
+inline void deleteAllPointers(const QList<T> &anyList) {
     for (const T p: anyList)
         delete p;
 }
@@ -71,11 +71,13 @@ void Compositor::decode(const QByteArray &data) {
             Info *info;
             if (typeData & '\x80') {  // 第一位为1，即为Any类型
                 int data_length = (typeData << 1) >> 1;
-                info = new AnyInfo(m_receiveCode.remove(0, data_length));
+                info = new AnyInfo(m_receiveCode.left(data_length));
+                m_receiveCode.remove(0, data_length);
             } else {
                 switch (static_cast<ProtocolReceive>(typeData)) {
                     case ProtocolReceive::Position: {
-                        info = PositionInfo::decode(m_receiveCode.remove(0, PositionInfo::DATA_LENGTH));
+                        info = PositionInfo::decode(m_receiveCode.left(PositionInfo::DATA_LENGTH));
+                        m_receiveCode.remove(0, PositionInfo::DATA_LENGTH);
                         break;
                     }
                     default: {
@@ -124,5 +126,5 @@ const QString &Compositor::getDecodeMessage() const {
 }
 
 const Info *Compositor::getInfo() {
-    return m_queInfo.dequeue();
+    return m_queInfo.isEmpty() ? nullptr : m_queInfo.dequeue();
 }

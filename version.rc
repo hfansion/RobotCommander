@@ -1,4 +1,4 @@
-IDI_ICON1 ICON DISCARDABLE "E:\Codebase\RobotCommander\icon\icon.ico"
+IDI_ICON1 ICON DISCARDABLE "D:/Codebase/RobotCommander/icon/icon.ico"
 
 #include <winver.h>
 
@@ -31,7 +31,7 @@ BEGIN
       VALUE "OriginalFilename", "RobotCommander.exe\0"
       VALUE "ProductName",      "RobotCommander\0"
       VALUE "ProductVersion",   "0.0.1.0\0"
-      VALUE "LegalCopyright",   "Copyright (C) 2021 Hamlet Fansion.\0"
+      VALUE "LegalCopyright",   "Copyleft (C) 2021 Fan Peilin.\0"
     END
   END
 
