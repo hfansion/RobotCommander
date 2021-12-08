@@ -15,5 +15,14 @@ QByteArray AnyCommand::encode() const {
 }
 
 QString AnyCommand::toString() const {
-    return std::move(HexDisplayer::toString(m_code));
+    QString text = QString("Any(%1)").arg(HexDisplayer::toString(m_code.right(m_code.length() - 1)));
+    return std::move(text);
 }
+
+Command *AnyCommand::copy() const {
+    auto *command = new AnyCommand();
+    command->m_code = m_code;
+    return command;
+}
+
+AnyCommand::AnyCommand() = default;

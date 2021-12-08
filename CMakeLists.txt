@@ -42,7 +42,11 @@ set(PROJECT_SOURCES main.cpp RobotCommander.qrc
         command/positioncommand.cpp command/positioncommand.h
         settings.h protocol.h
         data/position.cpp data/position.h
-        info/positioninfo.cpp info/positioninfo.h info/anyinfo.cpp info/anyinfo.h data/hexdisplayer.cpp data/hexdisplayer.h command/anycommand.cpp command/anycommand.h)
+        info/positioninfo.cpp info/positioninfo.h
+        info/anyinfo.cpp info/anyinfo.h
+        data/hexdisplayer.cpp data/hexdisplayer.h
+        command/anycommand.cpp command/anycommand.h
+        data/version.h)
 
 if (NOT CMAKE_BUILD_TYPE MATCHES "Debug")
     set(PROJECT_SOURCES WIN32 ${PROJECT_SOURCES})

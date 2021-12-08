@@ -13,9 +13,12 @@ public:
 
     [[nodiscard]] QByteArray encode() const override;
     [[nodiscard]] QString toString() const override;
+    [[nodiscard("you should maintain the life of this pointer")]]
+    Command *copy() const;
 
 private:
     QByteArray m_code;
+    AnyCommand();
 };
 
 

@@ -15,12 +15,19 @@
 #include "data/hexdisplayer.h"
 #include "settings.h"
 #include <QTranslator>
+#include <QTime>
 
 #ifdef QT_DEBUG
 
 #include <QDebug>
 
 #endif
+
+template<typename T>
+inline void deleteAllPointers(QList<T> anyList) {
+    for (const T p: anyList)
+        delete p;
+}
 
 MainWindow::MainWindow(QWidget *parent) :
         QMainWindow(parent), ui(new Ui::MainWindow), m_translator(new QTranslator()),
@@ -39,6 +46,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->actionConfigure->setEnabled(true);
     ui->actionLittle_Sender->setChecked(true);
     ui->actionConsole->setChecked(true);
+    ui->label_CS_Alert->setVisible(false);
 
     connect(ui->actionConnect, &QAction::triggered, this, &MainWindow::openSerialPort);
     connect(ui->actionDisconnect, &QAction::triggered, this, &MainWindow::closeSerialPort);
@@ -62,10 +70,22 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->radioButton_LS_hex, &QRadioButton::pressed, this, &MainWindow::LS_preview_hex);
     connect(ui->radioButton_LS_str, &QRadioButton::pressed, this, &MainWindow::LS_preview_str);
     connect(ui->pushButton_LS_Send, &QPushButton::clicked, this, &MainWindow::LS_send);
+
+    // Console
+    connect(ui->pushButton_CS_top, &QPushButton::clicked, this, &MainWindow::CS_moveToTop);
+    connect(ui->pushButton_CS_bottom, &QPushButton::clicked, this, &MainWindow::CS_moveToBottom);
+    connect(ui->pushButton_CS_clear, &QPushButton::clicked, this, &MainWindow::CS_clear);
+    connect(ui->comboBox_CS_max, &QComboBox::currentTextChanged, this, &MainWindow::CS_changeMRL);
+    connect(ui->checkBox_CS_send, &QCheckBox::toggled, this, &MainWindow::CS_changeIfRecordS);
+    connect(ui->checkBox_CS_receive, &QCheckBox::toggled, this, &MainWindow::CS_changeIfRecordR);
+
+    // last init
+    LS_preview_hex();
 }
 
 MainWindow::~MainWindow() {
-    delete m_tmpCmd;
+    deleteAllPointers(m_CS_content);
+    delete m_LS_tmpCmd;
     delete m_settingsDialog;
     delete m_compositor;
     delete m_translator;
@@ -114,11 +134,13 @@ void MainWindow::about() {
                           "</style></head><body style=\" font-family:'Noto Sans'; font-size:10pt; font-weight:400; font-style:normal;\">\n"
                           "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:14pt; font-weight:600;\">Robot Commander</span></p>\n"
                           "<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:12pt; font-weight:600;\"><br /></p>\n"
-                          "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:12pt;\">Version 0.0.1</span></p>\n"
+                          "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:12pt;\">Version %1.%2.%3%4</span></p>\n"
                           "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:12pt;\">Robot Commander is a tool for controlling and debugging the movements of robots in Robocon.</span></p>\n"
                           "<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:12pt;\"><br /></p>\n"
                           "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><a href=\"https://github.com/hfansion/RobotCommander/blob/main/LICENSE\"><span style=\" font-size:12pt; text-decoration: underline; color:#1d99f3;\">GPL-3.0 License</span></a><span style=\" font-size:12pt;\">: This is a </span><a href=\"http://www.gnu.org/\"><span style=\" font-size:12pt; text-decoration: underline; color:#1d99f3;\">free software</span></a>.</p>\n"
-                          "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><a href=\"https://github.com/hfansion/RobotCommander\"><span style=\" text-decoration: underline; color:#1d99f3;\">https://github.com/hfansion/RobotCommander</span></a></p></body></html>"));
+                          "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><a href=\"https://github.com/hfansion/RobotCommander\"><span style=\" text-decoration: underline; color:#1d99f3;\">https://github.com/hfansion/RobotCommander</span></a></p></body></html>").arg(
+                               VERSION.first).arg(VERSION.middle).arg(VERSION.last).arg(
+                               VERSION.beta ? QString("beta%1").arg(VERSION.beta) : ""));
 }
 
 void MainWindow::handleError(QSerialPort::SerialPortError error) {
@@ -133,7 +155,7 @@ void MainWindow::compositorRead() {
     m_compositor->decode(data);
     const Info *info = m_compositor->getInfo();
     while (info != nullptr) {
-        showStatusMessage(QString(tr("receive: ")).append(info->toString()));
+        showStatusMessage(tr("receive: ").append(info->toString()));
         switch (info->getInfoType()) {
             case ProtocolReceive::Position: {
                 auto *p = (PositionInfo *) info;
@@ -146,14 +168,33 @@ void MainWindow::compositorRead() {
         }
         info = m_compositor->getInfo();
     }
+    if (m_CS_recordReceive) {
+        auto *message = new QString();
+        auto cur_time = QTime::currentTime();
+        message->append(QString("[%1:%2:%3] ").arg(cur_time.hour()).arg(cur_time.minute()).arg(cur_time.second()));
+        message->append(tr("receive: ")).append(HexDisplayer::toString(data)).append('\n').append(
+                m_compositor->getDecodeMessage());
+        m_CS_content.enqueue(message);
+        ui->textEdit_CS->append(*message);
+        CS_checkRecordFulls();
+    }
 }
 
 void MainWindow::compositorSend() {
     if (m_serial->isOpen()) {
         m_serial->write(m_compositor->encode());
+        showStatusMessage(tr("send: ").append(m_compositor->getEncodeMessage()));
+        if (m_CS_recordSend) {
+            auto *message = new QString();
+            auto cur_time = QTime::currentTime();
+            message->append(QString("[%1:%2:%3] ").arg(cur_time.hour()).arg(cur_time.minute()).arg(cur_time.second()));
+            message->append(tr("send: ")).append(HexDisplayer::toString(m_compositor->encode())).append('\n').append(
+                    m_compositor->getEncodeMessage());
+            m_CS_content.enqueue(message);
+            ui->textEdit_CS->append(*message);
+            CS_checkRecordFulls();
+        }
     }
-    m_compositor->encode();
-    showStatusMessage(QString(tr("send: ")).append(m_compositor->getEncodeMessage()));
 }
 
 void MainWindow::showPreferences() {
@@ -208,32 +249,70 @@ inline char hexToDec(char i) {
 }
 
 void MainWindow::LS_preview(const QString &data) {
-    delete m_tmpCmd;
-    if (m_isHexThanStr) {
+    delete m_LS_tmpCmd;
+    if (m_LS_isHexThanStr) {
         QByteArray code{};
         bool isOdd = data.length() % 2 == 1;
         if (isOdd)
             code.append(hexToDec(data.at(0).toLatin1()));
         for (int i = isOdd ? 1 : 0; i < data.length(); i += 2)
             code.append((char) ((hexToDec(data.at(i).toLatin1()) << 4) + hexToDec(data.at(i + 1).toLatin1())));
-        m_tmpCmd = new AnyCommand(code);
+        m_LS_tmpCmd = new AnyCommand(code);
     } else {
-        m_tmpCmd = new AnyCommand(data.toLocal8Bit());
+        m_LS_tmpCmd = new AnyCommand(data.toLocal8Bit());
     }
-    ui->label_LS_result->setText(HexDisplayer::toString(Compositor::previewEncode(m_tmpCmd)));
+    ui->label_LS_result->setText(HexDisplayer::toString(Compositor::previewEncode(m_LS_tmpCmd)));
 }
 
 void MainWindow::LS_send() {
-    m_compositor->addCommand(m_tmpCmd);
-    m_tmpCmd = nullptr;
+        m_compositor->addCommand(((AnyCommand *) m_LS_tmpCmd)->copy());
 }
 
 void MainWindow::LS_preview_hex() {
-    m_isHexThanStr = true;
+    m_LS_isHexThanStr = true;
     LS_preview(ui->lineEdit_LS->text());
 }
 
 void MainWindow::LS_preview_str() {
-    m_isHexThanStr = false;
+    m_LS_isHexThanStr = false;
     LS_preview(ui->lineEdit_LS->text());
+}
+
+void MainWindow::CS_moveToTop() {
+    ui->textEdit_CS->moveCursor(QTextCursor::Start);
+}
+
+void MainWindow::CS_moveToBottom() {
+    ui->textEdit_CS->moveCursor(QTextCursor::End);
+}
+
+void MainWindow::CS_clear() {
+    ui->label_CS_Alert->setVisible(false);
+    ui->textEdit_CS->clear();
+    deleteAllPointers(m_CS_content);
+    m_CS_content.clear();
+}
+
+void MainWindow::CS_changeMRL(const QString &text) {
+    m_CS_maxRecordLines = text.toInt();
+    CS_checkRecordFulls();
+}
+
+void MainWindow::CS_checkRecordFulls() {  // 非常差的操作，不过暂时想不到别的方法
+    if (m_CS_content.length() > m_CS_maxRecordLines) {
+        ui->label_CS_Alert->setVisible(true);
+        auto *text = m_CS_content.dequeue();
+        ui->textEdit_CS->clear();
+        for (const auto *t: m_CS_content)
+            ui->textEdit_CS->append(*t);
+        delete text;
+    }
+}
+
+void MainWindow::CS_changeIfRecordS(bool checked) {
+    m_CS_recordSend = checked;
+}
+
+void MainWindow::CS_changeIfRecordR(bool checked) {
+    m_CS_recordReceive = checked;
 }

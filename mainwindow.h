@@ -7,6 +7,8 @@
 
 #include <QMainWindow>
 #include <QSerialPort>
+#include <QQueue>
+#include "data/version.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -23,8 +25,8 @@ Q_OBJECT
 
 public:
     explicit MainWindow(QWidget *parent = nullptr);
-
     ~MainWindow() override;
+    static constexpr Version VERSION{0,0,1, 2};
 
 public slots:
     void openSerialPort();
@@ -49,6 +51,14 @@ public slots:
     void LS_preview_str();
     void LS_send();
 
+    // Console
+    void CS_moveToTop();
+    void CS_moveToBottom();
+    void CS_clear();
+    void CS_changeMRL(const QString &);
+    void CS_changeIfRecordS(bool);
+    void CS_changeIfRecordR(bool);
+
 private:
     Ui::MainWindow *ui;
     SettingsDialog *m_settingsDialog;
@@ -61,9 +71,28 @@ private:
     void showStatusMessage(const QString &message);
 
     // LittleSender
-    Command *m_tmpCmd = nullptr;
-    bool m_isHexThanStr = true;
+    Command *m_LS_tmpCmd = nullptr;
+    bool m_LS_isHexThanStr = true;
+    // Console
+    QQueue<QString *> m_CS_content;
+    int m_CS_maxRecordLines = 500;
+    bool m_CS_recordSend = true;
+    bool m_CS_recordReceive = true;
+    void CS_checkRecordFulls();
 };
 
+/** 未来任务：
+ * 继续学习Qt基础数据类型，找到最合适的（比如QQueue真的好吗）
+ * 优化、重构整体代码，架构，变量名字
+ * 写文档和注释
+ * 少量设置外观上的功能
+ * 其他：
+ * 1. 如何写入配置文件
+ * 2. 安装包
+ * 3. 从网上下载内容(json)并解析（发现更新）
+ * 4. 从网上下载文件到tmp（下载安装包）
+ * 5. 以管理员权限运行安装包
+ * 端口转发工具及Virtual Robot开发
+ **/
 
 #endif //ROBOTCOMMANDER_MAINWINDOW_H

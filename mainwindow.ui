@@ -329,6 +329,16 @@
         </widget>
        </item>
        <item>
+        <widget class="QLabel" name="label_CS_Alert">
+         <property name="styleSheet">
+          <string notr="true">background-color:rgb(170, 0, 0)</string>
+         </property>
+         <property name="text">
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-style:italic; color:#ffff00;&quot;&gt;NEED CLEAR!&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         </property>
+        </widget>
+       </item>
+       <item>
         <spacer name="verticalSpacer_2">
          <property name="orientation">
           <enum>Qt::Vertical</enum>
@@ -350,8 +360,9 @@
          <property name="toolTip">
           <string>Move to Top</string>
          </property>
-         <property name="text">
-          <string>Top</string>
+         <property name="icon">
+          <iconset resource="RobotCommander.qrc">
+           <normaloff>:/icon/top.png</normaloff>:/icon/top.png</iconset>
          </property>
         </widget>
        </item>
@@ -360,8 +371,9 @@
          <property name="toolTip">
           <string>Move to Bottom</string>
          </property>
-         <property name="text">
-          <string>Bottom</string>
+         <property name="icon">
+          <iconset resource="RobotCommander.qrc">
+           <normaloff>:/icon/bottom.png</normaloff>:/icon/bottom.png</iconset>
          </property>
         </widget>
        </item>
@@ -404,7 +416,7 @@
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>727</width>
+          <width>780</width>
           <height>194</height>
          </rect>
         </property>
