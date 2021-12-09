@@ -3,7 +3,6 @@
 //
 
 #include <QPainter>
-#include <QDebug>
 #include <QMouseEvent>
 #include <QPainterPath>
 #include "mapwidget.h"
@@ -16,7 +15,7 @@
 MapWidget::MapWidget(QWidget *parent) :
         QWidget(parent),
         m_imgMap(QPixmap{":/resource/map.jpg"}),
-        m_imgRobotCur(QPixmap{":/icon/robot.png"}.scaled(64, 64)) {
+        m_imgRobotCur(QPixmap{":/icon/robot.png"}.scaled(48, 48)) {
     m_field.setY(0);
     m_curP = m_field.topLeft();
 }

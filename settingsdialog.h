@@ -95,9 +95,10 @@ private slots:
     void chooseColor_RCP();
     void chooseColor_RTP();
 
+    void fillPortsInfo();
+
 private:
     void fillPortsParameters();
-    void fillPortsInfo();
 
     void recoverSettings();
     void updateSettings();

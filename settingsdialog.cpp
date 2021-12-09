@@ -85,15 +85,15 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
     s.mapPic = ":/resource/map.jpg";
     s.RCP_picThanShape = true;
     s.RCP_robotPic = ":/icon/robot.png";
-    s.RCP_picSize = 64;
-    s.RCP_shape = Settings::Circular;
+    s.RCP_picSize = 48;
+    s.RCP_shape = Settings::Square;
     s.RCP_shapeSize = 20;
     s.RCP_color = QColor(255, 255, 0);
     s.RTP_picThanShape = false;
-    s.RTP_robotPic = "";
-    s.RTP_picSize = 64;
-    s.RTP_shape = Settings::Square;
-    s.RTP_shapeSize = 20;
+    s.RTP_robotPic = ":/icon/robot.png";
+    s.RTP_picSize = 48;
+    s.RTP_shape = Settings::Circular;
+    s.RTP_shapeSize = 16;
     s.RTP_color = QColor(255, 0, 0);
     s.language = Settings::Chinese;
 
@@ -109,6 +109,7 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
     connect(m_ui->pushButton_RCP_Color, &QPushButton::clicked, this, &SettingsDialog::chooseColor_RCP);
     connect(m_ui->pushButton_RTP_Color, &QPushButton::clicked, this, &SettingsDialog::chooseColor_RTP);
 
+    connect(m_ui->pushButton_refresh, &QPushButton::clicked, this, &SettingsDialog::fillPortsInfo);
     //*****************************
 
 

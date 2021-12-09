@@ -5,8 +5,8 @@
 #include "position.h"
 #include <QString>
 
-int Position::X_RANGE{10000};
-int Position::Y_RANGE{10000};
+int Position::X_RANGE{12000};
+int Position::Y_RANGE{12000};
 
 void Position::SET_RANGE(int x_range, int y_range) {
     X_RANGE = x_range;

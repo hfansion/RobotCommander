@@ -77,6 +77,8 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->comboBox_CS_max, &QComboBox::currentTextChanged, this, &MainWindow::CS_changeMRL);
     connect(ui->checkBox_CS_send, &QCheckBox::toggled, this, &MainWindow::CS_changeIfRecordS);
     connect(ui->checkBox_CS_receive, &QCheckBox::toggled, this, &MainWindow::CS_changeIfRecordR);
+    connect(ui->checkBox_CS_position, &QCheckBox::toggled, this, &MainWindow::CS_changeIfRecordPosition);
+    connect(ui->checkBox_CS_any, &QCheckBox::toggled, this, &MainWindow::CS_changeIfRecordAny);
 
     // last init
     LS_preview_hex();
@@ -140,7 +142,7 @@ void MainWindow::about() {
                           "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><a href=\"https://github.com/hfansion/RobotCommander/blob/main/LICENSE\"><span style=\" font-size:12pt; text-decoration: underline; color:#1d99f3;\">GPL-3.0 License</span></a><span style=\" font-size:12pt;\">: This is a </span><a href=\"http://www.gnu.org/\"><span style=\" font-size:12pt; text-decoration: underline; color:#1d99f3;\">free software</span></a>.</p>\n"
                           "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><a href=\"https://github.com/hfansion/RobotCommander\"><span style=\" text-decoration: underline; color:#1d99f3;\">https://github.com/hfansion/RobotCommander</span></a></p></body></html>").arg(
                                VERSION.first).arg(VERSION.middle).arg(VERSION.last).arg(
-                               VERSION.beta ? QString("beta%1").arg(VERSION.beta) : ""));
+                               VERSION.beta ? QString("-beta.%1").arg(VERSION.beta) : ""));
 }
 
 void MainWindow::handleError(QSerialPort::SerialPortError error) {
@@ -153,22 +155,26 @@ void MainWindow::handleError(QSerialPort::SerialPortError error) {
 void MainWindow::compositorRead() {
     QByteArray data = m_serial->readAll();
     m_compositor->decode(data);
+    bool containsPos = false, containsAny = false;  // 暂时操作
     const Info *info = m_compositor->getInfo();
     while (info != nullptr) {
         showStatusMessage(tr("receive: ").append(m_compositor->getDecodeMessage()));
         switch (info->getInfoType()) {
             case ProtocolReceive::Position: {
                 auto *p = (PositionInfo *) info;
+                containsPos = true;
+                ui->label_position->setText(QString("  x: %1   y: %2  ").arg(p->x).arg(p->y));
                 ui->imageWidget->infoCurPosition(
                         QPointF((qreal) p->x / Position::X_RANGE, (qreal) p->y / Position::Y_RANGE));
                 break;
             }
             case ProtocolReceive::Any:
+                containsAny = true;
                 break;
         }
         info = m_compositor->getInfo();
     }
-    if (m_CS_recordReceive) {
+    if (m_CS_recordReceive && (m_CS_recordPosition || !containsPos) && (m_CS_recordAny || !containsAny)) {
         auto *message = new QString();
         auto cur_time = QTime::currentTime();
         message->append(QString("[%1:%2:%3] ").arg(cur_time.hour()).arg(cur_time.minute()).arg(cur_time.second()));
@@ -265,7 +271,7 @@ void MainWindow::LS_preview(const QString &data) {
 }
 
 void MainWindow::LS_send() {
-        m_compositor->addCommand(((AnyCommand *) m_LS_tmpCmd)->copy());
+    m_compositor->addCommand(((AnyCommand *) m_LS_tmpCmd)->copy());
 }
 
 void MainWindow::LS_preview_hex() {
@@ -301,11 +307,11 @@ void MainWindow::CS_changeMRL(const QString &text) {
 void MainWindow::CS_checkRecordFulls() {  // 非常差的操作，不过暂时想不到别的方法
     if (m_CS_content.length() > m_CS_maxRecordLines) {
         ui->label_CS_Alert->setVisible(true);
-        auto *text = m_CS_content.dequeue();
-        ui->textEdit_CS->clear();
-        for (const auto *t: m_CS_content)
-            ui->textEdit_CS->append(*t);
-        delete text;
+        if (m_CS_content.length() == 10000) {  // 条数大于10000自动清除
+            CS_clear();
+        }
+    } else {
+        ui->label_CS_Alert->setVisible(false);
     }
 }
 
@@ -315,4 +321,12 @@ void MainWindow::CS_changeIfRecordS(bool checked) {
 
 void MainWindow::CS_changeIfRecordR(bool checked) {
     m_CS_recordReceive = checked;
+}
+
+void MainWindow::CS_changeIfRecordPosition(bool checked) {
+    m_CS_recordPosition = checked;
+}
+
+void MainWindow::CS_changeIfRecordAny(bool checked) {
+    m_CS_recordAny = checked;
 }

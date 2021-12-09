@@ -9,17 +9,17 @@
         <translation></translation>
     </message>
     <message>
-        <location filename="../compositor.cpp" line="82"/>
+        <location filename="../compositor.cpp" line="84"/>
         <source> [ERROR] cannot decode information</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../compositor.cpp" line="89"/>
+        <location filename="../compositor.cpp" line="91"/>
         <source> [info] </source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../compositor.cpp" line="92"/>
+        <location filename="../compositor.cpp" line="94"/>
         <source> [ERROR] information is broken</source>
         <translation></translation>
     </message>
@@ -27,221 +27,236 @@
 <context>
     <name>MainWindow</name>
     <message>
+        <location filename="../mainwindow.ui" line="108"/>
+        <source>File</source>
+        <translation>File</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="116"/>
+        <source>Serial</source>
+        <translation>Serial</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="125"/>
+        <location filename="../mainwindow.ui" line="628"/>
+        <source>About</source>
+        <translation>About</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="132"/>
+        <source>View</source>
+        <translation>View</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="198"/>
+        <source>Hexadecimal digit</source>
+        <translation>Hexadecimal digit</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="208"/>
+        <source>Character string</source>
+        <translation>Character string</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="235"/>
+        <location filename="../mainwindow.ui" line="321"/>
+        <source>Send</source>
+        <translation>Send</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="244"/>
+        <source>Preview</source>
+        <translation>Preview</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="266"/>
+        <source>###00###</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="331"/>
+        <source>Receive</source>
+        <translation>Receive</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="358"/>
+        <source>Position</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="368"/>
+        <source>Any</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="395"/>
+        <source>Max Record Lines:</source>
+        <translation>Max Record Lines:</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="418"/>
+        <source>500</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="423"/>
+        <source>1000</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="428"/>
+        <source>1500</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="433"/>
+        <source>2000</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="438"/>
+        <source>3000</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="443"/>
+        <source>4000</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="448"/>
+        <source>5000</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="459"/>
+        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-style:italic; color:#ffff00;&quot;&gt;NEED CLEAR!&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-style:italic; color:#ffff00;&quot;&gt;NEED CLEAR!&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="483"/>
+        <source>Move to Top</source>
+        <translation>Move to Top</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="494"/>
+        <source>Move to Bottom</source>
+        <translation>Move to Bottom</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="505"/>
+        <source>Clear Console</source>
+        <translation>Clear Console</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="584"/>
+        <source>Connect</source>
+        <translation>Connect</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="587"/>
+        <source>Ctrl+O</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="596"/>
+        <source>Disconnect</source>
+        <translation>Disconnect</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="599"/>
+        <source>Ctrl+D</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="608"/>
+        <source>Quit</source>
+        <translation>Quit</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="611"/>
+        <source>Ctrl+Q</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="620"/>
+        <source>Configure</source>
+        <translation>Configure</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="623"/>
+        <source>Alt+C</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="631"/>
+        <source>Alt+A</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="636"/>
+        <source>About Qt</source>
+        <translation>About Qt</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="645"/>
+        <source>Preferences</source>
+        <translation>Preferences</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="648"/>
+        <source>Ctrl+P</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="156"/>
+        <location filename="../mainwindow.ui" line="656"/>
+        <source>Little Sender</source>
+        <translation>Little Sender</translation>
+    </message>
+    <message>
         <location filename="../mainwindow.ui" line="14"/>
         <source>Robot Commander</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="38"/>
-        <source>File</source>
-        <translation>File</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.ui" line="46"/>
-        <source>Serial</source>
-        <translation>Serial</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.ui" line="55"/>
-        <location filename="../mainwindow.ui" line="506"/>
-        <source>About</source>
-        <translation>About</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.ui" line="62"/>
-        <source>View</source>
-        <translation>View</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.ui" line="113"/>
-        <source>Hexadecimal digit</source>
-        <translation>Hexadecimal digit</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.ui" line="123"/>
-        <source>Character string</source>
-        <translation>Character string</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.ui" line="150"/>
-        <location filename="../mainwindow.ui" line="236"/>
-        <source>Send</source>
-        <translation>Send</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.ui" line="159"/>
-        <source>Preview</source>
-        <translation>Preview</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.ui" line="246"/>
-        <source>Receive</source>
-        <translation>Receive</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.ui" line="273"/>
-        <source>Max Record Lines:</source>
-        <translation>Max Record Lines:</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.ui" line="296"/>
-        <source>500</source>
-        <translation></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.ui" line="301"/>
-        <source>1000</source>
-        <translation></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.ui" line="306"/>
-        <source>1500</source>
-        <translation></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.ui" line="311"/>
-        <source>2000</source>
-        <translation></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.ui" line="316"/>
-        <source>3000</source>
-        <translation></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.ui" line="321"/>
-        <source>4000</source>
-        <translation></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.ui" line="326"/>
-        <source>5000</source>
-        <translation></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.ui" line="337"/>
-        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-style:italic; color:#ffff00;&quot;&gt;NEED CLEAR!&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-style:italic; color:#ffff00;&quot;&gt;NEED CLEAR!&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.ui" line="361"/>
-        <source>Move to Top</source>
-        <translation>Move to Top</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.ui" line="372"/>
-        <source>Move to Bottom</source>
-        <translation>Move to Bottom</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.ui" line="383"/>
-        <source>Clear Console</source>
-        <translation>Clear Console</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.ui" line="462"/>
-        <source>Connect</source>
-        <translation>Connect</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.ui" line="465"/>
-        <source>Ctrl+O</source>
-        <translation></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.ui" line="474"/>
-        <source>Disconnect</source>
-        <translation>Disconnect</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.ui" line="477"/>
-        <source>Ctrl+D</source>
-        <translation></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.ui" line="486"/>
-        <source>Quit</source>
-        <translation>Quit</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.ui" line="489"/>
-        <source>Ctrl+Q</source>
-        <translation></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.ui" line="498"/>
-        <source>Configure</source>
-        <translation>Configure</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.ui" line="501"/>
-        <source>Alt+C</source>
-        <translation></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.ui" line="509"/>
-        <source>Alt+A</source>
-        <translation></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.ui" line="514"/>
-        <source>About Qt</source>
-        <translation>About Qt</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.ui" line="523"/>
-        <source>Preferences</source>
-        <translation>Preferences</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.ui" line="526"/>
-        <source>Ctrl+P</source>
-        <translation></translation>
-    </message>
-    <message>
         <location filename="../mainwindow.ui" line="86"/>
-        <location filename="../mainwindow.ui" line="534"/>
-        <source>Little Sender</source>
-        <translation>Little Sender</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.ui" line="181"/>
-        <source>###00###</source>
+        <source>  x: 0   y: 0  </source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="222"/>
-        <location filename="../mainwindow.ui" line="542"/>
+        <location filename="../mainwindow.ui" line="307"/>
+        <location filename="../mainwindow.ui" line="664"/>
         <source>Console</source>
         <translation>Console</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="107"/>
+        <location filename="../mainwindow.cpp" line="109"/>
         <source>Connected to %1 : %2, %3, %4, %5, %6</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="111"/>
+        <location filename="../mainwindow.cpp" line="113"/>
         <source>Error</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="112"/>
+        <location filename="../mainwindow.cpp" line="114"/>
         <source>Open error</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="126"/>
+        <location filename="../mainwindow.cpp" line="128"/>
         <source>Disconnected</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="130"/>
+        <location filename="../mainwindow.cpp" line="132"/>
         <source>About Robot Commander</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="131"/>
+        <location filename="../mainwindow.cpp" line="133"/>
         <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
@@ -256,25 +271,25 @@ p, li { white-space: pre-wrap; }
         <translation></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="148"/>
+        <location filename="../mainwindow.cpp" line="150"/>
         <source>Critical Error</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="158"/>
-        <location filename="../mainwindow.cpp" line="175"/>
+        <location filename="../mainwindow.cpp" line="161"/>
+        <location filename="../mainwindow.cpp" line="181"/>
         <source>receive: </source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="186"/>
-        <location filename="../mainwindow.cpp" line="191"/>
+        <location filename="../mainwindow.cpp" line="192"/>
+        <location filename="../mainwindow.cpp" line="197"/>
         <source>send: </source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="215"/>
         <location filename="../mainwindow.cpp" line="221"/>
+        <location filename="../mainwindow.cpp" line="227"/>
         <source>Cannot open translation file.</source>
         <translation></translation>
     </message>
@@ -284,49 +299,49 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../settingsdialog.ui" line="14"/>
         <source>Preferences</source>
-        <translation></translation>
+        <translation>Preferences</translation>
     </message>
     <message>
         <location filename="../settingsdialog.ui" line="24"/>
         <source>Appearance</source>
-        <translation></translation>
+        <translation>Appearance</translation>
     </message>
     <message>
         <location filename="../settingsdialog.ui" line="45"/>
         <source>Map</source>
-        <translation></translation>
+        <translation>Map</translation>
     </message>
     <message>
         <location filename="../settingsdialog.ui" line="54"/>
         <location filename="../settingsdialog.ui" line="118"/>
         <location filename="../settingsdialog.ui" line="329"/>
-        <location filename="../settingsdialog.cpp" line="361"/>
-        <location filename="../settingsdialog.cpp" line="366"/>
-        <location filename="../settingsdialog.cpp" line="371"/>
+        <location filename="../settingsdialog.cpp" line="362"/>
+        <location filename="../settingsdialog.cpp" line="367"/>
+        <location filename="../settingsdialog.cpp" line="372"/>
         <source>Choose Picture</source>
-        <translation></translation>
+        <translation>Choose Picture</translation>
     </message>
     <message>
         <location filename="../settingsdialog.ui" line="64"/>
         <source>Robot</source>
-        <translation></translation>
+        <translation>Robot</translation>
     </message>
     <message>
         <location filename="../settingsdialog.ui" line="70"/>
         <source>Current Position</source>
-        <translation></translation>
+        <translation>Current Position</translation>
     </message>
     <message>
         <location filename="../settingsdialog.ui" line="80"/>
         <location filename="../settingsdialog.ui" line="291"/>
         <source>Picture</source>
-        <translation></translation>
+        <translation>Picture</translation>
     </message>
     <message>
         <location filename="../settingsdialog.ui" line="87"/>
         <location filename="../settingsdialog.ui" line="298"/>
         <source>Shape</source>
-        <translation></translation>
+        <translation>Shape</translation>
     </message>
     <message>
         <location filename="../settingsdialog.ui" line="130"/>
@@ -370,25 +385,25 @@ p, li { white-space: pre-wrap; }
         <location filename="../settingsdialog.ui" line="374"/>
         <location filename="../settingsdialog.ui" line="475"/>
         <source>px</source>
-        <translation></translation>
+        <translation>px</translation>
     </message>
     <message>
         <location filename="../settingsdialog.ui" line="192"/>
         <location filename="../settingsdialog.ui" line="403"/>
         <source>Square</source>
-        <translation></translation>
+        <translation>Square</translation>
     </message>
     <message>
         <location filename="../settingsdialog.ui" line="197"/>
         <location filename="../settingsdialog.ui" line="408"/>
         <source>Triangle</source>
-        <translation></translation>
+        <translation>Triangle</translation>
     </message>
     <message>
         <location filename="../settingsdialog.ui" line="202"/>
         <location filename="../settingsdialog.ui" line="413"/>
         <source>Circular</source>
-        <translation></translation>
+        <translation>Circular</translation>
     </message>
     <message>
         <location filename="../settingsdialog.ui" line="211"/>
@@ -453,102 +468,107 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../settingsdialog.ui" line="281"/>
         <source>Target Position</source>
-        <translation></translation>
+        <translation>Target Position</translation>
     </message>
     <message>
         <location filename="../settingsdialog.ui" line="495"/>
         <source>Language</source>
-        <translation></translation>
+        <translation>Language</translation>
     </message>
     <message>
         <location filename="../settingsdialog.ui" line="502"/>
         <source>Chinese</source>
-        <translation></translation>
+        <translation>Chinese</translation>
     </message>
     <message>
         <location filename="../settingsdialog.ui" line="507"/>
         <source>English</source>
-        <translation></translation>
+        <translation>English</translation>
     </message>
     <message>
         <location filename="../settingsdialog.ui" line="536"/>
         <source>Serial</source>
-        <translation></translation>
+        <translation>Serial</translation>
     </message>
     <message>
         <location filename="../settingsdialog.ui" line="542"/>
         <source>Select Serial Port</source>
-        <translation></translation>
+        <translation>Select Serial Port</translation>
     </message>
     <message>
         <location filename="../settingsdialog.ui" line="551"/>
         <source>Description:</source>
-        <translation></translation>
+        <translation>Description:</translation>
     </message>
     <message>
         <location filename="../settingsdialog.ui" line="558"/>
         <source>Manufacturer:</source>
-        <translation></translation>
+        <translation>Manufacturer:</translation>
     </message>
     <message>
         <location filename="../settingsdialog.ui" line="565"/>
         <source>Serial number:</source>
-        <translation></translation>
+        <translation>Serial number:</translation>
     </message>
     <message>
         <location filename="../settingsdialog.ui" line="572"/>
         <source>Location:</source>
-        <translation></translation>
+        <translation>Location:</translation>
     </message>
     <message>
         <location filename="../settingsdialog.ui" line="579"/>
         <source>Vendor ID:</source>
-        <translation></translation>
+        <translation>Vendor ID:</translation>
     </message>
     <message>
         <location filename="../settingsdialog.ui" line="586"/>
         <source>Product ID:</source>
-        <translation></translation>
+        <translation>Product ID:</translation>
     </message>
     <message>
         <location filename="../settingsdialog.ui" line="596"/>
         <source>Select Parameters</source>
-        <translation></translation>
+        <translation>Select Parameters</translation>
     </message>
     <message>
         <location filename="../settingsdialog.ui" line="602"/>
         <source>BaudRate:</source>
-        <translation></translation>
+        <translation>BaudRate:</translation>
     </message>
     <message>
         <location filename="../settingsdialog.ui" line="612"/>
         <source>Data bits:</source>
-        <translation></translation>
+        <translation>Data bits:</translation>
     </message>
     <message>
         <location filename="../settingsdialog.ui" line="622"/>
         <source>Parity:</source>
-        <translation></translation>
+        <translation>Parity:</translation>
     </message>
     <message>
         <location filename="../settingsdialog.ui" line="632"/>
         <source>Stop bits:</source>
-        <translation></translation>
+        <translation>Stop bits:</translation>
     </message>
     <message>
         <location filename="../settingsdialog.ui" line="642"/>
         <source>Flow control:</source>
-        <translation></translation>
+        <translation>Flow control:</translation>
     </message>
     <message>
-        <location filename="../settingsdialog.ui" line="674"/>
-        <source>Apply</source>
-        <translation></translation>
+        <location filename="../settingsdialog.ui" line="661"/>
+        <source>Refresh</source>
+        <translation>Refresh</translation>
     </message>
     <message>
         <location filename="../settingsdialog.ui" line="681"/>
+        <source>Apply</source>
+        <translation>Apply</translation>
+    </message>
+    <message>
+        <location filename="../settingsdialog.ui" line="688"/>
         <source>Cancel</source>
-        <translation></translation>
+        <translation>Cancel</translation>
     </message>
     <message>
         <location filename="../settingsdialog.cpp" line="61"/>
@@ -556,79 +576,79 @@ p, li { white-space: pre-wrap; }
         <translation></translation>
     </message>
     <message>
-        <location filename="../settingsdialog.cpp" line="159"/>
+        <location filename="../settingsdialog.cpp" line="160"/>
         <source>Description: %1</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../settingsdialog.cpp" line="160"/>
+        <location filename="../settingsdialog.cpp" line="161"/>
         <source>Manufacturer: %1</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../settingsdialog.cpp" line="161"/>
+        <location filename="../settingsdialog.cpp" line="162"/>
         <source>Serial number: %1</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../settingsdialog.cpp" line="162"/>
+        <location filename="../settingsdialog.cpp" line="163"/>
         <source>Location: %1</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../settingsdialog.cpp" line="163"/>
+        <location filename="../settingsdialog.cpp" line="164"/>
         <source>Vendor Identifier: %1</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../settingsdialog.cpp" line="164"/>
+        <location filename="../settingsdialog.cpp" line="165"/>
         <source>Product Identifier: %1</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../settingsdialog.cpp" line="215"/>
-        <location filename="../settingsdialog.cpp" line="262"/>
+        <location filename="../settingsdialog.cpp" line="216"/>
+        <location filename="../settingsdialog.cpp" line="263"/>
         <source>Custom</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../settingsdialog.cpp" line="223"/>
-        <location filename="../settingsdialog.cpp" line="235"/>
+        <location filename="../settingsdialog.cpp" line="224"/>
+        <location filename="../settingsdialog.cpp" line="236"/>
         <source>None</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../settingsdialog.cpp" line="224"/>
+        <location filename="../settingsdialog.cpp" line="225"/>
         <source>Even</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../settingsdialog.cpp" line="225"/>
+        <location filename="../settingsdialog.cpp" line="226"/>
         <source>Odd</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../settingsdialog.cpp" line="226"/>
+        <location filename="../settingsdialog.cpp" line="227"/>
         <source>Mark</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../settingsdialog.cpp" line="227"/>
+        <location filename="../settingsdialog.cpp" line="228"/>
         <source>Space</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../settingsdialog.cpp" line="231"/>
+        <location filename="../settingsdialog.cpp" line="232"/>
         <source>1.5</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../settingsdialog.cpp" line="236"/>
+        <location filename="../settingsdialog.cpp" line="237"/>
         <source>RTS/CTS</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../settingsdialog.cpp" line="237"/>
+        <location filename="../settingsdialog.cpp" line="238"/>
         <source>XON/XOFF</source>
         <translation></translation>
     </message>

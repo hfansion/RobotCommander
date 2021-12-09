@@ -26,7 +26,7 @@ Q_OBJECT
 public:
     explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow() override;
-    static constexpr Version VERSION{0,0,1, 2};
+    static constexpr Version VERSION{0,0,1,3};
 
 public slots:
     void openSerialPort();
@@ -58,6 +58,8 @@ public slots:
     void CS_changeMRL(const QString &);
     void CS_changeIfRecordS(bool);
     void CS_changeIfRecordR(bool);
+    void CS_changeIfRecordPosition(bool);
+    void CS_changeIfRecordAny(bool);
 
 private:
     Ui::MainWindow *ui;
@@ -78,6 +80,8 @@ private:
     int m_CS_maxRecordLines = 500;
     bool m_CS_recordSend = true;
     bool m_CS_recordReceive = true;
+    bool m_CS_recordPosition = true;
+    bool m_CS_recordAny = true;
     void CS_checkRecordFulls();
 };
 
