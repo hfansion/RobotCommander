@@ -1,27 +1,22 @@
-cmake_minimum_required(VERSION 3.21)
+cmake_minimum_required(VERSION 3.10)
 
 # Configure by yourself
-project(RobotCommander VERSION "0.0.1")
+project(RobotCommander VERSION "0.1.1.0")
 
-# Your config.cmake should contain at least the following properties:
-set(PROJECT_DIR ${CMAKE_CURRENT_SOURCE_DIR})
 set(CMAKE_CXX_STANDARD 23)
 #set(CMAKE_PREFIX_PATH "your/cmake/prefix/path")
-#set(QT_VERSION 5)
-include(config.cmake)
+set(QT_VERSION 6)
+configure_file(RobotCommanderConfig.h.in robotcommanderconfig.h)
 
 # Required Qt Libraries
 set(REQUIRED_LIBS Core Gui Widgets SerialPort)
-set(REQUIRED_LIBS_QUALIFIED Qt${QT_VERSION}::Core Qt${QT_VERSION}::Gui Qt${QT_VERSION}::Widgets Qt${QT_VERSION}::SerialPort)
+foreach (R_LIB ${REQUIRED_LIBS})
+    set(REQUIRED_LIBS_QUALIFIED ${REQUIRED_LIBS_QUALIFIED} Qt${QT_VERSION}::${R_LIB})
+endforeach (R_LIB)
 
 # Target directory
-if (CMAKE_BUILD_TYPE MATCHES "Debug")
-    set(EXECUTABLE_OUTPUT_PATH ${PROJECT_DIR}/build/debug)
-    set(LIBRARY_OUTPUT_PATH ${PROJECT_DIR}/build/debug)
-else ()
-    set(EXECUTABLE_OUTPUT_PATH ${PROJECT_DIR}/build/release)
-    set(LIBRARY_OUTPUT_PATH ${PROJECT_DIR}/build/release)
-endif ()
+set(EXECUTABLE_OUTPUT_PATH "${CMAKE_CURRENT_BINARY_DIR}/bin")
+set(LIBRARY_OUTPUT_PATH "${CMAKE_CURRENT_BINARY_DIR}/bin")
 
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
@@ -29,7 +24,7 @@ set(CMAKE_AUTOUIC ON)
 
 # Find package
 find_package(Qt${QT_VERSION} COMPONENTS ${REQUIRED_LIBS} REQUIRED)
-include_directories(.)
+set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 # Project sources
 set(PROJECT_SOURCES main.cpp RobotCommander.qrc
@@ -46,7 +41,7 @@ set(PROJECT_SOURCES main.cpp RobotCommander.qrc
         info/anyinfo.cpp info/anyinfo.h
         data/hexdisplayer.cpp data/hexdisplayer.h
         command/anycommand.cpp command/anycommand.h
-        data/version.h)
+        )
 
 if (NOT CMAKE_BUILD_TYPE MATCHES "Debug")
     set(PROJECT_SOURCES WIN32 ${PROJECT_SOURCES})
@@ -58,3 +53,4 @@ endif ()
 
 add_executable(${PROJECT_NAME} ${PROJECT_SOURCES})
 target_link_libraries(${PROJECT_NAME} PRIVATE ${REQUIRED_LIBS_QUALIFIED})
+target_include_directories(${PROJECT_NAME} PUBLIC "${CMAKE_CURRENT_BINARY_DIR}")

@@ -1,14 +1,20 @@
 # RobotCommander
 
-A tool for controlling and debugging the movements of robots in Robocon.
+Robocon比赛中用于方便调试和控制机器人运动的小软件
 
 ## TODOs:
+接下来要做的任务（2.27）
 
-- [x] 独立出Command和Info类和Compositor类
-- [x] Inject Compositor to MapWidget
-- [x] PreferenceDialog首选项
-- [x] 新的信息编码的方式
-- [x] 重构mapWidget，完善设置与画图的交互
-- [x] 翻译
-- [ ] 自定义字符串发送
-- [ ] Console窗格
+##### 主要部分
+
+- [ ] 通讯协议，规范内容完善
+- [ ] 完善通讯协议的实现，分开实现(pure C or C++)，方便添加新组件
+- [ ] 主窗体的放大缩小，缩放点的精确控制（改用double记录位置）
+- [ ] 考虑新功能的添加（绘制曲线的功能）
+
+##### 舒适使用
+
+- [ ] 自动保存设置内容
+- [ ] 界面美化
+- [ ] 安装包&自动更新
+

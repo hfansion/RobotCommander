@@ -8,7 +8,6 @@
 #include <QMainWindow>
 #include <QSerialPort>
 #include <QQueue>
-#include "data/version.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -26,7 +25,6 @@ Q_OBJECT
 public:
     explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow() override;
-    static constexpr Version VERSION{0,0,1,3};
 
 public slots:
     void openSerialPort();

@@ -16,6 +16,7 @@
 #include "settings.h"
 #include <QTranslator>
 #include <QTime>
+#include "robotcommanderconfig.h"
 
 #ifdef QT_DEBUG
 
@@ -141,8 +142,8 @@ void MainWindow::about() {
                           "<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:12pt;\"><br /></p>\n"
                           "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><a href=\"https://github.com/hfansion/RobotCommander/blob/main/LICENSE\"><span style=\" font-size:12pt; text-decoration: underline; color:#1d99f3;\">GPL-3.0 License</span></a><span style=\" font-size:12pt;\">: This is a </span><a href=\"http://www.gnu.org/\"><span style=\" font-size:12pt; text-decoration: underline; color:#1d99f3;\">free software</span></a>.</p>\n"
                           "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><a href=\"https://github.com/hfansion/RobotCommander\"><span style=\" text-decoration: underline; color:#1d99f3;\">https://github.com/hfansion/RobotCommander</span></a></p></body></html>").arg(
-                               VERSION.first).arg(VERSION.middle).arg(VERSION.last).arg(
-                               VERSION.beta ? QString("-beta.%1").arg(VERSION.beta) : ""));
+                               ROBOTCOMMANDER_VERSION_MAJOR).arg(ROBOTCOMMANDER_VERSION_MINOR).arg(ROBOTCOMMANDER_VERSION_PATCH).arg(
+                               ROBOTCOMMANDER_VERSION_TWEAK ? QString("-beta.%1").arg(ROBOTCOMMANDER_VERSION_TWEAK) : ""));
 }
 
 void MainWindow::handleError(QSerialPort::SerialPortError error) {
