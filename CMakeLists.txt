@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.10)
 
 # Configure by yourself
-project(RobotCommander VERSION "0.1.1.0")
+project(RobotCommander VERSION "0.1.2.0")
 
 set(CMAKE_CXX_STANDARD 23)
 #set(CMAKE_PREFIX_PATH "your/cmake/prefix/path")
@@ -41,7 +41,7 @@ set(PROJECT_SOURCES main.cpp RobotCommander.qrc
         info/anyinfo.cpp info/anyinfo.h
         data/hexdisplayer.cpp data/hexdisplayer.h
         command/anycommand.cpp command/anycommand.h
-        )
+        settings.cpp)
 
 if (NOT CMAKE_BUILD_TYPE MATCHES "Debug")
     set(PROJECT_SOURCES WIN32 ${PROJECT_SOURCES})

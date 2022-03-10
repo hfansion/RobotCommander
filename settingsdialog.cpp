@@ -1,71 +1,17 @@
-/****************************************************************************
-**
-** Copyright (C) 2012 Denis Shienkov <denis.shienkov@gmail.com>
-** Copyright (C) 2012 Laszlo Papp <lpapp@kde.org>
-** Contact: https://www.qt.io/licensing/
-**
-** This file is part of the QtSerialPort module of the Qt Toolkit.
-**
-** $QT_BEGIN_LICENSE:BSD$
-** Commercial License Usage
-** Licensees holding valid commercial Qt licenses may use this file in
-** accordance with the commercial license agreement provided with the
-** Software or, alternatively, in accordance with the terms contained in
-** a written agreement between you and The Qt Company. For licensing terms
-** and conditions see https://www.qt.io/terms-conditions. For further
-** information use the contact form at https://www.qt.io/contact-us.
-**
-** BSD License Usage
-** Alternatively, you may use this file under the terms of the BSD license
-** as follows:
-**
-** "Redistribution and use in source and binary forms, with or without
-** modification, are permitted provided that the following conditions are
-** met:
-**   * Redistributions of source code must retain the above copyright
-**     notice, this list of conditions and the following disclaimer.
-**   * Redistributions in binary form must reproduce the above copyright
-**     notice, this list of conditions and the following disclaimer in
-**     the documentation and/or other materials provided with the
-**     distribution.
-**   * Neither the name of The Qt Company Ltd nor the names of its
-**     contributors may be used to endorse or promote products derived
-**     from this software without specific prior written permission.
-**
-**
-** THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
-** "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-** LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-** A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
-** OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
-** SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
-** LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
-** DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
-** THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
-** (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
-** OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE."
-**
-** $QT_END_LICENSE$
-**
-****************************************************************************/
-
 #include "settingsdialog.h"
 #include "ui_settingsdialog.h"
+#include <QColorDialog>
 #include <QFileDialog>
 #include <QIntValidator>
 #include <QLineEdit>
 #include <QSerialPortInfo>
-#include <QColorDialog>
 #include <QTranslator>
 
 static const char blankString[] = QT_TRANSLATE_NOOP("SettingsDialog", "N/A");
 
 SettingsDialog::SettingsDialog(QWidget *parent) :
-        QDialog(parent), m_translator(new QTranslator()),
-        m_ui(new Ui::SettingsDialog),
+        QDialog(parent), m_translator(new QTranslator()), m_ui(new Ui::SettingsDialog),
         m_intValidator(new QIntValidator(0, 4000000, this)) {
-    bool rs = m_translator->load(":/translation/RobotCommander_zh.qm");
-    if (rs) qApp->installTranslator(m_translator);
     m_ui->setupUi(this);
 
     m_ui->baudRateBox->setInsertPolicy(QComboBox::NoInsert);
@@ -81,23 +27,6 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
     fillPortsInfo();
 
     //*****************************
-    auto &s = m_settings;
-    s.mapPic = ":/resource/map.jpg";
-    s.RCP_picThanShape = true;
-    s.RCP_robotPic = ":/icon/robot.png";
-    s.RCP_picSize = 48;
-    s.RCP_shape = Settings::Square;
-    s.RCP_shapeSize = 20;
-    s.RCP_color = QColor(255, 255, 0);
-    s.RTP_picThanShape = false;
-    s.RTP_robotPic = ":/icon/robot.png";
-    s.RTP_picSize = 48;
-    s.RTP_shape = Settings::Circular;
-    s.RTP_shapeSize = 16;
-    s.RTP_color = QColor(255, 0, 0);
-    s.language = Settings::Chinese;
-
-
     connect(m_ui->radioButton_RCP_Pic, &QRadioButton::toggled, this, &SettingsDialog::mod_RCP_widget_change);
     connect(m_ui->radioButton_RTP_Pic, &QRadioButton::toggled, this, &SettingsDialog::mod_RTP_widget_change);
     m_ui->radioButton_RTP_Shape->setChecked(true);
@@ -112,33 +41,47 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
     connect(m_ui->pushButton_refresh, &QPushButton::clicked, this, &SettingsDialog::fillPortsInfo);
     //*****************************
 
-
-    m_settings.name = m_ui->serialPortInfoListBox->currentText();
+    auto &s = m_settings.serial;
+    s.name = m_ui->serialPortInfoListBox->currentText();
 
     if (m_ui->baudRateBox->currentIndex() == 4) {
-        m_settings.baudRate = m_ui->baudRateBox->currentText().toInt();
+        s.baudRate = m_ui->baudRateBox->currentText().toInt();
     } else {
-        m_settings.baudRate = static_cast<QSerialPort::BaudRate>(
-                m_ui->baudRateBox->itemData(m_ui->baudRateBox->currentIndex()).toInt());
+        s.baudRate = static_cast<QSerialPort::BaudRate>(m_ui->baudRateBox->itemData(
+                m_ui->baudRateBox->currentIndex()).toInt());
     }
-    m_settings.stringBaudRate = QString::number(m_settings.baudRate);
+    s.stringBaudRate = QString::number(s.baudRate);
 
-    m_settings.dataBits = static_cast<QSerialPort::DataBits>(
+    s.dataBits = static_cast<QSerialPort::DataBits>(
             m_ui->dataBitsBox->itemData(m_ui->dataBitsBox->currentIndex()).toInt());
-    m_settings.stringDataBits = m_ui->dataBitsBox->currentText();
+    s.stringDataBits = m_ui->dataBitsBox->currentText();
 
-    m_settings.parity = static_cast<QSerialPort::Parity>(
+    s.parity = static_cast<QSerialPort::Parity>(
             m_ui->parityBox->itemData(m_ui->parityBox->currentIndex()).toInt());
-    m_settings.stringParity = m_ui->parityBox->currentText();
+    s.stringParity = m_ui->parityBox->currentText();
 
-    m_settings.stopBits = static_cast<QSerialPort::StopBits>(
+    s.stopBits = static_cast<QSerialPort::StopBits>(
             m_ui->stopBitsBox->itemData(m_ui->stopBitsBox->currentIndex()).toInt());
-    m_settings.stringStopBits = m_ui->stopBitsBox->currentText();
+    s.stringStopBits = m_ui->stopBitsBox->currentText();
 
-    m_settings.flowControl = static_cast<QSerialPort::FlowControl>(
+    s.flowControl = static_cast<QSerialPort::FlowControl>(
             m_ui->flowControlBox->itemData(m_ui->flowControlBox->currentIndex()).toInt());
-    m_settings.stringFlowControl = m_ui->flowControlBox->currentText();
+    s.stringFlowControl = m_ui->flowControlBox->currentText();
 
+    switch (m_settings.language) {
+        case Settings::Chinese: {
+            bool rs = m_translator->load(":/translation/RobotCommander_zh.qm");
+            if (rs) qApp->installTranslator(m_translator);
+            break;
+        }
+        case Settings::English: {
+            bool rs = m_translator->load(":/translation/RobotCommander_en.qm");
+            if (rs) qApp->installTranslator(m_translator);
+            qApp->installTranslator(m_translator);
+            break;
+        }
+    }
+    m_ui->retranslateUi(this);
 
     recoverSettings();
 }
@@ -264,60 +207,61 @@ void SettingsDialog::fillPortsInfo() {
 }
 
 void SettingsDialog::updateSettings() {
-    m_settings.name = m_ui->serialPortInfoListBox->currentText();
+    auto &ss = m_settings.serial;
+    ss.name = m_ui->serialPortInfoListBox->currentText();
 
     if (m_ui->baudRateBox->currentIndex() == 4) {
-        m_settings.baudRate = m_ui->baudRateBox->currentText().toInt();
+        ss.baudRate = m_ui->baudRateBox->currentText().toInt();
     } else {
-        m_settings.baudRate = static_cast<QSerialPort::BaudRate>(
+        ss.baudRate = static_cast<QSerialPort::BaudRate>(
                 m_ui->baudRateBox->itemData(m_ui->baudRateBox->currentIndex()).toInt());
     }
-    m_settings.stringBaudRate = QString::number(m_settings.baudRate);
+    ss.stringBaudRate = QString::number(ss.baudRate);
 
-    m_settings.dataBits = static_cast<QSerialPort::DataBits>(
+    ss.dataBits = static_cast<QSerialPort::DataBits>(
             m_ui->dataBitsBox->itemData(m_ui->dataBitsBox->currentIndex()).toInt());
-    m_settings.stringDataBits = m_ui->dataBitsBox->currentText();
+    ss.stringDataBits = m_ui->dataBitsBox->currentText();
 
-    m_settings.parity = static_cast<QSerialPort::Parity>(
+    ss.parity = static_cast<QSerialPort::Parity>(
             m_ui->parityBox->itemData(m_ui->parityBox->currentIndex()).toInt());
-    m_settings.stringParity = m_ui->parityBox->currentText();
+    ss.stringParity = m_ui->parityBox->currentText();
 
-    m_settings.stopBits = static_cast<QSerialPort::StopBits>(
+    ss.stopBits = static_cast<QSerialPort::StopBits>(
             m_ui->stopBitsBox->itemData(m_ui->stopBitsBox->currentIndex()).toInt());
-    m_settings.stringStopBits = m_ui->stopBitsBox->currentText();
+    ss.stringStopBits = m_ui->stopBitsBox->currentText();
 
-    m_settings.flowControl = static_cast<QSerialPort::FlowControl>(
+    ss.flowControl = static_cast<QSerialPort::FlowControl>(
             m_ui->flowControlBox->itemData(m_ui->flowControlBox->currentIndex()).toInt());
-    m_settings.stringFlowControl = m_ui->flowControlBox->currentText();
+    ss.stringFlowControl = m_ui->flowControlBox->currentText();
 
 
     //*****************************
     auto &s = m_settings;
-    s.mapPic = m_ui->lineEdit_MapPic->text();
-    s.RCP_picThanShape = m_ui->radioButton_RCP_Pic->isChecked();
-    s.RCP_robotPic = m_ui->lineEdit_RCP_Pic->text();
+    s.map_pic = m_ui->lineEdit_MapPic->text();
+    s.mark_cur.pic_or_shape = m_ui->radioButton_RCP_Pic->isChecked();
+    s.mark_cur.pic = m_ui->lineEdit_RCP_Pic->text();
     const auto &text0 = m_ui->comboBox_RCP_iconSize->currentText();
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
-    s.RCP_picSize = text0.first(text0.size() / 2).toInt();
+    s.mark_cur.pic_size = text0.first(text0.size() / 2).toInt();
 #else
-    s.RCP_picSize = text0.midRef(0, text0.size() / 2).toInt();
+    s.mark_cur.pic_size = text0.midRef(0, text0.shape_size() / 2).toInt();
 #endif
-    s.RCP_shape = static_cast<Settings::Shape>(m_ui->comboBox_RCP_Shape->currentIndex());
-    s.RCP_shapeSize = m_ui->comboBox_RCP_Size->currentText().toInt();
+    s.mark_cur.shape = static_cast<Settings::Mark::Shape>(m_ui->comboBox_RCP_Shape->currentIndex());
+    s.mark_cur.shape_size = m_ui->comboBox_RCP_Size->currentText().toInt();
     const auto &color0 = m_ui->pushButton_RCP_Color->toolTip().split(',');
-    s.RCP_color = QColor(color0[0].toInt(), color0[1].toInt(), color0[2].toInt());
-    s.RTP_picThanShape = m_ui->radioButton_RTP_Pic->isChecked();
-    s.RTP_robotPic = m_ui->lineEdit_RTP_Pic->text();
+    s.mark_cur.color = QColor(color0[0].toInt(), color0[1].toInt(), color0[2].toInt());
+    s.mark_tar.pic_or_shape = m_ui->radioButton_RTP_Pic->isChecked();
+    s.mark_tar.pic = m_ui->lineEdit_RTP_Pic->text();
     const auto &text1 = m_ui->comboBox_RTP_iconSize->currentText();
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
-    s.RTP_picSize = text1.first(text1.size() / 2).toInt();
+    s.mark_tar.pic_size = text1.first(text1.size() / 2).toInt();
 #else
-    s.RTP_picSize = text1.midRef(0, text1.size() / 2).toInt();
+    s.mark_tar.pic_size = text1.midRef(0, text1.shape_size() / 2).toInt();
 #endif
-    s.RTP_shape = static_cast<Settings::Shape>(m_ui->comboBox_RTP_Shape->currentIndex());
-    s.RTP_shapeSize = m_ui->comboBox_RTP_Size->currentText().toInt();
+    s.mark_tar.shape = static_cast<Settings::Mark::Shape>(m_ui->comboBox_RTP_Shape->currentIndex());
+    s.mark_tar.shape_size = m_ui->comboBox_RTP_Size->currentText().toInt();
     const auto &color1 = m_ui->pushButton_RTP_Color->toolTip().split(',');
-    s.RTP_color = QColor(color1[0].toInt(), color1[1].toInt(), color1[2].toInt());
+    s.mark_tar.color = QColor(color1[0].toInt(), color1[1].toInt(), color1[2].toInt());
     s.language = static_cast<Settings::Language>(m_ui->comboBox->currentIndex());
     //*****************************
 }
@@ -333,29 +277,27 @@ void SettingsDialog::mod_RTP_widget_change(bool state) {
 }
 
 void SettingsDialog::recoverSettings() {
-    auto &s = m_settings;
-    m_ui->lineEdit_MapPic->setText(s.mapPic);
-    m_ui->radioButton_RCP_Pic->setChecked(s.RCP_picThanShape);
-    m_ui->lineEdit_RCP_Pic->setText(s.RCP_robotPic);
-    m_ui->comboBox_RCP_iconSize->setCurrentText(QString("%1×%1").arg(s.RCP_picSize));
-    m_ui->comboBox_RCP_Shape->setCurrentIndex((int) s.RCP_shape);
-    m_ui->comboBox_RCP_Size->setCurrentText(QString::number(s.RCP_shapeSize));
-    m_ui->pushButton_RCP_Color->setStyleSheet(
-            QString("background-color:rgb(%1, %2, %3)").arg(s.RCP_color.red()).arg(s.RCP_color.green()).arg(
-                    s.RCP_color.blue()));
-    m_ui->pushButton_RCP_Color->setToolTip(QString("%1,%2,%3").arg(s.RCP_color.red()).arg(s.RCP_color.green()).arg(
-            s.RCP_color.blue()));
-    m_ui->radioButton_RTP_Pic->setChecked(s.RTP_picThanShape);
-    m_ui->lineEdit_RTP_Pic->setText(s.RTP_robotPic);
-    m_ui->comboBox_RTP_iconSize->setCurrentText(QString("%1×%1").arg(s.RTP_picSize));
-    m_ui->comboBox_RTP_Shape->setCurrentIndex((int) s.RTP_shape);
-    m_ui->comboBox_RTP_Size->setCurrentText(QString::number(s.RTP_shapeSize));
-    m_ui->pushButton_RTP_Color->setStyleSheet(
-            QString("background-color:rgb(%1, %2, %3)").arg(s.RTP_color.red()).arg(s.RTP_color.green()).arg(
-                    s.RTP_color.blue()));
-    m_ui->pushButton_RTP_Color->setToolTip(QString("%1,%2,%3").arg(s.RTP_color.red()).arg(s.RTP_color.green()).arg(
-            s.RTP_color.blue()));
-    m_ui->comboBox->setCurrentIndex((int) s.language);
+    const auto &s = m_settings;
+    m_ui->lineEdit_MapPic->setText(s.map_pic);
+    m_ui->radioButton_RCP_Pic->setChecked(s.mark_cur.pic_or_shape);
+    m_ui->lineEdit_RCP_Pic->setText(s.mark_cur.pic);
+    m_ui->comboBox_RCP_iconSize->setCurrentText(QString("%1×%1").arg(s.mark_cur.pic_size));
+    m_ui->comboBox_RCP_Shape->setCurrentIndex(static_cast<int>(s.mark_cur.shape));
+    m_ui->comboBox_RCP_Size->setCurrentText(QString::number(s.mark_cur.shape_size));
+    QString color_tip = QString("%1,%2,%3").arg(s.mark_cur.color.red()).arg(s.mark_cur.color.green())
+            .arg(s.mark_cur.color.blue());
+    m_ui->pushButton_RCP_Color->setStyleSheet(QString("background-color:rgb(%1)").arg(color_tip));
+    m_ui->pushButton_RCP_Color->setToolTip(color_tip);
+    m_ui->radioButton_RTP_Pic->setChecked(s.mark_tar.pic_or_shape);
+    m_ui->lineEdit_RTP_Pic->setText(s.mark_tar.pic);
+    m_ui->comboBox_RTP_iconSize->setCurrentText(QString("%1×%1").arg(s.mark_tar.pic_size));
+    m_ui->comboBox_RTP_Shape->setCurrentIndex(static_cast<int>(s.mark_tar.shape));
+    m_ui->comboBox_RTP_Size->setCurrentText(QString::number(s.mark_tar.shape_size));
+    color_tip = QString("%1,%2,%3").arg(s.mark_tar.color.red()).arg(s.mark_tar.color.green())
+            .arg(s.mark_tar.color.blue());
+    m_ui->pushButton_RTP_Color->setStyleSheet(QString("background-color:rgb(%1)").arg(color_tip));
+    m_ui->pushButton_RTP_Color->setToolTip(color_tip);
+    m_ui->comboBox->setCurrentIndex(static_cast<int>(s.language));
 }
 
 void SettingsDialog::chooseFile_Map() {

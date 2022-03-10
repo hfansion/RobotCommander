@@ -5,51 +5,69 @@
 #ifndef ROBOTCOMMANDER_SETTINGS_H
 #define ROBOTCOMMANDER_SETTINGS_H
 
-// 找机会看一下QSettings怎么用的
-
-#include <QSerialPort>
 #include <QColor>
+#include <QSerialPort>
 
+class QSettings;
+
+// 设置，包含所有需要保存的内容
 struct Settings {
-    enum Shape {
-        Square = 0, Triangle, Circular
+public:
+    // 表示在地图上所显示的标识点
+    struct Mark {
+        enum Shape {
+            Square = 0, Triangle, Circular
+        };
+
+        bool    pic_or_shape;  // 图片：true，形状：false
+        QString pic;
+        int     pic_size;
+        Shape   shape;
+        int     shape_size;
+        QColor  color;
     };
 
     enum Language {
         Chinese = 0, English
     };
 
+    struct Serial {
+        QString name;
+        qint32 baudRate;
+        QString stringBaudRate;
+        QSerialPort::DataBits dataBits;
+        QString stringDataBits;
+        QSerialPort::Parity parity;
+        QString stringParity;
+        QSerialPort::StopBits stopBits;
+        QString stringStopBits;
+        QSerialPort::FlowControl flowControl;
+        QString stringFlowControl;
+    };
+
+    Settings();
+    ~Settings();
+    void save();
+
     // Appearance
-    QString mapPic;
+    QString map_pic;
 
-    bool RCP_picThanShape;
-    QString RCP_robotPic;
-    int RCP_picSize;
-    Shape RCP_shape;
-    int RCP_shapeSize;
-    QColor RCP_color;
+    Mark mark_cur;  // Robot Current Position
+    Mark mark_tar;  // Robot Target Position
 
-    bool RTP_picThanShape;
-    QString RTP_robotPic;
-    int RTP_picSize;
-    Shape RTP_shape;
-    int RTP_shapeSize;
-    QColor RTP_color;
-
-    Language language;
+    Language language = Chinese;
 
     // Serial
-    QString name;
-    qint32 baudRate;
-    QString stringBaudRate;
-    QSerialPort::DataBits dataBits;
-    QString stringDataBits;
-    QSerialPort::Parity parity;
-    QString stringParity;
-    QSerialPort::StopBits stopBits;
-    QString stringStopBits;
-    QSerialPort::FlowControl flowControl;
-    QString stringFlowControl;
+    Serial serial;
+
+private:
+    QSettings *m_settings;
 };
+
+QDataStream &operator<<(QDataStream &out, const Settings::Mark &mark);
+QDataStream &operator>>(QDataStream &in, Settings::Mark &mark);
+
+QDataStream &operator<<(QDataStream &out, const Settings::Serial &serial);
+QDataStream &operator>>(QDataStream &in, Settings::Serial &serial);
 
 #endif //ROBOTCOMMANDER_SETTINGS_H

@@ -39,19 +39,19 @@ inline QPoint recoverRatio(const QRect &rect, const QPointF &ratio) {
 void MapWidget::paintEvent(QPaintEvent *event) {
     QPainter painter{this};
     painter.drawPixmap(m_field.topLeft(), m_tempMap);
-    if (m_settings->RCP_picThanShape) {
-        int size = m_settings->RCP_picSize / 2;
+    const auto &mc = m_settings->mark_cur;  // current
+    if (mc.pic_or_shape) {
+        int size = mc.pic_size / 2;
         painter.drawPixmap(m_curP - QPoint(size, size), m_imgRobotCur);
     } else {
-        int size = m_settings->RCP_shapeSize / 2;
-        switch (m_settings->RCP_shape) {
-            case Settings::Square: {
-                painter.fillRect(m_curP.x() - size, m_curP.y() - size, m_settings->RCP_shapeSize,
-                                 m_settings->RCP_shapeSize, m_settings->RCP_color);
+        int size = mc.shape_size / 2;
+        switch (mc.shape) {
+            case Settings::Mark::Square: {
+                painter.fillRect(m_curP.x() - size, m_curP.y() - size, mc.shape_size, mc.shape_size, mc.color);
                 break;
             }
-            case Settings::Triangle: {
-                painter.setBrush(QBrush(m_settings->RCP_color, Qt::SolidPattern));
+            case Settings::Mark::Triangle: {
+                painter.setBrush(QBrush(mc.color, Qt::SolidPattern));
                 QPainterPath path;
                 QVector<QPointF> points{QPointF(m_curP.x(), m_curP.y() - size),
                                         QPointF(m_curP.x() - size, m_curP.y() + size),
@@ -61,29 +61,28 @@ void MapWidget::paintEvent(QPaintEvent *event) {
                 painter.drawPath(path);
                 break;
             }
-            case Settings::Circular: {
-                painter.setBrush(QBrush(m_settings->RCP_color, Qt::SolidPattern));
+            case Settings::Mark::Circular: {
+                painter.setBrush(QBrush(mc.color, Qt::SolidPattern));
                 QPainterPath path;
-                path.addEllipse(QRectF(m_curP.x() - size, m_curP.y() - size, m_settings->RCP_shapeSize,
-                                       m_settings->RCP_shapeSize));
+                path.addEllipse(QRectF(m_curP.x() - size, m_curP.y() - size, mc.shape_size, mc.shape_size));
                 painter.drawPath(path);
                 break;
             }
         }
     }
-    if (m_settings->RTP_picThanShape) {
-        int size = m_settings->RTP_picSize / 2;
+    const auto &mt = m_settings->mark_tar;  // target
+    if (mt.pic_or_shape) {
+        int size = mt.pic_size / 2;
         painter.drawPixmap(m_tarP - QPoint(size, size), m_imgRobotTar);
     } else {
-        int size = m_settings->RTP_shapeSize / 2;
-        switch (m_settings->RTP_shape) {
-            case Settings::Square: {
-                painter.fillRect(m_tarP.x() - size, m_tarP.y() - size, m_settings->RTP_shapeSize,
-                                 m_settings->RTP_shapeSize, m_settings->RTP_color);
+        int size = mt.shape_size / 2;
+        switch (mt.shape) {
+            case Settings::Mark::Square: {
+                painter.fillRect(m_tarP.x() - size, m_tarP.y() - size, mt.shape_size, mt.shape_size, mt.color);
                 break;
             }
-            case Settings::Triangle: {
-                painter.setBrush(QBrush(m_settings->RTP_color, Qt::SolidPattern));
+            case Settings::Mark::Triangle: {
+                painter.setBrush(QBrush(mt.color, Qt::SolidPattern));
                 QPainterPath path;
                 QVector<QPointF> points{QPointF(m_tarP.x(), m_tarP.y() - size),
                                         QPointF(m_tarP.x() - size, m_tarP.y() + size),
@@ -93,11 +92,10 @@ void MapWidget::paintEvent(QPaintEvent *event) {
                 painter.drawPath(path);
                 break;
             }
-            case Settings::Circular: {
-                painter.setBrush(QBrush(m_settings->RTP_color, Qt::SolidPattern));
+            case Settings::Mark::Circular: {
+                painter.setBrush(QBrush(mt.color, Qt::SolidPattern));
                 QPainterPath path;
-                path.addEllipse(QRectF(m_tarP.x() - size, m_tarP.y() - size, m_settings->RTP_shapeSize,
-                                       m_settings->RTP_shapeSize));
+                path.addEllipse(QRectF(m_tarP.x() - size, m_tarP.y() - size, mt.shape_size, mt.shape_size));
                 painter.drawPath(path);
                 break;
             }
@@ -142,10 +140,10 @@ void MapWidget::injectSettings(const Settings *settings) {
 
 void MapWidget::updateSettings() {
     const auto &s = *m_settings;
-    m_imgMap = QPixmap(s.mapPic);
-    if (!s.RCP_robotPic.isEmpty())
-        m_imgRobotCur = QPixmap{s.RCP_robotPic}.scaled(s.RCP_picSize, s.RCP_picSize);
-    if (!s.RTP_robotPic.isEmpty())
-        m_imgRobotTar = QPixmap{s.RTP_robotPic}.scaled(s.RTP_picSize, s.RTP_picSize);
+    m_imgMap = QPixmap(s.map_pic);
+    if (!s.mark_cur.pic.isEmpty())
+        m_imgRobotCur = QPixmap{s.mark_cur.pic}.scaled(s.mark_cur.pic_size, s.mark_cur.pic_size);
+    if (!s.mark_tar.pic.isEmpty())
+        m_imgRobotTar = QPixmap{s.mark_tar.pic}.scaled(s.mark_tar.pic_size, s.mark_tar.pic_size);
     resizeEvent(nullptr);
 }

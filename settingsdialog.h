@@ -56,24 +56,20 @@
 #include "settings.h"
 
 QT_BEGIN_NAMESPACE
-
-namespace Ui {
-class SettingsDialog;
-}
-
+namespace Ui { class SettingsDialog; }
 class QIntValidator;
 class QTranslator;
-
 QT_END_NAMESPACE
 
-class SettingsDialog : public QDialog
-{
-    Q_OBJECT
+// 设置窗口类，同时管理设置信息的存储
+class SettingsDialog : public QDialog {
+Q_OBJECT
 
 public:
     explicit SettingsDialog(QWidget *parent = nullptr);
     ~SettingsDialog() override;
 
+    // 返回一个指向设置内容的常量指针
     [[nodiscard]] const Settings *settings() const;
     void setPage(int index);
 
