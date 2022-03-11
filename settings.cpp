@@ -11,6 +11,7 @@ Q_DECLARE_METATYPE(Settings::Mark);
 QDataStream &operator<<(QDataStream &out, const Settings::Mark &mark) {
     out << mark.pic_or_shape << mark.pic << mark.pic_size << static_cast<int>(mark.shape) << mark.shape_size
         << mark.color;
+    return out;
 }
 
 QDataStream &operator>>(QDataStream &in, Settings::Mark &mark) {
@@ -25,11 +26,13 @@ Q_DECLARE_METATYPE(Settings::Serial);
 QDataStream &operator<<(QDataStream &out, const Settings::Serial &s) {
     out << s.name << s.baudRate << s.stringBaudRate << s.dataBits << s.stringDataBits << s.parity << s.stringParity
         << s.stopBits << s.stringStopBits << s.flowControl << s.stringFlowControl;
+    return out;
 }
 
 QDataStream &operator>>(QDataStream &in, Settings::Serial &s) {
     in >> s.name >> s.baudRate >> s.stringBaudRate >> s.dataBits >> s.stringDataBits >> s.parity >> s.stringParity
        >> s.stopBits >> s.stringStopBits >> s.flowControl >> s.stringFlowControl;
+    return in;
 }
 
 Settings::Settings() {
@@ -45,12 +48,12 @@ Settings::Settings() {
         mark_cur = m_settings->value("mark_cur").value<Mark>();
         mark_tar = m_settings->value("mark_tar").value<Mark>();
         language = static_cast<Language>(m_settings->value("language").toInt());
+        channel = static_cast<ReleaseChannel>(m_settings->value("channel").toInt());
         serial = m_settings->value("serial").value<Serial>();
     } else {
         map_pic = ":/resource/map.jpg";
         mark_cur = {true, ":/icon/robot.png", 48, Mark::Square, 20, QColor(255, 255, 0)};
         mark_tar = {false, ":/icon/robot.png", 48, Mark::Circular, 16, QColor(255, 0, 0)};
-        language = Chinese;
     }
 }
 
@@ -64,5 +67,6 @@ void Settings::save() {
     m_settings->setValue("mark_cur", QVariant::fromValue(mark_cur));
     m_settings->setValue("mark_tar", QVariant::fromValue(mark_tar));
     m_settings->setValue("language", static_cast<int>(language));
+    m_settings->setValue("channel", static_cast<int>(channel));
     m_settings->setValue("serial", QVariant::fromValue(serial));
 }

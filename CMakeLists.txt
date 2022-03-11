@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.10)
 
 # Configure by yourself
-project(RobotCommander VERSION "0.1.2.0")
+project(RobotCommander VERSION "0.2.0.0")
 
 set(CMAKE_CXX_STANDARD 23)
 #set(CMAKE_PREFIX_PATH "your/cmake/prefix/path")
@@ -9,7 +9,7 @@ set(QT_VERSION 6)
 configure_file(RobotCommanderConfig.h.in robotcommanderconfig.h)
 
 # Required Qt Libraries
-set(REQUIRED_LIBS Core Gui Widgets SerialPort)
+set(REQUIRED_LIBS Core Gui Widgets SerialPort Network)
 foreach (R_LIB ${REQUIRED_LIBS})
     set(REQUIRED_LIBS_QUALIFIED ${REQUIRED_LIBS_QUALIFIED} Qt${QT_VERSION}::${R_LIB})
 endforeach (R_LIB)
@@ -41,7 +41,7 @@ set(PROJECT_SOURCES main.cpp RobotCommander.qrc
         info/anyinfo.cpp info/anyinfo.h
         data/hexdisplayer.cpp data/hexdisplayer.h
         command/anycommand.cpp command/anycommand.h
-        settings.cpp)
+        settings.cpp updater.cpp updater.h)
 
 if (NOT CMAKE_BUILD_TYPE MATCHES "Debug")
     set(PROJECT_SOURCES WIN32 ${PROJECT_SOURCES})

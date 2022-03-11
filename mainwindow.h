@@ -13,11 +13,12 @@ QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
 
-class SettingsDialog;
-class Settings;
-class Compositor;
 class Command;
+class Compositor;
 class QTranslator;
+class Settings;
+class SettingsDialog;
+class Updater;
 
 class MainWindow : public QMainWindow {
 Q_OBJECT
@@ -43,6 +44,8 @@ public slots:
 
     void updateSettings();
 
+    void showUpdateDialog(bool needUpdate);
+
     // LittleSender
     void LS_preview(const QString &);
     void LS_preview_hex();
@@ -64,6 +67,7 @@ private:
     SettingsDialog *m_settingsDialog;
     const Settings *m_settings;
     QTranslator *m_translator;
+    Updater *m_updater;
 
     QSerialPort *m_serial;
     Compositor *m_compositor;

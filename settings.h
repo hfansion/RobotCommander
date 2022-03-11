@@ -11,7 +11,7 @@
 class QSettings;
 
 // 设置，包含所有需要保存的内容
-struct Settings {
+class Settings {
 public:
     // 表示在地图上所显示的标识点
     struct Mark {
@@ -29,6 +29,10 @@ public:
 
     enum Language {
         Chinese = 0, English
+    };
+
+    enum ReleaseChannel {
+        Main, Dev
     };
 
     struct Serial {
@@ -56,6 +60,8 @@ public:
     Mark mark_tar;  // Robot Target Position
 
     Language language = Chinese;
+
+    ReleaseChannel channel = Main;
 
     // Serial
     Serial serial;

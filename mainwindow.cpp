@@ -6,22 +6,19 @@
 
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include "settingsdialog.h"
 #include <QMessageBox>
-#include "compositor.h"
+#include <QTime>
+#include <QTranslator>
+#include <QDesktopServices>
 #include "command/anycommand.h"
+#include "compositor.h"
+#include "data/hexdisplayer.h"
 #include "info/info.h"
 #include "info/positioninfo.h"
-#include "data/hexdisplayer.h"
-#include "settings.h"
-#include <QTranslator>
-#include <QTime>
 #include "robotcommanderconfig.h"
-
-#ifdef QT_DEBUG
-
-
-#endif
+#include "settings.h"
+#include "settingsdialog.h"
+#include "updater.h"
 
 template<typename T>
 inline void deleteAllPointers(const QList<T> &anyList) {
@@ -35,6 +32,7 @@ MainWindow::MainWindow(QWidget *parent) :
         m_compositor(new Compositor) {
     ui->setupUi(this);
     m_settings = m_settingsDialog->settings();
+    m_updater = new Updater(m_settings->channel, this);
     updateSettings();
 
     ui->imageWidget->injectCompositor(m_compositor);
@@ -64,6 +62,9 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(m_compositor, &Compositor::needSendCommand, this, &MainWindow::compositorSend);
     connect(m_settingsDialog, &SettingsDialog::needUpdateSettings, ui->imageWidget, &MapWidget::updateSettings);
     connect(m_settingsDialog, &SettingsDialog::needUpdateSettings, this, &MainWindow::updateSettings);
+
+    connect(m_updater, &Updater::checkFinished, this, &MainWindow::showUpdateDialog);
+    m_updater->check();
 
     // LittleSender
     connect(ui->lineEdit_LS, &QLineEdit::textChanged, this, &MainWindow::LS_preview);
@@ -137,13 +138,12 @@ void MainWindow::about() {
                           "</style></head><body style=\" font-family:'Noto Sans'; font-shape_size:10pt; font-weight:400; font-style:normal;\">\n"
                           "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-shape_size:14pt; font-weight:600;\">Robot Commander</span></p>\n"
                           "<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-shape_size:12pt; font-weight:600;\"><br /></p>\n"
-                          "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-shape_size:12pt;\">Version %1.%2.%3%4</span></p>\n"
+                          "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-shape_size:12pt;\">Version %1</span></p>\n"
                           "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-shape_size:12pt;\">Robot Commander is a tool for controlling and debugging the movements of robots in Robocon.</span></p>\n"
                           "<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-shape_size:12pt;\"><br /></p>\n"
                           "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><a href=\"https://github.com/hfansion/RobotCommander/blob/main/LICENSE\"><span style=\" font-shape_size:12pt; text-decoration: underline; color:#1d99f3;\">GPL-3.0 License</span></a><span style=\" font-shape_size:12pt;\">: This is a </span><a href=\"http://www.gnu.org/\"><span style=\" font-shape_size:12pt; text-decoration: underline; color:#1d99f3;\">free software</span></a>.</p>\n"
                           "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><a href=\"https://github.com/hfansion/RobotCommander\"><span style=\" text-decoration: underline; color:#1d99f3;\">https://github.com/hfansion/RobotCommander</span></a></p></body></html>").arg(
-                               ROBOTCOMMANDER_VERSION_MAJOR).arg(ROBOTCOMMANDER_VERSION_MINOR).arg(ROBOTCOMMANDER_VERSION_PATCH).arg(
-                               ROBOTCOMMANDER_VERSION_TWEAK ? QString("-beta.%1").arg(ROBOTCOMMANDER_VERSION_TWEAK) : ""));
+                               ROBOTCOMMANDER_VERSION));
 }
 
 void MainWindow::handleError(QSerialPort::SerialPortError error) {
@@ -330,4 +330,18 @@ void MainWindow::CS_changeIfRecordPosition(bool checked) {
 
 void MainWindow::CS_changeIfRecordAny(bool checked) {
     m_CS_recordAny = checked;
+}
+
+void MainWindow::showUpdateDialog(bool needUpdate) {
+    if (needUpdate) {
+        QMessageBox msgBox;
+        msgBox.setText(tr("发现新版本（%1），是否要更新？").arg(m_updater->getVersion()));
+        msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
+        msgBox.setDefaultButton(QMessageBox::Yes);
+        auto result = msgBox.exec();
+        if (result == QMessageBox::Yes) {
+            QDesktopServices::openUrl(m_updater->getLink());
+        }
+    }
+    m_updater->deleteLater();
 }
