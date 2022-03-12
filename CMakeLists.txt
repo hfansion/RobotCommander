@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.10)
 
 # Configure by yourself
-project(RobotCommander VERSION "0.2.0.0")
+project(RobotCommander VERSION "0.2.0")
 
 set(CMAKE_CXX_STANDARD 23)
 #set(CMAKE_PREFIX_PATH "your/cmake/prefix/path")
