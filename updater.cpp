@@ -12,7 +12,7 @@
 Updater::Updater(Settings::ReleaseChannel channel, QObject *parent) :
         QObject(parent), m_manager(new QNetworkAccessManager(this)) {
     connect(m_manager, &QNetworkAccessManager::finished, this, &Updater::processData);
-    QString url = "https://gitee.com/hfansion/RobotCommander/raw/%1/release.json";
+    QString url = tr("https://gitee.com/hfansion/RobotCommander/raw/%1/release.json");
     switch (channel) {
         case Settings::Main:
             url = url.arg("main");
@@ -31,11 +31,11 @@ void Updater::check() {
 
 void Updater::processData(QNetworkReply *reply) {
     auto json = QJsonDocument::fromJson(reply->readAll()).object();
-    bool result = false;
+    Result result = networkError;
     if (json.contains("rl_ver") && json["rl_ver"].toInt() >= 1) {
         m_version = qMove(json["version"].toString());
         m_link = {qMove(json["link"].toString())};
-        if (m_version != ROBOTCOMMANDER_VERSION) result = true;
+        result = m_version == ROBOTCOMMANDER_VERSION ? isLatest : isNotLatest;
     }
     emit checkFinished(result);
     reply->deleteLater();

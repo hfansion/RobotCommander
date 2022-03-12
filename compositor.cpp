@@ -9,12 +9,6 @@
 #include "info/anyinfo.h"
 #include "data/hexdisplayer.h"
 
-#ifdef QT_DEBUG
-
-#include <QDebug>
-
-#endif
-
 template<typename T>
 inline void deleteAllPointers(const QList<T> &anyList) {
     for (const T p: anyList)
@@ -103,9 +97,6 @@ void Compositor::checkSumAndPostProcess(QByteArray &code) {
 
     code.push_front("###");
     code.push_back("###");
-#ifdef QT_DEBUG
-    qDebug() << HexDisplayer::toString(code);
-#endif
 }
 
 bool Compositor::verifyAndPreProcess(QByteArray &code) {

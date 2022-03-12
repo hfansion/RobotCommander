@@ -47,9 +47,12 @@ Settings::Settings() {
         map_pic = m_settings->value("map_pic").toString();
         mark_cur = m_settings->value("mark_cur").value<Mark>();
         mark_tar = m_settings->value("mark_tar").value<Mark>();
+        serial = m_settings->value("serial").value<Serial>();
         language = static_cast<Language>(m_settings->value("language").toInt());
         channel = static_cast<ReleaseChannel>(m_settings->value("channel").toInt());
-        serial = m_settings->value("serial").value<Serial>();
+        auto_check_update = m_settings->value("auto_check_update").toBool();
+        mainWindow_size = m_settings->value("mainWindow_size").toSize();
+        settingsDialog_size = m_settings->value("settingsDialog_size").toSize();
     } else {
         map_pic = ":/resource/map.jpg";
         mark_cur = {true, ":/icon/robot.png", 48, Mark::Square, 20, QColor(255, 255, 0)};
@@ -66,7 +69,10 @@ void Settings::save() {
     m_settings->setValue("map_pic", map_pic);
     m_settings->setValue("mark_cur", QVariant::fromValue(mark_cur));
     m_settings->setValue("mark_tar", QVariant::fromValue(mark_tar));
+    m_settings->setValue("serial", QVariant::fromValue(serial));
     m_settings->setValue("language", static_cast<int>(language));
     m_settings->setValue("channel", static_cast<int>(channel));
-    m_settings->setValue("serial", QVariant::fromValue(serial));
+    m_settings->setValue("auto_check_update", auto_check_update);
+    m_settings->setValue("mainWindow_size", mainWindow_size);
+    m_settings->setValue("settingsDialog_size", settingsDialog_size);
 }

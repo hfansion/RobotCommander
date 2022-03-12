@@ -6,6 +6,7 @@
 #define ROBOTCOMMANDER_SETTINGS_H
 
 #include <QColor>
+#include <QRect>
 #include <QSerialPort>
 
 class QSettings;
@@ -28,11 +29,11 @@ public:
     };
 
     enum Language {
-        Chinese = 0, English
+        Chinese = 0, English = 1
     };
 
     enum ReleaseChannel {
-        Main, Dev
+        Main = 0, Dev = 1
     };
 
     struct Serial {
@@ -53,18 +54,25 @@ public:
     ~Settings();
     void save();
 
-    // Appearance
+    // General
     QString map_pic;
 
     Mark mark_cur;  // Robot Current Position
     Mark mark_tar;  // Robot Target Position
 
+    // Appearance
     Language language = Chinese;
-
-    ReleaseChannel channel = Main;
 
     // Serial
     Serial serial;
+
+    // Update
+    ReleaseChannel channel = Main;
+    bool auto_check_update = true;
+
+    // Window
+    QSize mainWindow_size;
+    QSize settingsDialog_size;
 
 private:
     QSettings *m_settings;

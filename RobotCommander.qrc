@@ -1,5 +1,7 @@
 <RCC>
   <qresource prefix="/">
+    <file>icon/update.png</file>
+    <file>icon/appearance.png</file>
     <file>icon/bottom.png</file>
     <file>icon/top.png</file>
     <file>translation/RobotCommander_en.qm</file>

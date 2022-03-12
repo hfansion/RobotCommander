@@ -8,6 +8,7 @@
 #include <QMainWindow>
 #include <QSerialPort>
 #include <QQueue>
+#include "updater.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -18,7 +19,6 @@ class Compositor;
 class QTranslator;
 class Settings;
 class SettingsDialog;
-class Updater;
 
 class MainWindow : public QMainWindow {
 Q_OBJECT
@@ -44,7 +44,8 @@ public slots:
 
     void updateSettings();
 
-    void showUpdateDialog(bool needUpdate);
+    void startCheckForUpdate();
+    void showUpdateDialog(Updater::Result result);
 
     // LittleSender
     void LS_preview(const QString &);

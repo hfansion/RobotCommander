@@ -17,13 +17,17 @@ QT_END_NAMESPACE
 class Updater : public QObject {
 Q_OBJECT
 public:
+    enum Result {
+        isLatest, isNotLatest, networkError
+    };
+
     explicit Updater(Settings::ReleaseChannel channel, QObject *parent = nullptr);
     void check();
     [[nodiscard]] const QString &getVersion() const;
     [[nodiscard]] const QUrl &getLink() const;
 
 signals:
-    void checkFinished(bool needUpdate);
+    void checkFinished(Result result);
 
 private slots:
     void processData(QNetworkReply *reply);

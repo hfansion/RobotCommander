@@ -36,8 +36,8 @@ private:
     QPixmap m_tempMap;
     QPixmap m_imgRobotCur;
     QPixmap m_imgRobotTar;
-    QPoint m_curP;
-    QPoint m_tarP;
+    QPointF m_curP;  // 位置由0到1之间的double类型表示，下同
+    QPointF m_tarP;
     QRect m_field;
 };
 

@@ -27,21 +27,22 @@ find_package(Qt${QT_VERSION} COMPONENTS ${REQUIRED_LIBS} REQUIRED)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 # Project sources
-set(PROJECT_SOURCES main.cpp RobotCommander.qrc
+set(PROJECT_SOURCES RobotCommander.qrc main.cpp protocol.h
         mainwindow.ui mainwindow.cpp mainwindow.h
-        mapwidget.cpp mapwidget.h
+        settings.cpp settings.h
         settingsdialog.ui settingsdialog.cpp settingsdialog.h
-        command/command.h
-        info/info.h
+        updater.cpp updater.h
+        mapwidget.cpp mapwidget.h
         compositor.cpp compositor.h
+        command/command.h
         command/positioncommand.cpp command/positioncommand.h
-        settings.h protocol.h
-        data/position.cpp data/position.h
+        command/anycommand.cpp command/anycommand.h
+        info/info.h
         info/positioninfo.cpp info/positioninfo.h
         info/anyinfo.cpp info/anyinfo.h
+        data/position.cpp data/position.h
         data/hexdisplayer.cpp data/hexdisplayer.h
-        command/anycommand.cpp command/anycommand.h
-        settings.cpp updater.cpp updater.h)
+        util/autorefreshcombobox.cpp util/autorefreshcombobox.h)
 
 if (NOT CMAKE_BUILD_TYPE MATCHES "Debug")
     set(PROJECT_SOURCES WIN32 ${PROJECT_SOURCES})
