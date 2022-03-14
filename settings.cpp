@@ -51,7 +51,6 @@ Settings::Settings() {
         language = static_cast<Language>(m_settings->value("language").toInt());
         channel = static_cast<ReleaseChannel>(m_settings->value("channel").toInt());
         auto_check_update = m_settings->value("auto_check_update").toBool();
-        mainWindow_size = m_settings->value("mainWindow_size").toSize();
         settingsDialog_size = m_settings->value("settingsDialog_size").toSize();
     } else {
         map_pic = ":/resource/map.jpg";
@@ -73,6 +72,5 @@ void Settings::save() {
     m_settings->setValue("language", static_cast<int>(language));
     m_settings->setValue("channel", static_cast<int>(channel));
     m_settings->setValue("auto_check_update", auto_check_update);
-    m_settings->setValue("mainWindow_size", mainWindow_size);
     m_settings->setValue("settingsDialog_size", settingsDialog_size);
 }

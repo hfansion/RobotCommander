@@ -71,7 +71,6 @@ public:
     bool auto_check_update = true;
 
     // Window
-    QSize mainWindow_size;
     QSize settingsDialog_size;
 
 private:

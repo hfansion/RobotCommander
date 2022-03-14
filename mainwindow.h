@@ -16,7 +16,10 @@ QT_END_NAMESPACE
 
 class Command;
 class Compositor;
+class ConsolePanel;
+class PanelBase;
 class QTranslator;
+class SenderPanel;
 class Settings;
 class SettingsDialog;
 
@@ -36,32 +39,10 @@ public slots:
     void compositorRead();
     void handleError(QSerialPort::SerialPortError error);
 
-    void showPreferences();
-    void showConfigure();
-    void showLittleSender(bool checked);
-    void showConsole(bool checked);
-    void checkToolWindowVisible();
-
     void updateSettings();
 
     void startCheckForUpdate();
     void showUpdateDialog(Updater::Result result);
-
-    // LittleSender
-    void LS_preview(const QString &);
-    void LS_preview_hex();
-    void LS_preview_str();
-    void LS_send();
-
-    // Console
-    void CS_moveToTop();
-    void CS_moveToBottom();
-    void CS_clear();
-    void CS_changeMRL(const QString &);
-    void CS_changeIfRecordS(bool);
-    void CS_changeIfRecordR(bool);
-    void CS_changeIfRecordPosition(bool);
-    void CS_changeIfRecordAny(bool);
 
 private:
     Ui::MainWindow *ui;
@@ -75,25 +56,18 @@ private:
 
     void showStatusMessage(const QString &message);
 
-    // LittleSender
-    Command *m_LS_tmpCmd = nullptr;
-    bool m_LS_isHexThanStr = true;
-    // Console
-    QQueue<QString *> m_CS_content;
-    int m_CS_maxRecordLines = 500;
-    bool m_CS_recordSend = true;
-    bool m_CS_recordReceive = true;
-    bool m_CS_recordPosition = true;
-    bool m_CS_recordAny = true;
-    void CS_checkRecordFulls();
+    struct PanelRelation {
+        QAction *action;
+        PanelBase* panel;
+        QDockWidget *dock;
+    };
+    QVector<PanelRelation> m_panelRelations;
+    void registerPanel(PanelBase *panel, const QString &objectName);
+    SenderPanel *m_senderPanel;
+    ConsolePanel *m_consolePanel;
 };
 
-/** 未来任务：
- * 继续学习Qt基础数据类型，找到最合适的（比如QQueue真的好吗）
- * 优化、重构整体代码，架构，变量名字
- * 写文档和注释
- * 少量设置外观上的功能
- * 其他：
+/** 自动更新：
  * 1. 如何写入配置文件
  * 2. 安装包
  * 3. 从网上下载内容(json)并解析（发现更新）

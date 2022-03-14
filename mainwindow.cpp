@@ -7,14 +7,17 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include <QDesktopServices>
+#include <QDockWidget>
 #include <QMessageBox>
-#include <QTime>
 #include <QTranslator>
+#include <QSettings>
 #include "command/anycommand.h"
 #include "compositor.h"
 #include "data/hexdisplayer.h"
 #include "info/info.h"
 #include "info/positioninfo.h"
+#include "panel/consolepanel.h"
+#include "panel/senderpanel.h"
 #include "robotcommanderconfig.h"
 #include "settings.h"
 #include "settingsdialog.h"
@@ -22,18 +25,23 @@
 
 template<typename T>
 inline void deleteAllPointers(const QList<T> &anyList) {
-    for (const T p: anyList)
+    for (const T &p: anyList)
         delete p;
 }
 
 MainWindow::MainWindow(QWidget *parent) :
         QMainWindow(parent), ui(new Ui::MainWindow), m_translator(new QTranslator()),
         m_settingsDialog(new SettingsDialog(this)), m_serial(new QSerialPort(this)),
-        m_compositor(new Compositor) {
+        m_compositor(new Compositor), m_senderPanel(new SenderPanel(this)),
+        m_consolePanel(new ConsolePanel(this)) {
     ui->setupUi(this);
     m_settings = m_settingsDialog->settings();
     updateSettings();
-    this->resize(m_settings->mainWindow_size);
+    registerPanel(m_senderPanel, "senderPanel");
+    registerPanel(m_consolePanel, "consolePanel");
+    QSettings settings;
+    restoreGeometry(settings.value("mainWindow_geometry").toByteArray());
+    restoreState(settings.value("mainWindow_state").toByteArray());
 
     ui->imageWidget->injectCompositor(m_compositor);
     ui->imageWidget->injectSettings(m_settings);
@@ -42,20 +50,16 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->actionDisconnect->setEnabled(false);
     ui->actionQuit->setEnabled(true);
     ui->actionConfigure->setEnabled(true);
-    ui->actionLittle_Sender->setChecked(true);
-    ui->actionConsole->setChecked(true);
-    ui->label_CS_Alert->setVisible(false);
 
     connect(ui->actionConnect, &QAction::triggered, this, &MainWindow::openSerialPort);
     connect(ui->actionDisconnect, &QAction::triggered, this, &MainWindow::closeSerialPort);
     connect(ui->actionQuit, &QAction::triggered, this, &MainWindow::close);
-    connect(ui->actionPreferences, &QAction::triggered, this, &MainWindow::showPreferences);
-    connect(ui->actionConfigure, &QAction::triggered, this, &MainWindow::showConfigure);
+    connect(ui->actionPreferences, &QAction::triggered,
+            [this]() { m_settingsDialog->showPage(SettingsDialog::Page::General); });
+    connect(ui->actionConfigure, &QAction::triggered,
+            [this]() { m_settingsDialog->showPage(SettingsDialog::Page::SerialPort); });
     connect(ui->actionAbout, &QAction::triggered, this, &MainWindow::about);
     connect(ui->actionAbout_Qt, &QAction::triggered, qApp, &QApplication::aboutQt);
-    connect(ui->actionLittle_Sender, &QAction::triggered, this, &MainWindow::showLittleSender);
-    connect(ui->actionConsole, &QAction::triggered, this, &MainWindow::showConsole);
-    connect(ui->menuView, &QMenu::aboutToShow, this, &MainWindow::checkToolWindowVisible);
 
     connect(m_serial, &QSerialPort::errorOccurred, this, &MainWindow::handleError);
     connect(m_serial, &QSerialPort::readyRead, this, &MainWindow::compositorRead);
@@ -64,32 +68,20 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(m_settingsDialog, &SettingsDialog::needUpdateSettings, this, &MainWindow::updateSettings);
     connect(m_settingsDialog, &SettingsDialog::needCheckForUpdate, this, &MainWindow::startCheckForUpdate);
 
-    // LittleSender
-    connect(ui->lineEdit_LS, &QLineEdit::textChanged, this, &MainWindow::LS_preview);
-    connect(ui->radioButton_LS_hex, &QRadioButton::pressed, this, &MainWindow::LS_preview_hex);
-    connect(ui->radioButton_LS_str, &QRadioButton::pressed, this, &MainWindow::LS_preview_str);
-    connect(ui->pushButton_LS_Send, &QPushButton::clicked, this, &MainWindow::LS_send);
-
-    // Console
-    connect(ui->pushButton_CS_top, &QPushButton::clicked, this, &MainWindow::CS_moveToTop);
-    connect(ui->pushButton_CS_bottom, &QPushButton::clicked, this, &MainWindow::CS_moveToBottom);
-    connect(ui->pushButton_CS_clear, &QPushButton::clicked, this, &MainWindow::CS_clear);
-    connect(ui->comboBox_CS_max, &QComboBox::currentTextChanged, this, &MainWindow::CS_changeMRL);
-    connect(ui->checkBox_CS_send, &QCheckBox::toggled, this, &MainWindow::CS_changeIfRecordS);
-    connect(ui->checkBox_CS_receive, &QCheckBox::toggled, this, &MainWindow::CS_changeIfRecordR);
-    connect(ui->checkBox_CS_position, &QCheckBox::toggled, this, &MainWindow::CS_changeIfRecordPosition);
-    connect(ui->checkBox_CS_any, &QCheckBox::toggled, this, &MainWindow::CS_changeIfRecordAny);
+    // Sender Panel
+    connect(m_senderPanel, &SenderPanel::sendCommand, [this](Command *command) {
+        m_compositor->addCommand(command);
+    });
 
     // last init
-    LS_preview_hex();
     if (m_settings->auto_check_update) startCheckForUpdate();
 }
 
 MainWindow::~MainWindow() {
-    m_settingsDialog->setSettingsMainWindowSize(this->size());
+    QSettings settings;
+    settings.setValue("mainWindow_geometry", saveGeometry());
+    settings.setValue("mainWindow_state", saveState());
     closeSerialPort();
-    deleteAllPointers(m_CS_content);
-    delete m_LS_tmpCmd;
     delete m_settingsDialog;
     delete m_compositor;
     delete m_translator;
@@ -153,178 +145,41 @@ void MainWindow::handleError(QSerialPort::SerialPortError error) {
 void MainWindow::compositorRead() {
     QByteArray data = m_serial->readAll();
     m_compositor->decode(data);
-    bool containsPos = false, containsAny = false;  // 暂时操作
     const Info *info = m_compositor->getInfo();
     while (info != nullptr) {
         showStatusMessage(tr("receive: ").append(m_compositor->getDecodeMessage()));
         switch (info->getInfoType()) {
             case ProtocolReceive::Position: {
                 auto *p = (PositionInfo *) info;
-                containsPos = true;
                 ui->label_position->setText(QString("  x: %1   y: %2  ").arg(p->x).arg(p->y));
                 ui->imageWidget->infoCurPosition(
                         QPointF((qreal) p->x / Position::X_RANGE, (qreal) p->y / Position::Y_RANGE));
                 break;
             }
             case ProtocolReceive::Any:
-                containsAny = true;
                 break;
         }
         info = m_compositor->getInfo();
     }
-    if (m_CS_recordReceive && (m_CS_recordPosition || !containsPos) && (m_CS_recordAny || !containsAny)) {
-        auto *message = new QString();
-        auto cur_time = QTime::currentTime();
-        message->append(QString("[%1:%2:%3] ").arg(cur_time.hour()).arg(cur_time.minute()).arg(cur_time.second()));
-        message->append(tr("receive: ")).append(HexDisplayer::toString(data)).append('\n').append(
-                m_compositor->getDecodeMessage());
-        m_CS_content.enqueue(message);
-        ui->textEdit_CS->append(*message);
-        CS_checkRecordFulls();
-    }
+    m_consolePanel->appendMessage(data, m_compositor->getDecodeMessage());
 }
 
 void MainWindow::compositorSend() {
     if (m_serial->isOpen()) {
         m_serial->write(m_compositor->encode());
         showStatusMessage(tr("send: ").append(m_compositor->getEncodeMessage()));
-        if (m_CS_recordSend) {
-            auto *message = new QString();
-            auto cur_time = QTime::currentTime();
-            message->append(QString("[%1:%2:%3] ").arg(cur_time.hour()).arg(cur_time.minute()).arg(cur_time.second()));
-            message->append(tr("send: ")).append(HexDisplayer::toString(m_compositor->encode())).append('\n').append(
-                    m_compositor->getEncodeMessage());
-            m_CS_content.enqueue(message);
-            ui->textEdit_CS->append(*message);
-            CS_checkRecordFulls();
-        }
+        m_consolePanel->appendMessage(m_compositor->encode(), m_compositor->getEncodeMessage());
     }
-}
-
-void MainWindow::showPreferences() {
-    m_settingsDialog->showPage(SettingsDialog::Page::General);
-}
-
-void MainWindow::showConfigure() {
-    m_settingsDialog->showPage(SettingsDialog::Page::SerialPort);
 }
 
 void MainWindow::updateSettings() {
-    switch (m_settings->language) {
-        case Settings::Chinese: {
-            bool rs = m_translator->load(":/translation/RobotCommander_zh.qm");
-            if (rs) qApp->installTranslator(m_translator);
-            else showStatusMessage(tr("Cannot open translation file."));
-            break;
-        }
-        case Settings::English: {
-            bool rs = m_translator->load(":/translation/RobotCommander_en.qm");
-            if (rs) qApp->installTranslator(m_translator);
-            else showStatusMessage(tr("Cannot open translation file."));
-            break;
-        }
-    }
     ui->retranslateUi(this);
-}
-
-void MainWindow::showLittleSender(bool checked) {
-    if (checked)
-        ui->dockWidget_LittleSender->show();
-    else
-        ui->dockWidget_LittleSender->hide();
-}
-
-void MainWindow::showConsole(bool checked) {
-    if (checked)
-        ui->dockWidget_Console->show();
-    else
-        ui->dockWidget_Console->hide();
-}
-
-void MainWindow::checkToolWindowVisible() {
-    ui->actionLittle_Sender->setChecked(ui->dockWidget_LittleSender->isVisible());
-    ui->actionConsole->setChecked(ui->dockWidget_Console->isVisible());
-}
-
-inline char hexToDec(char i) {
-    return (char) (('0' <= i && i <= '9') ? (i - '0') : (i - 'A' + 10));
-}
-
-void MainWindow::LS_preview(const QString &data) {
-    delete m_LS_tmpCmd;
-    if (m_LS_isHexThanStr) {
-        QByteArray code{};
-        bool isOdd = data.length() % 2 == 1;
-        if (isOdd)
-            code.append(hexToDec(data.at(0).toLatin1()));
-        for (int i = isOdd ? 1 : 0; i < data.length(); i += 2)
-            code.append((char) ((hexToDec(data.at(i).toLatin1()) << 4) + hexToDec(data.at(i + 1).toLatin1())));
-        m_LS_tmpCmd = new AnyCommand(code);
-    } else {
-        m_LS_tmpCmd = new AnyCommand(data.toLocal8Bit());
+    for (const auto &r: m_panelRelations) {
+        QString panel_name = r.panel->PanelName();
+        r.action->setText(panel_name);
+        r.panel->retranslateUi();
+        r.dock->setWindowTitle(panel_name);
     }
-    ui->label_LS_result->setText(HexDisplayer::toString(Compositor::previewEncode(m_LS_tmpCmd)));
-}
-
-void MainWindow::LS_send() {
-    m_compositor->addCommand(((AnyCommand *) m_LS_tmpCmd)->copy());
-}
-
-void MainWindow::LS_preview_hex() {
-    m_LS_isHexThanStr = true;
-    LS_preview(ui->lineEdit_LS->text());
-}
-
-void MainWindow::LS_preview_str() {
-    m_LS_isHexThanStr = false;
-    LS_preview(ui->lineEdit_LS->text());
-}
-
-void MainWindow::CS_moveToTop() {
-    ui->textEdit_CS->moveCursor(QTextCursor::Start);
-}
-
-void MainWindow::CS_moveToBottom() {
-    ui->textEdit_CS->moveCursor(QTextCursor::End);
-}
-
-void MainWindow::CS_clear() {
-    ui->label_CS_Alert->setVisible(false);
-    ui->textEdit_CS->clear();
-    deleteAllPointers(m_CS_content);
-    m_CS_content.clear();
-}
-
-void MainWindow::CS_changeMRL(const QString &text) {
-    m_CS_maxRecordLines = text.toInt();
-    CS_checkRecordFulls();
-}
-
-void MainWindow::CS_checkRecordFulls() {  // 非常差的操作，不过暂时想不到别的方法
-    if (m_CS_content.length() > m_CS_maxRecordLines) {
-        ui->label_CS_Alert->setVisible(true);
-        if (m_CS_content.length() == 10000) {  // 条数大于10000自动清除
-            CS_clear();
-        }
-    } else {
-        ui->label_CS_Alert->setVisible(false);
-    }
-}
-
-void MainWindow::CS_changeIfRecordS(bool checked) {
-    m_CS_recordSend = checked;
-}
-
-void MainWindow::CS_changeIfRecordR(bool checked) {
-    m_CS_recordReceive = checked;
-}
-
-void MainWindow::CS_changeIfRecordPosition(bool checked) {
-    m_CS_recordPosition = checked;
-}
-
-void MainWindow::CS_changeIfRecordAny(bool checked) {
-    m_CS_recordAny = checked;
 }
 
 void MainWindow::showUpdateDialog(Updater::Result result) {
@@ -345,4 +200,20 @@ void MainWindow::startCheckForUpdate() {
     m_updater = new Updater(m_settings->channel, this);
     connect(m_updater, &Updater::checkFinished, this, &MainWindow::showUpdateDialog);
     m_updater->check();
+}
+
+void MainWindow::registerPanel(PanelBase *panel, const QString &objectName) {
+    QString panel_name = panel->PanelName();
+    auto dock = new QDockWidget(this);
+    dock->setWidget(panel);
+    dock->setObjectName(objectName);
+    dock->setWindowTitle(panel_name);
+    this->addDockWidget(Qt::LeftDockWidgetArea, dock);
+    auto action = dock->toggleViewAction();
+    action->setText(panel_name);
+    ui->menuView->addAction(action);
+    connect(action, &QAction::triggered, [dock](bool checked) {
+        if (checked) dock->show(); else dock->hide();
+    });
+    m_panelRelations.append(PanelRelation{action, panel, dock});
 }

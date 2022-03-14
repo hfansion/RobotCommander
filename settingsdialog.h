@@ -27,7 +27,6 @@ public:
 
     // 返回一个指向设置内容的常量指针
     [[nodiscard]] const Settings *settings() const;
-    void setSettingsMainWindowSize(const QSize &size) { m_settings.mainWindow_size = size; }
     void showPage(Page page);
     void checkUpdateResult(Updater::Result result);
 

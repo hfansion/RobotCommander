@@ -25,282 +25,323 @@
     </message>
 </context>
 <context>
-    <name>MainWindow</name>
+    <name>ConsolePanel</name>
     <message>
-        <location filename="../mainwindow.ui" line="108"/>
-        <location filename="../ui_mainwindow.h" line="493"/>
-        <source>File</source>
-        <translation>文件</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.ui" line="116"/>
-        <location filename="../ui_mainwindow.h" line="494"/>
-        <source>Serial</source>
-        <translation>串口</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.ui" line="125"/>
-        <location filename="../mainwindow.ui" line="628"/>
-        <location filename="../ui_mainwindow.h" line="481"/>
-        <location filename="../ui_mainwindow.h" line="495"/>
-        <source>About</source>
-        <translation>关于</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.ui" line="132"/>
-        <location filename="../ui_mainwindow.h" line="496"/>
-        <source>View</source>
-        <translation>视图</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.ui" line="198"/>
-        <location filename="../ui_mainwindow.h" line="498"/>
-        <source>Hexadecimal digit</source>
-        <translation>十六进制数</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.ui" line="208"/>
-        <location filename="../ui_mainwindow.h" line="499"/>
-        <source>Character string</source>
-        <translation>字符串</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.ui" line="235"/>
-        <location filename="../mainwindow.ui" line="321"/>
-        <location filename="../ui_mainwindow.h" line="500"/>
-        <location filename="../ui_mainwindow.h" line="504"/>
+        <location filename="../panel/consolepanel.ui" line="36"/>
+        <location filename="../panel/ui_consolepanel.h" line="213"/>
         <source>Send</source>
         <translation>发送</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="244"/>
-        <location filename="../ui_mainwindow.h" line="501"/>
-        <source>Preview</source>
-        <translation>预览</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.ui" line="266"/>
-        <location filename="../ui_mainwindow.h" line="502"/>
-        <source>###00###</source>
-        <translation></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.ui" line="331"/>
-        <location filename="../ui_mainwindow.h" line="505"/>
+        <location filename="../panel/consolepanel.ui" line="46"/>
+        <location filename="../panel/ui_consolepanel.h" line="214"/>
         <source>Receive</source>
         <translation>接收</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="358"/>
-        <location filename="../ui_mainwindow.h" line="506"/>
+        <location filename="../panel/consolepanel.ui" line="73"/>
+        <location filename="../panel/ui_consolepanel.h" line="215"/>
         <source>Position</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="368"/>
-        <location filename="../ui_mainwindow.h" line="507"/>
+        <location filename="../panel/consolepanel.ui" line="83"/>
+        <location filename="../panel/ui_consolepanel.h" line="216"/>
         <source>Any</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="395"/>
-        <location filename="../ui_mainwindow.h" line="508"/>
+        <location filename="../panel/consolepanel.ui" line="110"/>
+        <location filename="../panel/ui_consolepanel.h" line="217"/>
         <source>Max Record Lines:</source>
         <translation>最大记录行数：</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="418"/>
-        <location filename="../ui_mainwindow.h" line="509"/>
+        <location filename="../panel/consolepanel.ui" line="133"/>
+        <location filename="../panel/ui_consolepanel.h" line="218"/>
         <source>500</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="423"/>
-        <location filename="../ui_mainwindow.h" line="510"/>
+        <location filename="../panel/consolepanel.ui" line="138"/>
+        <location filename="../panel/ui_consolepanel.h" line="219"/>
         <source>1000</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="428"/>
-        <location filename="../ui_mainwindow.h" line="511"/>
+        <location filename="../panel/consolepanel.ui" line="143"/>
+        <location filename="../panel/ui_consolepanel.h" line="220"/>
         <source>1500</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="433"/>
-        <location filename="../ui_mainwindow.h" line="512"/>
+        <location filename="../panel/consolepanel.ui" line="148"/>
+        <location filename="../panel/ui_consolepanel.h" line="221"/>
         <source>2000</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="438"/>
-        <location filename="../ui_mainwindow.h" line="513"/>
+        <location filename="../panel/consolepanel.ui" line="153"/>
+        <location filename="../panel/ui_consolepanel.h" line="222"/>
         <source>3000</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="443"/>
-        <location filename="../ui_mainwindow.h" line="514"/>
+        <location filename="../panel/consolepanel.ui" line="158"/>
+        <location filename="../panel/ui_consolepanel.h" line="223"/>
         <source>4000</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="448"/>
-        <location filename="../ui_mainwindow.h" line="515"/>
+        <location filename="../panel/consolepanel.ui" line="163"/>
+        <location filename="../panel/ui_consolepanel.h" line="224"/>
         <source>5000</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="459"/>
-        <location filename="../ui_mainwindow.h" line="517"/>
+        <location filename="../panel/consolepanel.ui" line="174"/>
+        <location filename="../panel/ui_consolepanel.h" line="226"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-style:italic; color:#ffff00;&quot;&gt;NEED CLEAR!&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-style:italic; color:#ffff00;&quot;&gt;需要清空！&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="483"/>
-        <location filename="../ui_mainwindow.h" line="519"/>
+        <location filename="../panel/consolepanel.ui" line="198"/>
+        <location filename="../panel/ui_consolepanel.h" line="228"/>
         <source>Move to Top</source>
         <translation>移到顶部</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="494"/>
-        <location filename="../ui_mainwindow.h" line="522"/>
+        <location filename="../panel/consolepanel.ui" line="209"/>
+        <location filename="../panel/ui_consolepanel.h" line="231"/>
         <source>Move to Bottom</source>
         <translation>移到底部</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="505"/>
-        <location filename="../ui_mainwindow.h" line="525"/>
+        <location filename="../panel/consolepanel.ui" line="220"/>
+        <location filename="../panel/ui_consolepanel.h" line="234"/>
         <source>Clear Console</source>
         <translation>清空终端</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="584"/>
-        <location filename="../ui_mainwindow.h" line="465"/>
+        <location filename="../panel/consolepanel.cpp" line="50"/>
+        <source>receive: </source>
+        <translation>接收：</translation>
+    </message>
+    <message>
+        <location filename="../panel/consolepanel.ui" line="14"/>
+        <location filename="../panel/consolepanel.h" line="20"/>
+        <location filename="../panel/ui_consolepanel.h" line="212"/>
+        <source>Console</source>
+        <translation>终端</translation>
+    </message>
+</context>
+<context>
+    <name>MainWindow</name>
+    <message>
+        <source>File</source>
+        <translation type="vanished">文件</translation>
+    </message>
+    <message>
+        <source>Serial</source>
+        <translation type="vanished">串口</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="125"/>
+        <location filename="../mainwindow.ui" line="202"/>
+        <location filename="../ui_mainwindow.h" line="194"/>
+        <location filename="../ui_mainwindow.h" line="208"/>
+        <source>About</source>
+        <translation>关于</translation>
+    </message>
+    <message>
+        <source>View</source>
+        <translation type="vanished">视图</translation>
+    </message>
+    <message>
+        <source>Hexadecimal digit</source>
+        <translation type="vanished">十六进制数</translation>
+    </message>
+    <message>
+        <source>Character string</source>
+        <translation type="vanished">字符串</translation>
+    </message>
+    <message>
+        <source>Send</source>
+        <translation type="vanished">发送</translation>
+    </message>
+    <message>
+        <source>Preview</source>
+        <translation type="vanished">预览</translation>
+    </message>
+    <message>
+        <source>Receive</source>
+        <translation type="vanished">接收</translation>
+    </message>
+    <message>
+        <source>Max Record Lines:</source>
+        <translation type="vanished">最大记录行数：</translation>
+    </message>
+    <message>
+        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-style:italic; color:#ffff00;&quot;&gt;NEED CLEAR!&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation type="vanished">&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-style:italic; color:#ffff00;&quot;&gt;需要清空！&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+    </message>
+    <message>
+        <source>Move to Top</source>
+        <translation type="vanished">移到顶部</translation>
+    </message>
+    <message>
+        <source>Move to Bottom</source>
+        <translation type="vanished">移到底部</translation>
+    </message>
+    <message>
+        <source>Clear Console</source>
+        <translation type="vanished">清空终端</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="158"/>
+        <location filename="../ui_mainwindow.h" line="178"/>
         <source>Connect</source>
         <translation>连接</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="587"/>
-        <location filename="../ui_mainwindow.h" line="467"/>
+        <location filename="../mainwindow.ui" line="161"/>
+        <location filename="../ui_mainwindow.h" line="180"/>
         <source>Ctrl+O</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="596"/>
-        <location filename="../ui_mainwindow.h" line="469"/>
+        <location filename="../mainwindow.ui" line="170"/>
+        <location filename="../ui_mainwindow.h" line="182"/>
         <source>Disconnect</source>
         <translation>断开</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="599"/>
-        <location filename="../ui_mainwindow.h" line="471"/>
+        <location filename="../mainwindow.ui" line="173"/>
+        <location filename="../ui_mainwindow.h" line="184"/>
         <source>Ctrl+D</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="608"/>
-        <location filename="../ui_mainwindow.h" line="473"/>
+        <location filename="../mainwindow.ui" line="182"/>
+        <location filename="../ui_mainwindow.h" line="186"/>
         <source>Quit</source>
         <translation>退出</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="611"/>
-        <location filename="../ui_mainwindow.h" line="475"/>
+        <location filename="../mainwindow.ui" line="185"/>
+        <location filename="../ui_mainwindow.h" line="188"/>
         <source>Ctrl+Q</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="620"/>
-        <location filename="../ui_mainwindow.h" line="477"/>
+        <location filename="../mainwindow.ui" line="194"/>
+        <location filename="../ui_mainwindow.h" line="190"/>
+        <source>Configure Serial Port</source>
+        <translation>配置串口</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="219"/>
+        <location filename="../ui_mainwindow.h" line="199"/>
         <source>Configure</source>
         <translation>配置</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="623"/>
-        <location filename="../ui_mainwindow.h" line="479"/>
+        <location filename="../mainwindow.ui" line="197"/>
+        <location filename="../ui_mainwindow.h" line="192"/>
         <source>Alt+C</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="631"/>
-        <location filename="../ui_mainwindow.h" line="483"/>
+        <location filename="../mainwindow.ui" line="108"/>
+        <location filename="../ui_mainwindow.h" line="206"/>
+        <source>Start</source>
+        <translation>开始</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="116"/>
+        <location filename="../ui_mainwindow.h" line="207"/>
+        <source>Serial Port</source>
+        <translation>串口</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="132"/>
+        <location filename="../ui_mainwindow.h" line="209"/>
+        <source>Panel</source>
+        <translation>面板</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="205"/>
+        <location filename="../ui_mainwindow.h" line="196"/>
         <source>Alt+A</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="636"/>
-        <location filename="../ui_mainwindow.h" line="485"/>
+        <location filename="../mainwindow.ui" line="210"/>
+        <location filename="../ui_mainwindow.h" line="198"/>
         <source>About Qt</source>
         <translation>关于 Qt</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="645"/>
-        <location filename="../ui_mainwindow.h" line="486"/>
         <source>Preferences</source>
-        <translation>首选项</translation>
+        <translation type="vanished">首选项</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="648"/>
-        <location filename="../ui_mainwindow.h" line="488"/>
+        <location filename="../mainwindow.ui" line="222"/>
+        <location filename="../ui_mainwindow.h" line="201"/>
         <source>Ctrl+P</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="156"/>
-        <location filename="../mainwindow.ui" line="656"/>
-        <location filename="../ui_mainwindow.h" line="490"/>
-        <location filename="../ui_mainwindow.h" line="497"/>
+        <location filename="../mainwindow.ui" line="230"/>
+        <location filename="../ui_mainwindow.h" line="203"/>
         <source>Little Sender</source>
         <translation>发送器</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="14"/>
-        <location filename="../ui_mainwindow.h" line="464"/>
+        <location filename="../ui_mainwindow.h" line="177"/>
         <source>Robot Commander</source>
         <translation></translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="86"/>
-        <location filename="../ui_mainwindow.h" line="492"/>
+        <location filename="../ui_mainwindow.h" line="205"/>
         <source>  x: 0   y: 0  </source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="307"/>
-        <location filename="../mainwindow.ui" line="664"/>
-        <location filename="../ui_mainwindow.h" line="491"/>
-        <location filename="../ui_mainwindow.h" line="503"/>
+        <location filename="../mainwindow.ui" line="238"/>
+        <location filename="../ui_mainwindow.h" line="204"/>
         <source>Console</source>
         <translation>终端</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="111"/>
+        <location filename="../mainwindow.cpp" line="103"/>
         <source>Connected to %1 : %2, %3, %4, %5, %6</source>
         <translation>已连接到 %1 : %2, %3, %4, %5, %6</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="116"/>
+        <location filename="../mainwindow.cpp" line="108"/>
         <source>Error</source>
         <translation>错误</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="117"/>
+        <location filename="../mainwindow.cpp" line="109"/>
         <source>Open error</source>
         <translation>连接错误</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="131"/>
+        <location filename="../mainwindow.cpp" line="123"/>
         <source>Disconnected</source>
         <translation>已断开</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="136"/>
+        <location filename="../mainwindow.cpp" line="128"/>
         <source>About Robot Commander</source>
         <translation>关于 Robot Commander</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="136"/>
+        <location filename="../mainwindow.cpp" line="128"/>
         <source>
 &lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Robot Commander&lt;/span&gt;&lt;/p&gt;
 &lt;p&gt;Version %1&lt;/p&gt;&lt;p&gt;Robot Commander is a tool for controlling and debugging the movements of robots in Robocon.&lt;/p&gt;
@@ -314,12 +355,12 @@ https://github.com/hfansion/RobotCommander&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/
 &lt;p&gt;版本%1&lt;/p&gt;&lt;p&gt;Robot Commander是Robocon比赛中用于调试和控制机器人运动的软件。&lt;/p&gt;
 &lt;p&gt;&lt;a href=&quot;https://gitee.com/hfansion/RobotCommander/blob/main/LICENSE/&quot;&gt;
 &lt;span style=&quot; text-decoration: underline; color:#1d99f3;&quot;&gt;GPL-3.0协议&lt;/span&gt;
-&lt;/a&gt;：这是一个&lt;a href=&quot;http://www.gnu.org/&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#1d99f3;&quot;&gt;自由软件&lt;/span&gt;&lt;/a&gt;.&lt;/p&gt;
+&lt;/a&gt;：这是一个&lt;a href=&quot;http://www.gnu.org/&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#1d99f3;&quot;&gt;自由软件&lt;/span&gt;&lt;/a&gt;。&lt;/p&gt;
 &lt;p&gt;&lt;a href=&quot;https://gitee.com/hfansion/RobotCommander&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#1d99f3;&quot;&gt;
 https://gitee.com/hfansion/RobotCommander&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="333"/>
+        <location filename="../mainwindow.cpp" line="188"/>
         <source>发现新版本v%1，是否要更新？</source>
         <translation>发现新版本v%1，是否要更新？</translation>
     </message>
@@ -372,27 +413,23 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://gitee.com/hfansion/RobotCommander&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#1d99f3;&quot;&gt;https://gitee.com/hfansion/RobotCommander&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="148"/>
+        <location filename="../mainwindow.cpp" line="140"/>
         <source>Critical Error</source>
         <translation>严重错误</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="159"/>
-        <location filename="../mainwindow.cpp" line="179"/>
+        <location filename="../mainwindow.cpp" line="150"/>
         <source>receive: </source>
         <translation>接收：</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="190"/>
-        <location filename="../mainwindow.cpp" line="195"/>
+        <location filename="../mainwindow.cpp" line="170"/>
         <source>send: </source>
         <translation>发送：</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="217"/>
-        <location filename="../mainwindow.cpp" line="223"/>
         <source>Cannot open translation file.</source>
-        <translation>无法打开翻译文件</translation>
+        <translation type="vanished">无法打开翻译文件</translation>
     </message>
 </context>
 <context>
@@ -401,6 +438,46 @@ p, li { white-space: pre-wrap; }
         <location filename="../main.cpp" line="18"/>
         <source>Robot Controlling and Debugging Tool version %1</source>
         <translation>机器人控制和调试工具-版本%1</translation>
+    </message>
+</context>
+<context>
+    <name>SenderPanel</name>
+    <message>
+        <location filename="../panel/senderpanel.ui" line="14"/>
+        <location filename="../panel/senderpanel.h" line="23"/>
+        <location filename="../panel/ui_senderpanel.h" line="138"/>
+        <source>Sender</source>
+        <translation>发送器</translation>
+    </message>
+    <message>
+        <location filename="../panel/senderpanel.ui" line="52"/>
+        <location filename="../panel/ui_senderpanel.h" line="139"/>
+        <source>Hexadecimal digit</source>
+        <translation>十六进制数</translation>
+    </message>
+    <message>
+        <location filename="../panel/senderpanel.ui" line="62"/>
+        <location filename="../panel/ui_senderpanel.h" line="140"/>
+        <source>Character string</source>
+        <translation>字符串</translation>
+    </message>
+    <message>
+        <location filename="../panel/senderpanel.ui" line="89"/>
+        <location filename="../panel/ui_senderpanel.h" line="141"/>
+        <source>Send</source>
+        <translation>发送</translation>
+    </message>
+    <message>
+        <location filename="../panel/senderpanel.ui" line="98"/>
+        <location filename="../panel/ui_senderpanel.h" line="142"/>
+        <source>Preview</source>
+        <translation>预览</translation>
+    </message>
+    <message>
+        <location filename="../panel/senderpanel.ui" line="120"/>
+        <location filename="../panel/ui_senderpanel.h" line="143"/>
+        <source>###00###</source>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -418,28 +495,28 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../settingsdialog.ui" line="54"/>
         <location filename="../ui_settingsdialog.h" line="751"/>
-        <location filename="../settingsdialog.cpp" line="11"/>
+        <location filename="../settingsdialog.cpp" line="401"/>
         <source>General</source>
         <translation>常规</translation>
     </message>
     <message>
         <location filename="../settingsdialog.ui" line="63"/>
         <location filename="../ui_settingsdialog.h" line="753"/>
-        <location filename="../settingsdialog.cpp" line="12"/>
+        <location filename="../settingsdialog.cpp" line="402"/>
         <source>Serial Port</source>
         <translation>串口</translation>
     </message>
     <message>
         <location filename="../settingsdialog.ui" line="72"/>
         <location filename="../ui_settingsdialog.h" line="755"/>
-        <location filename="../settingsdialog.cpp" line="13"/>
+        <location filename="../settingsdialog.cpp" line="403"/>
         <source>Appearance</source>
         <translation>外观</translation>
     </message>
     <message>
         <location filename="../settingsdialog.ui" line="81"/>
         <location filename="../ui_settingsdialog.h" line="757"/>
-        <location filename="../settingsdialog.cpp" line="14"/>
+        <location filename="../settingsdialog.cpp" line="404"/>
         <source>Update</source>
         <translation>更新</translation>
     </message>
@@ -456,9 +533,9 @@ p, li { white-space: pre-wrap; }
         <location filename="../ui_settingsdialog.h" line="760"/>
         <location filename="../ui_settingsdialog.h" line="765"/>
         <location filename="../ui_settingsdialog.h" line="794"/>
-        <location filename="../settingsdialog.cpp" line="317"/>
-        <location filename="../settingsdialog.cpp" line="325"/>
-        <location filename="../settingsdialog.cpp" line="330"/>
+        <location filename="../settingsdialog.cpp" line="286"/>
+        <location filename="../settingsdialog.cpp" line="294"/>
+        <location filename="../settingsdialog.cpp" line="299"/>
         <source>Choose Picture</source>
         <translation>选择图片</translation>
     </message>
@@ -681,7 +758,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../settingsdialog.ui" line="872"/>
         <location filename="../ui_settingsdialog.h" line="843"/>
-        <location filename="../settingsdialog.cpp" line="373"/>
+        <location filename="../settingsdialog.cpp" line="343"/>
         <source>The language selected is %1.</source>
         <translation>选中的语言是%1。</translation>
     </message>
@@ -816,99 +893,99 @@ p, li { white-space: pre-wrap; }
         <translation type="vanished">取消</translation>
     </message>
     <message>
-        <location filename="../settingsdialog.cpp" line="16"/>
+        <location filename="../settingsdialog.cpp" line="13"/>
         <source>N/A</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../settingsdialog.cpp" line="114"/>
+        <location filename="../settingsdialog.cpp" line="97"/>
         <source>Description: %1</source>
         <translation>描述：%1</translation>
     </message>
     <message>
-        <location filename="../settingsdialog.cpp" line="115"/>
+        <location filename="../settingsdialog.cpp" line="98"/>
         <source>Manufacturer: %1</source>
         <translation>制造商：%1</translation>
     </message>
     <message>
-        <location filename="../settingsdialog.cpp" line="116"/>
+        <location filename="../settingsdialog.cpp" line="99"/>
         <source>Serial number: %1</source>
         <translation>串口号：%1</translation>
     </message>
     <message>
-        <location filename="../settingsdialog.cpp" line="117"/>
+        <location filename="../settingsdialog.cpp" line="100"/>
         <source>Location: %1</source>
         <translation>位置：%1</translation>
     </message>
     <message>
-        <location filename="../settingsdialog.cpp" line="118"/>
+        <location filename="../settingsdialog.cpp" line="101"/>
         <source>Vendor Identifier: %1</source>
         <translation>厂商标识：%1</translation>
     </message>
     <message>
-        <location filename="../settingsdialog.cpp" line="119"/>
+        <location filename="../settingsdialog.cpp" line="102"/>
         <source>Product Identifier: %1</source>
         <translation>产品标识：%1</translation>
     </message>
     <message>
-        <location filename="../settingsdialog.cpp" line="168"/>
-        <location filename="../settingsdialog.cpp" line="215"/>
+        <location filename="../settingsdialog.cpp" line="137"/>
+        <location filename="../settingsdialog.cpp" line="184"/>
         <source>Custom</source>
         <translation>自定义</translation>
     </message>
     <message>
-        <location filename="../settingsdialog.cpp" line="176"/>
-        <location filename="../settingsdialog.cpp" line="188"/>
+        <location filename="../settingsdialog.cpp" line="145"/>
+        <location filename="../settingsdialog.cpp" line="157"/>
         <source>None</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../settingsdialog.cpp" line="177"/>
+        <location filename="../settingsdialog.cpp" line="146"/>
         <source>Even</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../settingsdialog.cpp" line="178"/>
+        <location filename="../settingsdialog.cpp" line="147"/>
         <source>Odd</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../settingsdialog.cpp" line="179"/>
+        <location filename="../settingsdialog.cpp" line="148"/>
         <source>Mark</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../settingsdialog.cpp" line="180"/>
+        <location filename="../settingsdialog.cpp" line="149"/>
         <source>Space</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../settingsdialog.cpp" line="184"/>
+        <location filename="../settingsdialog.cpp" line="153"/>
         <source>1.5</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../settingsdialog.cpp" line="189"/>
+        <location filename="../settingsdialog.cpp" line="158"/>
         <source>RTS/CTS</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../settingsdialog.cpp" line="190"/>
+        <location filename="../settingsdialog.cpp" line="159"/>
         <source>XON/XOFF</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../settingsdialog.cpp" line="385"/>
+        <location filename="../settingsdialog.cpp" line="355"/>
         <source>This is the latest version.</source>
         <translation>已经为最新版。</translation>
     </message>
     <message>
-        <location filename="../settingsdialog.cpp" line="388"/>
+        <location filename="../settingsdialog.cpp" line="358"/>
         <source>There is a newer version of this program.</source>
         <translation>有更新版本可用。</translation>
     </message>
     <message>
-        <location filename="../settingsdialog.cpp" line="391"/>
+        <location filename="../settingsdialog.cpp" line="361"/>
         <source>The network has an unknown problem.</source>
         <translation>发生未知网络错误。</translation>
     </message>
