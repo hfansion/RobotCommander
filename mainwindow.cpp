@@ -8,6 +8,7 @@
 #include "ui_mainwindow.h"
 #include <QDesktopServices>
 #include <QDockWidget>
+#include <QKeyEvent>
 #include <QMessageBox>
 #include <QTranslator>
 #include <QSettings>
@@ -29,6 +30,24 @@ inline void deleteAllPointers(const QList<T> &anyList) {
         delete p;
 }
 
+void MainWindow::setViewForm(MapWidget::ViewForm viewForm) {
+    ui->centralwidget->setViewForm(viewForm);
+    ui->actionViewNormal->setChecked(false);
+    ui->actionViewSuitable->setChecked(false);
+    ui->actionViewFilled->setChecked(false);
+    switch (viewForm) {
+        case MapWidget::NormalView:
+            ui->actionViewNormal->setChecked(true);
+            break;
+        case MapWidget::SuitableView:
+            ui->actionViewSuitable->setChecked(true);
+            break;
+        case MapWidget::FilledView:
+            ui->actionViewFilled->setChecked(true);
+            break;
+    }
+}
+
 MainWindow::MainWindow(QWidget *parent) :
         QMainWindow(parent), ui(new Ui::MainWindow), m_translator(new QTranslator()),
         m_settingsDialog(new SettingsDialog(this)), m_serial(new QSerialPort(this)),
@@ -38,6 +57,14 @@ MainWindow::MainWindow(QWidget *parent) :
     updateSettings(m_settingsDialog->settings());
     registerPanel(m_senderPanel, "senderPanel");
     registerPanel(m_consolePanel, "consolePanel");
+    auto toolBar = new QToolBar(this);
+    toolBar->setObjectName("mapToolBar");
+    this->addToolBar(Qt::TopToolBarArea, toolBar);
+    toolBar->addAction(ui->actionZoomIn);
+    toolBar->addAction(ui->actionZoomOut);
+    toolBar->addAction(ui->actionViewSuitable);
+    ui->actionViewSuitable->setChecked(true);
+    toolBar->addAction(ui->actionViewFilled);
     QSettings settings;
     restoreGeometry(settings.value("mainWindow_geometry").toByteArray());
     restoreState(settings.value("mainWindow_state").toByteArray());
@@ -45,17 +72,32 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->actionConnect->setEnabled(true);
     ui->actionDisconnect->setEnabled(false);
     ui->actionQuit->setEnabled(true);
-    ui->actionConfigure->setEnabled(true);
+    ui->actionConfigureSerialPort->setEnabled(true);
 
     connect(ui->actionConnect, &QAction::triggered, this, &MainWindow::openSerialPort);
     connect(ui->actionDisconnect, &QAction::triggered, this, &MainWindow::closeSerialPort);
     connect(ui->actionQuit, &QAction::triggered, this, &MainWindow::close);
-    connect(ui->actionPreferences, &QAction::triggered,
-            [this]() { m_settingsDialog->showPage(SettingsDialog::Page::General); });
     connect(ui->actionConfigure, &QAction::triggered,
+            [this]() { m_settingsDialog->showPage(SettingsDialog::Page::General); });
+    connect(ui->actionConfigureSerialPort, &QAction::triggered,
             [this]() { m_settingsDialog->showPage(SettingsDialog::Page::SerialPort); });
     connect(ui->actionAbout, &QAction::triggered, this, &MainWindow::about);
     connect(ui->actionAbout_Qt, &QAction::triggered, qApp, &QApplication::aboutQt);
+    connect(ui->actionZoomIn, &QAction::triggered, [this]() {
+        setViewForm(MapWidget::NormalView);
+        ui->centralwidget->zoomIn();
+    });
+    connect(ui->actionZoomOut, &QAction::triggered, [this]() {
+        setViewForm(MapWidget::NormalView);
+        ui->centralwidget->zoomOut();
+    });
+    connect(ui->actionViewSuitable, &QAction::triggered, [this](bool checked) {
+        setViewForm(checked ? MapWidget::SuitableView : MapWidget::NormalView);
+    });
+    connect(ui->actionViewFilled, &QAction::triggered, [this](bool checked) {
+        setViewForm(checked ? MapWidget::FilledView : MapWidget::NormalView);
+    });
+    connect(ui->centralwidget, &MapWidget::updateViewForm, this, &MainWindow::setViewForm);
 
     connect(m_serial, &QSerialPort::errorOccurred, this, &MainWindow::handleError);
     connect(m_serial, &QSerialPort::readyRead, this, &MainWindow::compositorRead);
@@ -97,7 +139,7 @@ void MainWindow::openSerialPort() {
     if (m_serial->open(QIODevice::ReadWrite)) {
         ui->actionConnect->setEnabled(false);
         ui->actionDisconnect->setEnabled(true);
-        ui->actionConfigure->setEnabled(false);
+        ui->actionConfigureSerialPort->setEnabled(false);
         showStatusMessage(tr("Connected to %1 : %2, %3, %4, %5, %6")
                                   .arg(p.name, p.stringBaudRate, p.stringDataBits, p.stringParity, p.stringStopBits,
                                        p.stringFlowControl));
@@ -116,7 +158,7 @@ void MainWindow::closeSerialPort() {
         m_serial->close();
     ui->actionConnect->setEnabled(true);
     ui->actionDisconnect->setEnabled(false);
-    ui->actionConfigure->setEnabled(true);
+    ui->actionConfigureSerialPort->setEnabled(true);
     showStatusMessage(tr("Disconnected"));
 }
 
@@ -207,9 +249,27 @@ void MainWindow::registerPanel(PanelBase *panel, const QString &objectName) {
     this->addDockWidget(Qt::LeftDockWidgetArea, dock);
     auto action = dock->toggleViewAction();
     action->setText(panel_name);
-    ui->menuView->addAction(action);
+    ui->menuPanel->addAction(action);
     connect(action, &QAction::triggered, [dock](bool checked) {
         if (checked) dock->show(); else dock->hide();
     });
     m_panelRelations.append(PanelRelation{action, panel, dock});
+}
+
+void MainWindow::keyPressEvent(QKeyEvent *event) {
+    if (event->modifiers() == Qt::ControlModifier) {
+        ui->centralwidget->mod_Ctrl = true;
+    } else if (event->modifiers() == Qt::AltModifier) {
+        ui->centralwidget->mod_Alt = true;
+    }
+    qDebug() << ui->centralwidget->mod_Ctrl << ui->centralwidget->mod_Alt;
+}
+
+void MainWindow::keyReleaseEvent(QKeyEvent *event) {  // TODO 有问题
+    if (event->modifiers() == Qt::ControlModifier) {
+        ui->centralwidget->mod_Ctrl = false;
+    } else if (event->modifiers() == Qt::AltModifier) {
+        ui->centralwidget->mod_Alt = false;
+    }
+    qDebug() << ui->centralwidget->mod_Ctrl << ui->centralwidget->mod_Alt;
 }

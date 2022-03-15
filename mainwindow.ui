@@ -35,7 +35,7 @@
     <property name="title">
      <string>Start</string>
     </property>
-    <addaction name="actionPreferences"/>
+    <addaction name="actionConfigure"/>
     <addaction name="separator"/>
     <addaction name="actionQuit"/>
    </widget>
@@ -46,7 +46,7 @@
     <addaction name="actionConnect"/>
     <addaction name="actionDisconnect"/>
     <addaction name="separator"/>
-    <addaction name="actionConfigure"/>
+    <addaction name="actionConfigureSerialPort"/>
    </widget>
    <widget class="QMenu" name="menuAbout">
     <property name="title">
@@ -55,14 +55,26 @@
     <addaction name="actionAbout"/>
     <addaction name="actionAbout_Qt"/>
    </widget>
-   <widget class="QMenu" name="menuView">
+   <widget class="QMenu" name="menuPanel">
     <property name="title">
      <string>Panel</string>
     </property>
    </widget>
+   <widget class="QMenu" name="menuView">
+    <property name="title">
+     <string>View</string>
+    </property>
+    <addaction name="actionZoomIn"/>
+    <addaction name="actionZoomOut"/>
+    <addaction name="separator"/>
+    <addaction name="actionViewNormal"/>
+    <addaction name="actionViewSuitable"/>
+    <addaction name="actionViewFilled"/>
+   </widget>
    <addaction name="menuFile"/>
    <addaction name="menuSerial"/>
    <addaction name="menuView"/>
+   <addaction name="menuPanel"/>
    <addaction name="menuAbout"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
@@ -75,7 +87,7 @@
    </attribute>
    <addaction name="actionConnect"/>
    <addaction name="actionDisconnect"/>
-   <addaction name="actionConfigure"/>
+   <addaction name="actionConfigureSerialPort"/>
   </widget>
   <action name="actionConnect">
    <property name="icon">
@@ -113,7 +125,7 @@
     <string>Ctrl+Q</string>
    </property>
   </action>
-  <action name="actionConfigure">
+  <action name="actionConfigureSerialPort">
    <property name="icon">
     <iconset resource="RobotCommander.qrc">
      <normaloff>:/icon/settings.png</normaloff>:/icon/settings.png</iconset>
@@ -138,7 +150,7 @@
     <string>About Qt</string>
    </property>
   </action>
-  <action name="actionPreferences">
+  <action name="actionConfigure">
    <property name="icon">
     <iconset resource="RobotCommander.qrc">
      <normaloff>:/icon/settings.png</normaloff>:/icon/settings.png</iconset>
@@ -164,6 +176,46 @@
    </property>
    <property name="text">
     <string>Console</string>
+   </property>
+  </action>
+  <action name="actionZoomIn">
+   <property name="text">
+    <string>Zoom In</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+=</string>
+   </property>
+  </action>
+  <action name="actionZoomOut">
+   <property name="text">
+    <string>Zoom Out</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+-</string>
+   </property>
+  </action>
+  <action name="actionViewSuitable">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Suitable View</string>
+   </property>
+  </action>
+  <action name="actionViewFilled">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Filled View</string>
+   </property>
+  </action>
+  <action name="actionViewNormal">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Normal View</string>
    </property>
   </action>
  </widget>

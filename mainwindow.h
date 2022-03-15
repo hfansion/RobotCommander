@@ -8,6 +8,7 @@
 #include <QMainWindow>
 #include <QSerialPort>
 #include <QQueue>
+#include "mapwidget.h"
 #include "updater.h"
 
 QT_BEGIN_NAMESPACE
@@ -40,9 +41,15 @@ public slots:
     void handleError(QSerialPort::SerialPortError error);
 
     void updateSettings(const Settings *settings);
+    void setViewForm(MapWidget::ViewForm viewForm);
 
     void startCheckForUpdate();
     void showUpdateDialog(Updater::Result result);
+
+protected slots:
+    void keyPressEvent(QKeyEvent *event) override;
+    void keyReleaseEvent(QKeyEvent *event) override;
+
 
 private:
     Ui::MainWindow *ui;

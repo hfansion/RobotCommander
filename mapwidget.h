@@ -15,24 +15,35 @@ Q_OBJECT
 public:
     explicit MapWidget(QWidget *parent = nullptr);
     ~MapWidget() override;
-
-signals:
-    void sendCommand(Command *command);
-
-public slots:
     void infoCurPosition(const QPointF &pos);
-    void paintEvent(QPaintEvent *) override;
-    void resizeEvent(QResizeEvent *) override;
-    void mousePressEvent(QMouseEvent *) override;
-
     void updateSettings(const Settings *settings);
-
-private:
-    const Settings *m_settings = nullptr;
 
     enum ViewForm {
         NormalView, SuitableView, FilledView
     };
+    void zoomIn(QPoint center={});
+    void zoomOut(QPoint center={});
+    void setViewForm(ViewForm viewForm);
+
+    bool mod_Ctrl=false;
+    bool mod_Alt=false;
+
+signals:
+    void sendCommand(Command *command);
+    void updateViewForm(ViewForm viewForm);
+
+protected slots:
+    void paintEvent(QPaintEvent *) override;
+    void resizeEvent(QResizeEvent *) override;
+    void mousePressEvent(QMouseEvent *) override;
+    void mouseMoveEvent(QMouseEvent *event) override;
+    void mouseReleaseEvent(QMouseEvent *event) override;
+    void wheelEvent(QWheelEvent *event) override;
+
+private:
+    const Settings *m_settings = nullptr;
+
+    QPixmap m_tmpMap;
     QPixmap m_imgMap;
     QPoint m_baseP;
     ViewForm m_viewForm = SuitableView;
@@ -44,6 +55,12 @@ private:
     inline bool isInside(const QPoint &p);
     inline QPointF generateRatio(const QPoint &p);
     inline QPoint recoverRatio(const QPointF &ratio);
+
+    QPoint m_mouseP;
+    QPoint m_startP;
+    bool m_fill_width_or_height=true;  // FilledView模式下，铺满width为true，铺满height为false
+
+    inline void resizePaint();
 };
 
 #endif //ROBOTCOMMANDER_MAPWIDGET_H
