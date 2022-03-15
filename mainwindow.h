@@ -39,7 +39,7 @@ public slots:
     void compositorRead();
     void handleError(QSerialPort::SerialPortError error);
 
-    void updateSettings();
+    void updateSettings(const Settings *settings);
 
     void startCheckForUpdate();
     void showUpdateDialog(Updater::Result result);
@@ -47,7 +47,6 @@ public slots:
 private:
     Ui::MainWindow *ui;
     SettingsDialog *m_settingsDialog;
-    const Settings *m_settings;
     QTranslator *m_translator;
     Updater *m_updater;
 

@@ -33,18 +33,14 @@ MainWindow::MainWindow(QWidget *parent) :
         QMainWindow(parent), ui(new Ui::MainWindow), m_translator(new QTranslator()),
         m_settingsDialog(new SettingsDialog(this)), m_serial(new QSerialPort(this)),
         m_compositor(new Compositor), m_senderPanel(new SenderPanel(this)),
-        m_consolePanel(new ConsolePanel(this)) {
+        m_consolePanel(new ConsolePanel(this)), m_updater(nullptr) {
     ui->setupUi(this);
-    m_settings = m_settingsDialog->settings();
-    updateSettings();
+    updateSettings(m_settingsDialog->settings());
     registerPanel(m_senderPanel, "senderPanel");
     registerPanel(m_consolePanel, "consolePanel");
     QSettings settings;
     restoreGeometry(settings.value("mainWindow_geometry").toByteArray());
     restoreState(settings.value("mainWindow_state").toByteArray());
-
-    ui->imageWidget->injectCompositor(m_compositor);
-    ui->imageWidget->injectSettings(m_settings);
 
     ui->actionConnect->setEnabled(true);
     ui->actionDisconnect->setEnabled(false);
@@ -64,17 +60,19 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(m_serial, &QSerialPort::errorOccurred, this, &MainWindow::handleError);
     connect(m_serial, &QSerialPort::readyRead, this, &MainWindow::compositorRead);
     connect(m_compositor, &Compositor::needSendCommand, this, &MainWindow::compositorSend);
-    connect(m_settingsDialog, &SettingsDialog::needUpdateSettings, ui->imageWidget, &MapWidget::updateSettings);
     connect(m_settingsDialog, &SettingsDialog::needUpdateSettings, this, &MainWindow::updateSettings);
     connect(m_settingsDialog, &SettingsDialog::needCheckForUpdate, this, &MainWindow::startCheckForUpdate);
 
-    // Sender Panel
-    connect(m_senderPanel, &SenderPanel::sendCommand, [this](Command *command) {
-        m_compositor->addCommand(command);
-    });
+    auto send_command = [this](Command *command) {
+        if (m_serial->isOpen())
+            m_compositor->addCommand(command);
+        else delete command;
+    };
+    connect(ui->centralwidget, &MapWidget::sendCommand, send_command);
+    connect(m_senderPanel, &SenderPanel::sendCommand, send_command);
 
     // last init
-    if (m_settings->auto_check_update) startCheckForUpdate();
+    if (m_settingsDialog->settings()->auto_check_update) startCheckForUpdate();
 }
 
 MainWindow::~MainWindow() {
@@ -89,7 +87,7 @@ MainWindow::~MainWindow() {
 }
 
 void MainWindow::openSerialPort() {
-    const auto &p = m_settings->serial;
+    const auto &p = m_settingsDialog->settings()->serial;
     m_serial->setPortName(p.name);
     m_serial->setBaudRate(p.baudRate);
     m_serial->setDataBits(p.dataBits);
@@ -103,7 +101,6 @@ void MainWindow::openSerialPort() {
         showStatusMessage(tr("Connected to %1 : %2, %3, %4, %5, %6")
                                   .arg(p.name, p.stringBaudRate, p.stringDataBits, p.stringParity, p.stringStopBits,
                                        p.stringFlowControl));
-        m_compositor->isConnected = true;
     } else {
         QMessageBox::critical(this, tr("Error"), m_serial->errorString());
         showStatusMessage(tr("Open error"));
@@ -121,7 +118,6 @@ void MainWindow::closeSerialPort() {
     ui->actionDisconnect->setEnabled(false);
     ui->actionConfigure->setEnabled(true);
     showStatusMessage(tr("Disconnected"));
-    m_compositor->isConnected = false;
 }
 
 void MainWindow::about() {
@@ -130,7 +126,7 @@ void MainWindow::about() {
 <p>Version %1</p><p>Robot Commander is a tool for controlling and debugging the movements of robots in Robocon.</p>
 <p><a href="https://github.com/hfansion/RobotCommander/blob/main/LICENSE/">
 <span style=" text-decoration: underline; color:#1d99f3;">GPL-3.0 License</span>
-</a>: This is a <a href="http://www.gnu.org/"><span style=" text-decoration: underline; color:#1d99f3;">free software</span></a>.</p>
+</a>: This is a <a href="https://www.gnu.org/"><span style=" text-decoration: underline; color:#1d99f3;">free software</span></a>.</p>
 <p><a href="https://github.com/hfansion/RobotCommander"><span style=" text-decoration: underline; color:#1d99f3;">
 https://github.com/hfansion/RobotCommander</span></a></p></body></html>)").arg(ROBOTCOMMANDER_VERSION));
 }
@@ -151,8 +147,7 @@ void MainWindow::compositorRead() {
         switch (info->getInfoType()) {
             case ProtocolReceive::Position: {
                 auto *p = (PositionInfo *) info;
-                ui->label_position->setText(QString("  x: %1   y: %2  ").arg(p->x).arg(p->y));
-                ui->imageWidget->infoCurPosition(
+                ui->centralwidget->infoCurPosition(
                         QPointF((qreal) p->x / Position::X_RANGE, (qreal) p->y / Position::Y_RANGE));
                 break;
             }
@@ -172,7 +167,7 @@ void MainWindow::compositorSend() {
     }
 }
 
-void MainWindow::updateSettings() {
+void MainWindow::updateSettings(const Settings *settings) {
     ui->retranslateUi(this);
     for (const auto &r: m_panelRelations) {
         QString panel_name = r.panel->PanelName();
@@ -180,6 +175,7 @@ void MainWindow::updateSettings() {
         r.panel->retranslateUi();
         r.dock->setWindowTitle(panel_name);
     }
+    ui->centralwidget->updateSettings(settings);
 }
 
 void MainWindow::showUpdateDialog(Updater::Result result) {
@@ -197,7 +193,7 @@ void MainWindow::showUpdateDialog(Updater::Result result) {
 }
 
 void MainWindow::startCheckForUpdate() {
-    m_updater = new Updater(m_settings->channel, this);
+    m_updater = new Updater(m_settingsDialog->settings()->channel, this);
     connect(m_updater, &Updater::checkFinished, this, &MainWindow::showUpdateDialog);
     m_updater->check();
 }

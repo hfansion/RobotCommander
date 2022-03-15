@@ -27,8 +27,6 @@ public:
     const Info *getInfo();                                  // 获取解码结果
     [[nodiscard]] const QString &getDecodeMessage() const;  // 获取当前解码的显示内容
 
-    bool isConnected = false;
-
 signals:
     void needSendCommand();
 

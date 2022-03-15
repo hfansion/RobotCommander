@@ -31,7 +31,7 @@ public:
     void checkUpdateResult(Updater::Result result);
 
 signals:
-    void needUpdateSettings();
+    void needUpdateSettings(const Settings *settings);
     void needCheckForUpdate();
 
 public slots:
@@ -66,7 +66,7 @@ private:
     void updateSettings();
 
 private:
-    Ui::SettingsDialog *ui = nullptr;
+    Ui::SettingsDialog *ui;
     Settings m_settings;
     QIntValidator *m_intValidator = nullptr;
     QTranslator *m_translator;

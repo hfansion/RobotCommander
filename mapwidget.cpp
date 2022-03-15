@@ -9,8 +9,6 @@
 #include "info/info.h"
 #include "command/command.h"
 #include "command/positioncommand.h"
-#include "compositor.h"
-#include "settings.h"
 
 MapWidget::MapWidget(QWidget *parent) : QWidget(parent) {
     m_field.setY(0);
@@ -19,21 +17,22 @@ MapWidget::MapWidget(QWidget *parent) : QWidget(parent) {
 
 MapWidget::~MapWidget() = default;
 
-inline bool isInside(const QRect &rect, const QPoint &p) {
-    return p.x() >= rect.x() && p.x() <= (rect.x() + rect.width())
-           && p.y() >= rect.y() && p.y() <= (rect.y() + rect.height());
+bool MapWidget::isInside(const QPoint &p) {
+    return p.x() >= m_baseP.x() && p.x() <= (m_baseP.x() + m_imgMap.width())
+           && p.y() >= m_baseP.y() && p.y() <= (m_baseP.y() + m_imgMap.height());
 }
 
-inline QPointF generateRatio(const QRect &rect, const QPoint &p) {
-    return {(qreal) (p.x() - rect.x()) / rect.width(),
-            (qreal) (p.y() - rect.y()) / rect.height()};
+QPointF MapWidget::generateRatio(const QPoint &p) {
+    return {static_cast<qreal>(p.x() - m_baseP.x()) / m_imgMap.width(),
+            static_cast<qreal>(p.y() - m_baseP.y()) / m_imgMap.height()};
 }
 
-inline QPoint recoverRatio(const QRect &rect, const QPointF &ratio) {
-    return rect.topLeft() + QPoint((int) (rect.width() * ratio.x()), (int) (rect.height() * ratio.y()));
+QPoint MapWidget::recoverRatio(const QPointF &ratio) {
+    return {m_baseP.x() + static_cast<int>(m_imgMap.width() * ratio.x()),
+            m_baseP.y() + static_cast<int>(m_imgMap.height() * ratio.y())};
 }
 
-inline void paintMark(QPainter &painter, const QPoint &p, const Settings::Mark &mk, const QPixmap &tmp_pic) {
+void paintMark(QPainter &painter, const QPoint &p, const Settings::Mark &mk, const QPixmap &tmp_pic) {
     if (mk.pic_or_shape) {
         int size = mk.pic_size / 2;
         painter.drawPixmap(p - QPoint(size, size), tmp_pic);
@@ -66,26 +65,47 @@ inline void paintMark(QPainter &painter, const QPoint &p, const Settings::Mark &
 
 void MapWidget::paintEvent(QPaintEvent *event) {
     QPainter painter{this};
-    painter.drawPixmap(m_field.topLeft(), m_tempMap);
-    paintMark(painter, recoverRatio(m_field, m_curP), m_settings->mark_cur, m_imgRobotCur);
-    paintMark(painter, recoverRatio(m_field, m_tarP), m_settings->mark_tar, m_imgRobotTar);
+    painter.drawPixmap(m_baseP, m_imgMap);
+    paintMark(painter, recoverRatio(m_curP), m_settings->mark_cur, m_imgRobotCur);
+    paintMark(painter, recoverRatio(m_tarP), m_settings->mark_tar, m_imgRobotTar);
 }
 
 void MapWidget::resizeEvent(QResizeEvent *event) {
-    m_tempMap = m_imgMap.scaled(this->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation);
-    m_field.setX((this->width() - m_tempMap.width()) / 2);
-    m_field.setSize(m_tempMap.size());
+    switch (m_viewForm) {
+        case NormalView: {
+            if (m_imgMap.width() > this->width()) {
+                if ((this->width() - m_baseP.x()) > m_imgMap.width())
+                    m_baseP.setX(this->width() - m_imgMap.width());
+            } else {
+                m_baseP.setX((this->width() - m_imgMap.width()) / 2);
+            }
+            if (m_imgMap.height() > this->height()) {
+                if ((this->height() - m_baseP.y()) > m_imgMap.height())
+                    m_baseP.setY(this->height() - m_imgMap.height());
+            } else {
+                m_baseP.setY((this->height() - m_imgMap.height()) / 2);
+            }
+            break;
+        }
+        case SuitableView: {
+            m_imgMap = QPixmap{m_settings->map_pic}.scaled(this->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation);
+            m_baseP.setX((this->width() - m_imgMap.width()) / 2);
+            m_baseP.setY((this->height() - m_imgMap.height()) / 2);
+            break;
+        }
+        case FilledView: {
+            // TODO
+            break;
+        }
+    }
 }
 
 void MapWidget::mousePressEvent(QMouseEvent *event) {
-    if (event->button() == Qt::LeftButton && isInside(m_field, event->pos())) {
-        m_tarP = generateRatio(m_field, event->pos());
+    if (event->button() == Qt::LeftButton && isInside(event->pos())) {
+        m_tarP = generateRatio(event->pos());
         repaint();
-        if (m_compositor->isConnected) {
-            Command *command = new PositionCommand((int) (Position::X_RANGE * m_tarP.x()),
-                                                   (int) (Position::Y_RANGE * m_tarP.y()));
-            m_compositor->addCommand(command);
-        }
+        emit sendCommand(new PositionCommand(static_cast<int>(Position::X_RANGE * m_tarP.x()),
+                                             static_cast<int>(Position::Y_RANGE * m_tarP.y())));
         event->accept();
     }
 }
@@ -95,21 +115,12 @@ void MapWidget::infoCurPosition(const QPointF &pos) {
     repaint();
 }
 
-void MapWidget::injectCompositor(Compositor *compositor) {
-    m_compositor = compositor;
-}
-
-void MapWidget::injectSettings(const Settings *settings) {
-    m_settings = settings;
-    updateSettings();
-}
-
-void MapWidget::updateSettings() {
-    const auto &s = *m_settings;
-    m_imgMap = QPixmap(s.map_pic);
-    if (!s.mark_cur.pic.isEmpty())
-        m_imgRobotCur = QPixmap{s.mark_cur.pic}.scaled(s.mark_cur.pic_size, s.mark_cur.pic_size);
-    if (!s.mark_tar.pic.isEmpty())
-        m_imgRobotTar = QPixmap{s.mark_tar.pic}.scaled(s.mark_tar.pic_size, s.mark_tar.pic_size);
+void MapWidget::updateSettings(const Settings *s) {
+    m_settings = s;
+    m_imgMap = QPixmap{s->map_pic};
+    if (!s->mark_cur.pic.isEmpty())
+        m_imgRobotCur = QPixmap{s->mark_cur.pic}.scaled(s->mark_cur.pic_size, s->mark_cur.pic_size);
+    if (!s->mark_tar.pic.isEmpty())
+        m_imgRobotTar = QPixmap{s->mark_tar.pic}.scaled(s->mark_tar.pic_size, s->mark_tar.pic_size);
     resizeEvent(nullptr);
 }

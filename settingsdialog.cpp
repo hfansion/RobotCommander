@@ -105,7 +105,7 @@ void SettingsDialog::showPortInfo(int idx) {
 void SettingsDialog::apply() {
     updateSettings();
     switchLanguage();
-    emit needUpdateSettings();
+    emit needUpdateSettings(&m_settings);
 }
 
 void SettingsDialog::cancel() {
