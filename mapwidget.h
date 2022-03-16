@@ -25,9 +25,6 @@ public:
     void zoomOut(QPoint center={});
     void setViewForm(ViewForm viewForm);
 
-    bool mod_Ctrl=false;
-    bool mod_Alt=false;
-
 signals:
     void sendCommand(Command *command);
     void updateViewForm(ViewForm viewForm);
@@ -39,6 +36,8 @@ protected slots:
     void mouseMoveEvent(QMouseEvent *event) override;
     void mouseReleaseEvent(QMouseEvent *event) override;
     void wheelEvent(QWheelEvent *event) override;
+    void keyPressEvent(QKeyEvent *event) override;
+    void keyReleaseEvent(QKeyEvent *event) override;
 
 private:
     const Settings *m_settings = nullptr;
@@ -59,6 +58,8 @@ private:
     QPoint m_mouseP;
     QPoint m_startP;
     bool m_fill_width_or_height=true;  // FilledView模式下，铺满width为true，铺满height为false
+
+    bool mod_Ctrl=false;
 
     inline void resizePaint();
 };

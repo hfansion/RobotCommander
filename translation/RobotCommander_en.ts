@@ -146,16 +146,18 @@
         <translation type="vanished">Serial</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="125"/>
-        <location filename="../mainwindow.ui" line="202"/>
-        <location filename="../ui_mainwindow.h" line="194"/>
-        <location filename="../ui_mainwindow.h" line="208"/>
+        <location filename="../mainwindow.ui" line="53"/>
+        <location filename="../mainwindow.ui" line="142"/>
+        <location filename="../ui_mainwindow.h" line="179"/>
+        <location filename="../ui_mainwindow.h" line="203"/>
         <source>About</source>
         <translation>About</translation>
     </message>
     <message>
+        <location filename="../mainwindow.ui" line="65"/>
+        <location filename="../ui_mainwindow.h" line="205"/>
         <source>View</source>
-        <translation type="vanished">View</translation>
+        <translation>View</translation>
     </message>
     <message>
         <source>Hexadecimal digit</source>
@@ -198,86 +200,128 @@
         <translation type="vanished">Clear Console</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="158"/>
-        <location filename="../ui_mainwindow.h" line="178"/>
+        <location filename="../mainwindow.ui" line="98"/>
+        <location filename="../ui_mainwindow.h" line="163"/>
         <source>Connect</source>
         <translation>Connect</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="161"/>
-        <location filename="../ui_mainwindow.h" line="180"/>
+        <location filename="../mainwindow.ui" line="101"/>
+        <location filename="../ui_mainwindow.h" line="165"/>
         <source>Ctrl+O</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="170"/>
-        <location filename="../ui_mainwindow.h" line="182"/>
+        <location filename="../mainwindow.ui" line="110"/>
+        <location filename="../ui_mainwindow.h" line="167"/>
         <source>Disconnect</source>
         <translation>Disconnect</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="173"/>
-        <location filename="../ui_mainwindow.h" line="184"/>
+        <location filename="../mainwindow.ui" line="113"/>
+        <location filename="../ui_mainwindow.h" line="169"/>
         <source>Ctrl+D</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="182"/>
-        <location filename="../ui_mainwindow.h" line="186"/>
+        <location filename="../mainwindow.ui" line="122"/>
+        <location filename="../ui_mainwindow.h" line="171"/>
         <source>Quit</source>
         <translation>Quit</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="185"/>
-        <location filename="../ui_mainwindow.h" line="188"/>
+        <location filename="../mainwindow.ui" line="125"/>
+        <location filename="../ui_mainwindow.h" line="173"/>
         <source>Ctrl+Q</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="194"/>
-        <location filename="../ui_mainwindow.h" line="190"/>
+        <location filename="../mainwindow.ui" line="134"/>
+        <location filename="../ui_mainwindow.h" line="175"/>
         <source>Configure Serial Port</source>
         <translation>Configure Serial Port</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="219"/>
-        <location filename="../ui_mainwindow.h" line="199"/>
+        <location filename="../mainwindow.ui" line="159"/>
+        <location filename="../ui_mainwindow.h" line="184"/>
         <source>Configure</source>
         <translation>Configure</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="197"/>
+        <location filename="../mainwindow.ui" line="183"/>
+        <location filename="../ui_mainwindow.h" line="190"/>
+        <source>Zoom In</source>
+        <translation>Zoom In</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="186"/>
         <location filename="../ui_mainwindow.h" line="192"/>
+        <source>Ctrl+=</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="191"/>
+        <location filename="../ui_mainwindow.h" line="194"/>
+        <source>Zoom Out</source>
+        <translation>Zoom Out</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="194"/>
+        <location filename="../ui_mainwindow.h" line="196"/>
+        <source>Ctrl+-</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="202"/>
+        <location filename="../ui_mainwindow.h" line="198"/>
+        <source>Suitable View</source>
+        <translation>Suitable View</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="210"/>
+        <location filename="../ui_mainwindow.h" line="199"/>
+        <source>Filled View</source>
+        <translation>Filled View</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="218"/>
+        <location filename="../ui_mainwindow.h" line="200"/>
+        <source>Normal View</source>
+        <translation>Normal View</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="137"/>
+        <location filename="../ui_mainwindow.h" line="177"/>
         <source>Alt+C</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="108"/>
-        <location filename="../ui_mainwindow.h" line="206"/>
+        <location filename="../mainwindow.ui" line="36"/>
+        <location filename="../ui_mainwindow.h" line="201"/>
         <source>Start</source>
         <translation>Start</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="116"/>
-        <location filename="../ui_mainwindow.h" line="207"/>
+        <location filename="../mainwindow.ui" line="44"/>
+        <location filename="../ui_mainwindow.h" line="202"/>
         <source>Serial Port</source>
         <translation>Serial Port</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="132"/>
-        <location filename="../ui_mainwindow.h" line="209"/>
+        <location filename="../mainwindow.ui" line="60"/>
+        <location filename="../ui_mainwindow.h" line="204"/>
         <source>Panel</source>
         <translation>Panel</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="205"/>
-        <location filename="../ui_mainwindow.h" line="196"/>
+        <location filename="../mainwindow.ui" line="145"/>
+        <location filename="../ui_mainwindow.h" line="181"/>
         <source>Alt+A</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="210"/>
-        <location filename="../ui_mainwindow.h" line="198"/>
+        <location filename="../mainwindow.ui" line="150"/>
+        <location filename="../ui_mainwindow.h" line="183"/>
         <source>About Qt</source>
         <translation>About Qt</translation>
     </message>
@@ -286,62 +330,55 @@
         <translation type="vanished">Preferences</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="222"/>
-        <location filename="../ui_mainwindow.h" line="201"/>
+        <location filename="../mainwindow.ui" line="162"/>
+        <location filename="../ui_mainwindow.h" line="186"/>
         <source>Ctrl+P</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="230"/>
-        <location filename="../ui_mainwindow.h" line="203"/>
+        <location filename="../mainwindow.ui" line="170"/>
+        <location filename="../ui_mainwindow.h" line="188"/>
         <source>Little Sender</source>
         <translation>Little Sender</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="14"/>
-        <location filename="../ui_mainwindow.h" line="177"/>
+        <location filename="../ui_mainwindow.h" line="162"/>
         <source>Robot Commander</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="86"/>
-        <location filename="../ui_mainwindow.h" line="205"/>
-        <source>  x: 0   y: 0  </source>
-        <translation></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.ui" line="238"/>
-        <location filename="../ui_mainwindow.h" line="204"/>
+        <location filename="../mainwindow.ui" line="178"/>
+        <location filename="../ui_mainwindow.h" line="189"/>
         <source>Console</source>
         <translation>Console</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="103"/>
+        <location filename="../mainwindow.cpp" line="146"/>
         <source>Connected to %1 : %2, %3, %4, %5, %6</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="108"/>
+        <location filename="../mainwindow.cpp" line="150"/>
         <source>Error</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="109"/>
+        <location filename="../mainwindow.cpp" line="151"/>
         <source>Open error</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="123"/>
+        <location filename="../mainwindow.cpp" line="165"/>
         <source>Disconnected</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="128"/>
+        <location filename="../mainwindow.cpp" line="169"/>
         <source>About Robot Commander</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="128"/>
         <source>
 &lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Robot Commander&lt;/span&gt;&lt;/p&gt;
 &lt;p&gt;Version %1&lt;/p&gt;&lt;p&gt;Robot Commander is a tool for controlling and debugging the movements of robots in Robocon.&lt;/p&gt;
@@ -350,7 +387,7 @@
 &lt;/a&gt;: This is a &lt;a href=&quot;http://www.gnu.org/&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#1d99f3;&quot;&gt;free software&lt;/span&gt;&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;&lt;a href=&quot;https://github.com/hfansion/RobotCommander&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#1d99f3;&quot;&gt;
 https://github.com/hfansion/RobotCommander&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation>
+        <translation type="vanished">
 &lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Robot Commander&lt;/span&gt;&lt;/p&gt;
 &lt;p&gt;Version %1&lt;/p&gt;&lt;p&gt;Robot Commander is a tool for controlling and debugging the movements of robots in Robocon.&lt;/p&gt;
 &lt;p&gt;&lt;a href=&quot;https://github.com/hfansion/RobotCommander/blob/main/LICENSE/&quot;&gt;
@@ -360,22 +397,41 @@ https://github.com/hfansion/RobotCommander&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/
 https://github.com/hfansion/RobotCommander&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="188"/>
+        <location filename="../mainwindow.cpp" line="229"/>
         <source>发现新版本v%1，是否要更新？</source>
         <translation>New version v%1 found. Do you want to update it?</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="140"/>
+        <location filename="../mainwindow.cpp" line="181"/>
         <source>Critical Error</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="150"/>
+        <location filename="../mainwindow.cpp" line="169"/>
+        <source>
+&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Robot Commander&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;Version %1&lt;/p&gt;&lt;p&gt;Robot Commander is a tool for controlling and debugging the movements of robots in Robocon.&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;https://github.com/hfansion/RobotCommander/blob/main/LICENSE/&quot;&gt;
+&lt;span style=&quot; text-decoration: underline; color:#1d99f3;&quot;&gt;GPL-3.0 License&lt;/span&gt;
+&lt;/a&gt;: This is a &lt;a href=&quot;https://www.gnu.org/&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#1d99f3;&quot;&gt;free software&lt;/span&gt;&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;https://github.com/hfansion/RobotCommander&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#1d99f3;&quot;&gt;
+https://github.com/hfansion/RobotCommander&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation>
+&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Robot Commander&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;Version %1&lt;/p&gt;&lt;p&gt;Robot Commander is a tool for controlling and debugging the movements of robots in Robocon.&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;https://github.com/hfansion/RobotCommander/blob/main/LICENSE/&quot;&gt;
+&lt;span style=&quot; text-decoration: underline; color:#1d99f3;&quot;&gt;GPL-3.0 License&lt;/span&gt;
+&lt;/a&gt;: This is a &lt;a href=&quot;https://www.gnu.org/&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#1d99f3;&quot;&gt;free software&lt;/span&gt;&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;https://github.com/hfansion/RobotCommander&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#1d99f3;&quot;&gt;
+https://github.com/hfansion/RobotCommander&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="191"/>
         <source>receive: </source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="170"/>
+        <location filename="../mainwindow.cpp" line="210"/>
         <source>send: </source>
         <translation></translation>
     </message>

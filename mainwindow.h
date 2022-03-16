@@ -46,11 +46,6 @@ public slots:
     void startCheckForUpdate();
     void showUpdateDialog(Updater::Result result);
 
-protected slots:
-    void keyPressEvent(QKeyEvent *event) override;
-    void keyReleaseEvent(QKeyEvent *event) override;
-
-
 private:
     Ui::MainWindow *ui;
     SettingsDialog *m_settingsDialog;

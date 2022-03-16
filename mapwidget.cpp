@@ -13,6 +13,7 @@
 #include "command/positioncommand.h"
 
 MapWidget::MapWidget(QWidget *parent) : QWidget(parent) {
+    this->setFocusPolicy(Qt::WheelFocus);
 }
 
 MapWidget::~MapWidget() = default;
@@ -98,10 +99,16 @@ void MapWidget::resizeEvent(QResizeEvent *event) {
                 m_imgMap = m_tmpMap.scaledToWidth(this->width(), Qt::SmoothTransformation);
                 m_baseP.setX(0);
                 m_fill_width_or_height = true;
+                if (m_baseP.y() > 0) m_baseP.setY(0);
+                else if (int h = this->height() - m_imgMap.height(); m_baseP.y() < h)
+                    m_baseP.setY(h);
             } else {
                 m_imgMap = m_tmpMap.scaledToHeight(this->height(), Qt::SmoothTransformation);
                 m_baseP.setY(0);
                 m_fill_width_or_height = false;
+                if (m_baseP.x() > 0) m_baseP.setX(0);
+                else if (int w = this->width() - m_imgMap.width(); m_baseP.x() < w)
+                    m_baseP.setX(w);
             }
             break;
         }
@@ -144,15 +151,7 @@ void MapWidget::mouseMoveEvent(QMouseEvent *event) {
                     m_baseP.setX(this->width() - m_imgMap.width());
                 }
             } else {
-                if (int dx = m_baseP.x(); dx < 0) {
-                    m_mouseP.rx() += dx;
-                    m_startP.rx() += dx;
-                    m_baseP.setX(0);
-                } else if (dx = this->width() - m_baseP.x() - m_imgMap.width(); dx < 0) {
-                    m_mouseP.rx() -= dx;
-                    m_startP.rx() -= dx;
-                    m_baseP.setX(this->width() - m_imgMap.width());
-                }
+                m_baseP.setX((this->width() - m_imgMap.width()) / 2);
             }
         }
         if (m_viewForm == NormalView || (m_viewForm == FilledView && m_fill_width_or_height)) {
@@ -167,15 +166,7 @@ void MapWidget::mouseMoveEvent(QMouseEvent *event) {
                     m_baseP.setY(this->height() - m_imgMap.height());
                 }
             } else {
-                if (int dy = m_baseP.y(); dy < 0) {
-                    m_mouseP.ry() += dy;
-                    m_startP.ry() += dy;
-                    m_baseP.setY(0);
-                } else if (dy = this->height() - m_baseP.y() - m_imgMap.height(); dy < 0) {
-                    m_mouseP.ry() -= dy;
-                    m_startP.ry() -= dy;
-                    m_baseP.setY(this->height() - m_imgMap.height());
-                }
+                m_baseP.setY((this->height() - m_imgMap.height()) / 2);
             }
         }
         repaint();
@@ -193,30 +184,56 @@ void MapWidget::mouseReleaseEvent(QMouseEvent *event) {
 
 void MapWidget::wheelEvent(QWheelEvent *event) {
     if (mod_Ctrl) {
+        emit updateViewForm(NormalView);
         if (event->angleDelta().y() > 0) {
             zoomIn();
         } else {
             zoomOut();
         }
         repaint();
-    } else if (mod_Alt) {
-        if (m_viewForm == NormalView || (m_viewForm == FilledView && !m_fill_width_or_height)) {
-            if (event->angleDelta().y() > 0) {
-                m_baseP.rx() += 20;
-            } else {
-                m_baseP.rx() -= 20;
-            }
-            repaint();
-        }
     } else {
+        bool need_paint = false;
         if (m_viewForm == NormalView || (m_viewForm == FilledView && m_fill_width_or_height)) {
-            if (event->angleDelta().y() > 0) {
-                m_baseP.ry() += 20;
-            } else {
-                m_baseP.ry() -= 20;
+            if (m_imgMap.height() > this->height()) {
+                int dy = event->angleDelta().y();
+                if (dy > 0) {
+                    m_baseP.ry() += 20;
+                    if (m_baseP.y() > 0) m_baseP.setY(0);
+                } else if (dy < 0) {
+                    m_baseP.ry() -= 20;
+                    if (int h = this->height() - m_imgMap.height(); m_baseP.y() < h)
+                        m_baseP.setY(h);
+                }
+                need_paint = true;
             }
-            repaint();
         }
+        if (m_viewForm == NormalView || (m_viewForm == FilledView && !m_fill_width_or_height)) {
+            if (m_imgMap.width() > this->width()) {
+                int dx = event->angleDelta().x();
+                if (dx > 0) {
+                    m_baseP.rx() -= 20;
+                    if (int w = this->width() - m_imgMap.width(); m_baseP.x() < w)
+                        m_baseP.setX(w);
+                } else if (dx < 0) {
+                    m_baseP.rx() += 20;
+                    if (m_baseP.x() > 0) m_baseP.setX(0);
+                }
+                need_paint = true;
+            }
+        }
+        if (need_paint) repaint();
+    }
+}
+
+void MapWidget::keyPressEvent(QKeyEvent *event) {
+    if (event->key() == Qt::Key_Control && event->modifiers() == Qt::ControlModifier) {
+        mod_Ctrl = true;
+    }
+}
+
+void MapWidget::keyReleaseEvent(QKeyEvent *event) {
+    if (event->key() == Qt::Key_Control) {
+        mod_Ctrl = false;
     }
 }
 

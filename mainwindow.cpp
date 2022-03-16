@@ -91,6 +91,9 @@ MainWindow::MainWindow(QWidget *parent) :
         setViewForm(MapWidget::NormalView);
         ui->centralwidget->zoomOut();
     });
+    connect(ui->actionViewNormal, &QAction::triggered, [this](bool checked) {
+        setViewForm(checked ? MapWidget::NormalView : MapWidget::SuitableView);
+    });
     connect(ui->actionViewSuitable, &QAction::triggered, [this](bool checked) {
         setViewForm(checked ? MapWidget::SuitableView : MapWidget::NormalView);
     });
@@ -254,22 +257,4 @@ void MainWindow::registerPanel(PanelBase *panel, const QString &objectName) {
         if (checked) dock->show(); else dock->hide();
     });
     m_panelRelations.append(PanelRelation{action, panel, dock});
-}
-
-void MainWindow::keyPressEvent(QKeyEvent *event) {
-    if (event->modifiers() == Qt::ControlModifier) {
-        ui->centralwidget->mod_Ctrl = true;
-    } else if (event->modifiers() == Qt::AltModifier) {
-        ui->centralwidget->mod_Alt = true;
-    }
-    qDebug() << ui->centralwidget->mod_Ctrl << ui->centralwidget->mod_Alt;
-}
-
-void MainWindow::keyReleaseEvent(QKeyEvent *event) {  // TODO 有问题
-    if (event->modifiers() == Qt::ControlModifier) {
-        ui->centralwidget->mod_Ctrl = false;
-    } else if (event->modifiers() == Qt::AltModifier) {
-        ui->centralwidget->mod_Alt = false;
-    }
-    qDebug() << ui->centralwidget->mod_Ctrl << ui->centralwidget->mod_Alt;
 }
