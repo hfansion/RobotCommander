@@ -5,12 +5,15 @@
 #ifndef ROBOTCOMMANDER_POSITION_H
 #define ROBOTCOMMANDER_POSITION_H
 
+#include <qglobal.h>
+
 class QString;
 
 class Position {
 public:
     static int X_RANGE, Y_RANGE;
     static void SET_RANGE(int x_range, int y_range);
+    static constexpr qsizetype DATA_LENGTH = 4;
 
     explicit Position(int x, int y);
     ~Position() = default;

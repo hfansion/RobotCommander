@@ -11,6 +11,9 @@ QT_BEGIN_NAMESPACE
 namespace Ui { class ConsolePanel; }
 QT_END_NAMESPACE
 
+class Info;
+class Command;
+
 class ConsolePanel : public PanelBase {
 Q_OBJECT
 
@@ -19,7 +22,9 @@ public:
     ~ConsolePanel() override;
     QString PanelName() override { return qMove(tr("Console")); }
     void retranslateUi() override;
-    void appendMessage(const QByteArray &data, const QString &content);
+
+    void appendMessage(const QString &content);
+    void appendInfo(const Info *info);
 
 private slots:
     void CS_clear();

@@ -10,8 +10,7 @@
 
 class PositionInfo : public Position, public Info {
 public:
-    static constexpr int DATA_LENGTH = 4;
-    static PositionInfo *decode(const QByteArray &data);
+    static std::unique_ptr<PositionInfo> decode(const QByteArray &data);
 
     using Position::Position;
     [[nodiscard]] ProtocolReceive getInfoType() const override;

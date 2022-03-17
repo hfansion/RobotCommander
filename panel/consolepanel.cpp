@@ -6,8 +6,8 @@
 
 #include "consolepanel.h"
 #include "ui_consolepanel.h"
-#include <QTime>
 #include "data/hexdisplayer.h"
+#include "info/info.h"
 
 ConsolePanel::ConsolePanel(QWidget *parent) :
         PanelBase(parent), ui(new Ui::ConsolePanel) {
@@ -43,14 +43,16 @@ void ConsolePanel::CS_checkRecordFulls() {  // 非常差的操作，不过暂时
     }
 }
 
-void ConsolePanel::appendMessage(const QByteArray &data, const QString &content) {
-    QString message;
-    auto cur_time = QTime::currentTime();
-    message.append(QString("[%1:%2:%3] ").arg(cur_time.hour()).arg(cur_time.minute()).arg(cur_time.second()));
-    message.append(tr("receive: ")).append(HexDisplayer::toString(data)).append('\n').append(content);
-    ui->textEdit_CS->append(message);
+void ConsolePanel::appendMessage(const QString &content) {
+    ui->textEdit_CS->append(content);
     ++m_CS_recordLines;
     CS_checkRecordFulls();
+}
+
+void ConsolePanel::appendInfo(const Info *info) {
+//    switch (info->getInfoType()) {
+//    }
+    ui->textEdit_CS->append(tr(" [info] ").append(info->toString()).append('\n'));
 }
 
 void ConsolePanel::retranslateUi() {

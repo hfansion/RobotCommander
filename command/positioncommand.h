@@ -10,8 +10,6 @@
 
 class PositionCommand : public Position, public Command {
 public:
-    static constexpr int DATA_LENGTH = 4;
-
     using Position::Position;
 
     [[nodiscard]] QByteArray encode() const override;

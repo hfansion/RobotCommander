@@ -5,12 +5,12 @@
 #ifndef ROBOTCOMMANDER_COMPOSITOR_H
 #define ROBOTCOMMANDER_COMPOSITOR_H
 
+#include <memory>
+#include <queue>
 #include <QObject>
-#include <QQueue>
-#include <protocol.h>
-
-class Info;
-class Command;
+#include "command/command.h"
+#include "info/info.h"
+#include "protocol.h"
 
 class Compositor : public QObject {
 Q_OBJECT
@@ -18,29 +18,36 @@ public:
     Compositor() = default;
     ~Compositor() override;
 
-    void addCommand(Command *command);                      // 追加一条指令
-    const QByteArray &encode();                             // 编码操作
+    template<typename T>
+    using Queue = std::queue<T>;
+    template<typename T>
+    using Ptr = std::unique_ptr<T>;
+
+    void addCommand(Ptr<Command> command);      // 追加一条指令
+    void send() { emit needSendCommand(); }
+    QByteArray encode();                                    // 编码操作
     static QByteArray previewEncode(const Command *command);// 预览编码
     [[nodiscard]] const QString &getEncodeMessage() const;  // 获取当前编码的显示内容
 
-    void decode(const QByteArray &data);                    // 解码信息
-    const Info *getInfo();                                  // 获取解码结果
+    void decode(QByteArray data);                           // 解码信息
+    Ptr<Info> getInfo();                                  // 获取解码结果
     [[nodiscard]] const QString &getDecodeMessage() const;  // 获取当前解码的显示内容
 
 signals:
     void needSendCommand();
 
 private:
-    // 所有Command和Info的生命周期由本类的这两个queue管理
-    QQueue<Command *> m_queCommand;
-    QQueue<const Info *> m_queInfo;
-    QList<Info *> m_listInfo;
-    QByteArray m_sendCode, m_receiveCode;
+    Queue<Ptr<Command>> m_queCommand;
+    Queue<Ptr<Info>> m_queInfo;
     QString m_encodeMessage;
     QString m_decodeMessage;
 
+    template<typename T>
+    inline static Ptr<T> pop(Queue<Ptr<T>> &queue);
+    inline static QByteArray extract(QByteArray &data, qsizetype length);
     static void checkSumAndPostProcess(QByteArray &code);
     static bool verifyAndPreProcess(QByteArray &code);
+    static inline QString timeStr();
 };
 
 

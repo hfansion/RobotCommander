@@ -14,7 +14,6 @@ public:
     [[nodiscard]] ProtocolReceive getInfoType() const override;
     [[nodiscard]] QString toString() const override;
 
-    const int DATA_LENGTH;
     const QByteArray DATA;
 };
 

@@ -30,8 +30,9 @@ Robocon比赛中用于方便调试和控制机器人运动的小软件
 - [x] 关闭时保存窗口大小位置
 - [x] 记住dockWidget的位置和大小
 - [x] 主窗体的放大缩小
-- [ ] 优化compositor接发消息的流程&Console
+- [x] 优化compositor接发消息的流程
 - [ ] 新的命令队列和参数概览小窗口
+- [ ] Console
 - [ ] 用CSS美化界面
 - [ ] checkbutton改为switchbutton
 - [ ] version.rc的问题
@@ -41,5 +42,6 @@ Robocon比赛中用于方便调试和控制机器人运动的小软件
 - [ ] zoom进阶三：关闭前记住地图位置
 - [ ] 更高级的自动更新&安装包
 - [ ] 优化默认地图和图标的大小、美观、svg
+- [ ] Command Queue进阶二：recipe和保存
 
 同时，新的协议完善

@@ -16,19 +16,12 @@
 #include "compositor.h"
 #include "data/hexdisplayer.h"
 #include "info/info.h"
-#include "info/positioninfo.h"
 #include "panel/consolepanel.h"
 #include "panel/senderpanel.h"
 #include "robotcommanderconfig.h"
 #include "settings.h"
 #include "settingsdialog.h"
 #include "updater.h"
-
-template<typename T>
-inline void deleteAllPointers(const QList<T> &anyList) {
-    for (const T &p: anyList)
-        delete p;
-}
 
 void MainWindow::setViewForm(MapWidget::ViewForm viewForm) {
     ui->centralwidget->setViewForm(viewForm);
@@ -110,8 +103,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     auto send_command = [this](Command *command) {
         if (m_serial->isOpen())
-            m_compositor->addCommand(command);
-        else delete command;
+            m_compositor->addCommand(Compositor::Ptr<Command>{command});
     };
     connect(ui->centralwidget, &MapWidget::sendCommand, send_command);
     connect(m_senderPanel, &SenderPanel::sendCommand, send_command);
@@ -166,8 +158,8 @@ void MainWindow::closeSerialPort() {
 }
 
 void MainWindow::about() {
-    QMessageBox::about(this, tr("About Robot Commander"), tr(R"(
-<html><head/><body><p><span style=" font-weight:600;">Robot Commander</span></p>
+    QMessageBox::about(this, tr("About Robot Commander"),
+                       tr(R"(<html><head/><body><p><span style=" font-weight:600;">Robot Commander</span></p>
 <p>Version %1</p><p>Robot Commander is a tool for controlling and debugging the movements of robots in Robocon.</p>
 <p><a href="https://github.com/hfansion/RobotCommander/blob/main/LICENSE/">
 <span style=" text-decoration: underline; color:#1d99f3;">GPL-3.0 License</span>
@@ -186,12 +178,12 @@ void MainWindow::handleError(QSerialPort::SerialPortError error) {
 void MainWindow::compositorRead() {
     QByteArray data = m_serial->readAll();
     m_compositor->decode(data);
-    const Info *info = m_compositor->getInfo();
+    m_consolePanel->appendMessage(m_compositor->getDecodeMessage());
+    auto info = m_compositor->getInfo();
     while (info != nullptr) {
-        showStatusMessage(tr("receive: ").append(m_compositor->getDecodeMessage()));
         switch (info->getInfoType()) {
             case ProtocolReceive::Position: {
-                auto *p = (PositionInfo *) info;
+                auto p = dynamic_cast<Position *>(info.get());
                 ui->centralwidget->infoCurPosition(
                         QPointF((qreal) p->x / Position::X_RANGE, (qreal) p->y / Position::Y_RANGE));
                 break;
@@ -199,16 +191,16 @@ void MainWindow::compositorRead() {
             case ProtocolReceive::Any:
                 break;
         }
+        m_consolePanel->appendInfo(info.get());
         info = m_compositor->getInfo();
     }
-    m_consolePanel->appendMessage(data, m_compositor->getDecodeMessage());
 }
 
 void MainWindow::compositorSend() {
     if (m_serial->isOpen()) {
         m_serial->write(m_compositor->encode());
         showStatusMessage(tr("send: ").append(m_compositor->getEncodeMessage()));
-        m_consolePanel->appendMessage(m_compositor->encode(), m_compositor->getEncodeMessage());
+        m_consolePanel->appendMessage(m_compositor->getEncodeMessage());
     }
 }
 

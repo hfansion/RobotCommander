@@ -17,7 +17,7 @@
 #include "../data/position.h"
 #include "../protocol.h"
 
-class Info{
+class Info {
 public:
     virtual ~Info() = default;
     [[nodiscard]] virtual ProtocolReceive getInfoType() const = 0;

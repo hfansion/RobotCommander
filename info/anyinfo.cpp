@@ -3,8 +3,6 @@
 //
 
 #include "anyinfo.h"
-
-#include <utility>
 #include "../data/hexdisplayer.h"
 
 ProtocolReceive AnyInfo::getInfoType() const {
@@ -17,5 +15,5 @@ QString AnyInfo::toString() const {
 }
 
 AnyInfo::AnyInfo(QByteArray data)
-        : DATA_LENGTH(data.length()), DATA(std::move(data)) {
+        : DATA(std::move(data)) {
 }

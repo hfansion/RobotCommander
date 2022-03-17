@@ -20,7 +20,7 @@ QString AnyCommand::toString() const {
 }
 
 Command *AnyCommand::copy() const {
-    auto *command = new AnyCommand();
+    auto command = new AnyCommand();
     command->m_code = m_code;
     return command;
 }
