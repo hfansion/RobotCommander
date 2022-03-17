@@ -33,8 +33,8 @@ void Updater::processData(QNetworkReply *reply) {
     auto json = QJsonDocument::fromJson(reply->readAll()).object();
     Result result = networkError;
     if (json.contains("rl_ver") && json["rl_ver"].toInt() >= 1) {
-        m_version = qMove(json["version"].toString());
-        m_link = {qMove(json["link"].toString())};
+        m_version = std::move(json["version"].toString());
+        m_link = {std::move(json["link"].toString())};
         result = m_version == ROBOTCOMMANDER_VERSION ? isLatest : isNotLatest;
     }
     emit checkFinished(result);

@@ -20,7 +20,7 @@ Q_OBJECT
 public:
     explicit SenderPanel(QWidget *parent = nullptr);
     ~SenderPanel() override;
-    QString PanelName() override { return qMove(tr("Sender")); }
+    QString PanelName() override { return std::move(tr("Sender")); }
     void retranslateUi() override;
 
 signals:

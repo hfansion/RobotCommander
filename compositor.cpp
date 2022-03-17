@@ -32,7 +32,7 @@ QByteArray Compositor::encode() {
         m_queCommand.pop();
     }
     checkSumAndPostProcess(code);
-    return qMove(code);
+    return std::move(code);
 }
 
 const QString &Compositor::getEncodeMessage() const {
@@ -48,8 +48,8 @@ void Compositor::decode(QByteArray data) {
             bool succeed = true;
             char8_t typeData = extract(data, 1).at(0);
             if (typeData & '\x80') {  // 第一位为1，即为Any类型
-                int data_length = (typeData << 1) >> 1;
-                info = std::make_unique<AnyInfo>(extract(data, data_length));
+                int length = (typeData << 1) >> 1;
+                info = std::make_unique<AnyInfo>(extract(data, length));
             } else {
                 switch (static_cast<ProtocolReceive>(typeData)) {
                     case ProtocolReceive::Position: {
@@ -101,7 +101,7 @@ Compositor::Ptr<Info> Compositor::getInfo() {
 QByteArray Compositor::extract(QByteArray &data, qsizetype length) {
     QByteArray out = data.left(length);
     data.remove(0, length);
-    return qMove(out);
+    return std::move(out);
 }
 
 template<typename T>
@@ -116,5 +116,5 @@ Compositor::Ptr<T> Compositor::pop(Queue<Ptr<T>> &queue) {
 
 QString Compositor::timeStr() {
     auto c_time = QTime::currentTime();
-    return qMove(QString("[%1:%2:%3] ").arg(c_time.hour()).arg(c_time.minute()).arg(c_time.second()));
+    return std::move(QString("[%1:%2:%3] ").arg(c_time.hour()).arg(c_time.minute()).arg(c_time.second()));
 }

@@ -17,5 +17,5 @@ Position::Position(int x, int y) : x(x), y(y) {
 }
 
 QString Position::toString() const {
-    return qMove(QString("Position(%1,%2)").arg(x).arg(y));
+    return std::move(QString("Position(%1,%2)").arg(x).arg(y));
 }

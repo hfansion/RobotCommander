@@ -176,8 +176,7 @@ void MainWindow::handleError(QSerialPort::SerialPortError error) {
 }
 
 void MainWindow::compositorRead() {
-    QByteArray data = m_serial->readAll();
-    m_compositor->decode(data);
+    m_compositor->decode(std::move(m_serial->readAll()));
     m_consolePanel->appendMessage(m_compositor->getDecodeMessage());
     auto info = m_compositor->getInfo();
     while (info != nullptr) {

@@ -12,7 +12,7 @@ QByteArray PositionCommand::encode() const {
     code.append((char) (p[1])).append((char) (p[0]));
     p = (char8_t *) &(this->y);
     code.append((char) (p[1])).append((char) (p[0]));
-    return qMove(code);
+    return std::move(code);
 }
 
 QString PositionCommand::toString() const {

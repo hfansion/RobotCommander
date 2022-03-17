@@ -20,7 +20,7 @@ Q_OBJECT
 public:
     explicit ConsolePanel(QWidget *parent = nullptr);
     ~ConsolePanel() override;
-    QString PanelName() override { return qMove(tr("Console")); }
+    QString PanelName() override { return std::move(tr("Console")); }
     void retranslateUi() override;
 
     void appendMessage(const QString &content);
