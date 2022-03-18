@@ -5,10 +5,6 @@
 #include "anyinfo.h"
 #include "../data/hexdisplayer.h"
 
-ProtocolReceive AnyInfo::getInfoType() const {
-    return ProtocolReceive::Any;
-}
-
 QString AnyInfo::toString() const {
     QString text = QString("Any(%1)").arg(HexDisplayer::toString(DATA));
     return std::move(text);

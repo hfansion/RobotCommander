@@ -11,6 +11,7 @@ class AnyCommand : public Command {
 public:
     explicit AnyCommand(QByteArray cmd);
 
+    [[nodiscard]] ProtocolSend getType() const override { return ProtocolSend::Any; }
     [[nodiscard]] QByteArray encode() const override;
     [[nodiscard]] QString toString() const override;
     [[nodiscard("you should maintain the life of this pointer")]]

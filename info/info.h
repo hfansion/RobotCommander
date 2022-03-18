@@ -20,7 +20,7 @@
 class Info {
 public:
     virtual ~Info() = default;
-    [[nodiscard]] virtual ProtocolReceive getInfoType() const = 0;
+    [[nodiscard]] virtual ProtocolReceive getType() const = 0;
     [[nodiscard]] virtual QString toString() const = 0;
 };
 

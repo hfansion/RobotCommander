@@ -11,7 +11,7 @@ class AnyInfo : public Info {
 public:
     explicit AnyInfo(QByteArray data);
 
-    [[nodiscard]] ProtocolReceive getInfoType() const override;
+    [[nodiscard]] ProtocolReceive getType() const override { return ProtocolReceive::Any; }
     [[nodiscard]] QString toString() const override;
 
     const QByteArray DATA;

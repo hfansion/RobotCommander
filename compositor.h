@@ -5,7 +5,6 @@
 #ifndef ROBOTCOMMANDER_COMPOSITOR_H
 #define ROBOTCOMMANDER_COMPOSITOR_H
 
-#include <memory>
 #include <queue>
 #include <QObject>
 #include "command/command.h"
@@ -23,15 +22,15 @@ public:
     template<typename T>
     using Ptr = std::unique_ptr<T>;
 
-    void addCommand(Ptr<Command> command);      // 追加一条指令
-    void send() { emit needSendCommand(); }
-    QByteArray encode();                                    // 编码操作
-    static QByteArray previewEncode(const Command *command);// 预览编码
-    [[nodiscard]] const QString &getEncodeMessage() const;  // 获取当前编码的显示内容
+    void addCommand(Ptr<Command> command);                   // 追加一条命令
+    void send() { emit needSendCommand(); }                  // 发送全部命令
+    QByteArray encode();                                     // 编码操作
+    static QByteArray previewEncode(const Command *command); // 预览编码
+    [[nodiscard]] const QString &getEncodeMessage() const;   // 获取当前编码的显示内容
 
-    void decode(QByteArray data);                           // 解码信息
-    Ptr<Info> getInfo();                                  // 获取解码结果
-    [[nodiscard]] const QString &getDecodeMessage() const;  // 获取当前解码的显示内容
+    void decode(QByteArray data);                            // 解码信息
+    Ptr<Info> getInfo();                                     // 获取解码结果
+    [[nodiscard]] const QString &getDecodeMessage() const;   // 获取当前解码的显示内容
 
 signals:
     void needSendCommand();

@@ -50,7 +50,7 @@ void ConsolePanel::appendMessage(const QString &content) {
 }
 
 void ConsolePanel::appendInfo(const Info *info) {
-//    switch (info->getInfoType()) {
+//    switch (info->getType()) {
 //    }
     ui->textEdit_CS->append(tr(" [info] ").append(info->toString()).append('\n'));
 }

@@ -88,6 +88,9 @@
            <property name="text">
             <string>Send</string>
            </property>
+           <property name="icon">
+            <iconset theme="document-send"/>
+           </property>
           </widget>
          </item>
         </layout>

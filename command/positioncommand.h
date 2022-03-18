@@ -12,6 +12,7 @@ class PositionCommand : public Position, public Command {
 public:
     using Position::Position;
 
+    [[nodiscard]] ProtocolSend getType() const override { return ProtocolSend::Position; }
     [[nodiscard]] QByteArray encode() const override;
     [[nodiscard]] QString toString() const override;
 };

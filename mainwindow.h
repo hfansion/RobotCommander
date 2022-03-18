@@ -16,6 +16,7 @@ namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
 
 class Command;
+class CommandPanel;
 class Compositor;
 class ConsolePanel;
 class PanelBase;
@@ -66,6 +67,7 @@ private:
     void registerPanel(PanelBase *panel, const QString &objectName);
     SenderPanel *m_senderPanel;
     ConsolePanel *m_consolePanel;
+    CommandPanel *m_commandPanel;
 };
 
 /** 自动更新：

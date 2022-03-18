@@ -11,10 +11,6 @@ std::unique_ptr<PositionInfo> PositionInfo::decode(const QByteArray &data) {  //
     return std::make_unique<PositionInfo>(x, y);
 }
 
-ProtocolReceive PositionInfo::getInfoType() const {
-    return ProtocolReceive::Position;
-}
-
 QString PositionInfo::toString() const {
     return Position::toString();
 }

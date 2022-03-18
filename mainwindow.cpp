@@ -16,6 +16,7 @@
 #include "compositor.h"
 #include "data/hexdisplayer.h"
 #include "info/info.h"
+#include "panel/commandpanel.h"
 #include "panel/consolepanel.h"
 #include "panel/senderpanel.h"
 #include "robotcommanderconfig.h"
@@ -45,11 +46,13 @@ MainWindow::MainWindow(QWidget *parent) :
         QMainWindow(parent), ui(new Ui::MainWindow), m_translator(new QTranslator()),
         m_settingsDialog(new SettingsDialog(this)), m_serial(new QSerialPort(this)),
         m_compositor(new Compositor), m_senderPanel(new SenderPanel(this)),
-        m_consolePanel(new ConsolePanel(this)), m_updater(nullptr) {
+        m_consolePanel(new ConsolePanel(this)), m_updater(nullptr),
+        m_commandPanel(new CommandPanel(this)) {
     ui->setupUi(this);
     updateSettings(m_settingsDialog->settings());
     registerPanel(m_senderPanel, "senderPanel");
     registerPanel(m_consolePanel, "consolePanel");
+    registerPanel(m_commandPanel, "commandPanel");
     auto toolBar = new QToolBar(this);
     toolBar->setObjectName("mapToolBar");
     this->addToolBar(Qt::TopToolBarArea, toolBar);
@@ -180,7 +183,7 @@ void MainWindow::compositorRead() {
     m_consolePanel->appendMessage(m_compositor->getDecodeMessage());
     auto info = m_compositor->getInfo();
     while (info != nullptr) {
-        switch (info->getInfoType()) {
+        switch (info->getType()) {
             case ProtocolReceive::Position: {
                 auto p = dynamic_cast<Position *>(info.get());
                 ui->centralwidget->infoCurPosition(
