@@ -43,9 +43,10 @@ set(PROJECT_SOURCES RobotCommander.qrc main.cpp protocol.h
         data/position.cpp data/position.h
         data/hexdisplayer.cpp data/hexdisplayer.h
         util/autorefreshcombobox.cpp util/autorefreshcombobox.h
+        panel/panelbase.h
         panel/senderpanel.cpp panel/senderpanel.h panel/senderpanel.ui
         panel/consolepanel.cpp panel/consolepanel.h panel/consolepanel.ui
-        panel/panelbase.h panel/commandpanel.cpp panel/commandpanel.h panel/commandpanel.ui command/command.cpp)
+        panel/commandpanel.cpp panel/commandpanel.h panel/commandpanel.ui)
 
 if (NOT CMAKE_BUILD_TYPE MATCHES "Debug")
     set(PROJECT_SOURCES WIN32 ${PROJECT_SOURCES})

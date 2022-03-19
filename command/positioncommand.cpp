@@ -3,6 +3,9 @@
 //
 
 #include "positioncommand.h"
+#include <QHBoxLayout>
+#include <QLabel>
+#include <QSpinBox>
 #include <QString>
 
 QByteArray PositionCommand::encode() const {
@@ -17,4 +20,25 @@ QByteArray PositionCommand::encode() const {
 
 QString PositionCommand::toString() const {
     return Position::toString();
+}
+
+Form *PositionCommand::createForm(QWidget *parent) const {
+    return new PositionForm(this, parent);
+}
+
+PositionForm::PositionForm(const PositionCommand *command, QWidget *parent) :
+        Form(parent), spinBox_X(new QSpinBox(this)), spinBox_Y(new QSpinBox(this)) {
+    auto label_X = new QLabel(this), label_Y = new QLabel(this);
+    label_X->setText(tr("X:")), label_Y->setText(tr("Y:"));
+    spinBox_X->setMinimum(0), spinBox_X->setMaximum(Position::X_RANGE);
+    spinBox_X->setValue(command->x);
+    spinBox_Y->setMinimum(0), spinBox_Y->setMaximum(Position::Y_RANGE);
+    spinBox_Y->setValue(command->y);
+    auto layout = new QHBoxLayout(this);
+    layout->addWidget(label_X), layout->addWidget(spinBox_X);
+    layout->addWidget(label_Y), layout->addWidget(spinBox_Y);
+}
+
+std::shared_ptr<Command> PositionForm::getCommand() const {
+    return std::make_shared<PositionCommand>(spinBox_X->value(), spinBox_Y->value());
 }

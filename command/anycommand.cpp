@@ -25,4 +25,15 @@ Command *AnyCommand::copy() const {
     return command;
 }
 
-AnyCommand::AnyCommand() = default;
+Form *AnyCommand::createForm(QWidget *parent) const {
+    return new AnyForm(this, parent);
+}
+
+AnyForm::AnyForm(const AnyCommand *command, QWidget *parent) {
+    // TODO
+}
+
+std::shared_ptr<Command> AnyForm::getCommand() const {
+    // TODO
+    return std::make_shared<AnyCommand>("");
+}
