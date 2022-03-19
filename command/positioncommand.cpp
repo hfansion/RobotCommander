@@ -36,7 +36,11 @@ PositionForm::PositionForm(const PositionCommand *command, QWidget *parent) :
     spinBox_Y->setValue(command->y);
     auto layout = new QHBoxLayout(this);
     layout->addWidget(label_X), layout->addWidget(spinBox_X);
+    layout->addSpacerItem(new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum));
     layout->addWidget(label_Y), layout->addWidget(spinBox_Y);
+    layout->addSpacerItem(new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum));
+    layout->setStretch(2, 1);
+    layout->setStretch(5, 2);
 }
 
 std::shared_ptr<Command> PositionForm::getCommand() const {
