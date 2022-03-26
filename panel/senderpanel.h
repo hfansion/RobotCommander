@@ -24,7 +24,7 @@ public:
     void retranslateUi() override;
 
 signals:
-    void sendCommand(Command *command);
+    void sendCommand(const std::shared_ptr<Command> &command);
 
 private slots:
     void preview(const QString &text);

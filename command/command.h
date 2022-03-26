@@ -18,7 +18,7 @@ public:
     [[nodiscard]] virtual QString getName() const = 0;
     [[nodiscard]] virtual QByteArray encode() const = 0;
     [[nodiscard]] virtual QString toString() const = 0;
-
+    [[nodiscard("memory leak")]] virtual Command *copy() const = 0;
     [[nodiscard("memory leak")]] virtual Form *createForm(QWidget *parent) const = 0;
 };
 

@@ -13,11 +13,13 @@ class QSpinBox;
 class PositionCommand : public Position, public Command {
 public:
     using Position::Position;
+    static const QString NAME;
 
     [[nodiscard]] ProtocolSend getType() const override { return ProtocolSend::Position; }
-    [[nodiscard]] QString getName() const override { return "Position"; }
+    [[nodiscard]] QString getName() const override { return NAME; }
     [[nodiscard]] QByteArray encode() const override;
     [[nodiscard]] QString toString() const override;
+    [[nodiscard("memory leak")]] Command *copy() const override;
     [[nodiscard("memory leak")]] Form *createForm(QWidget *parent) const override;
 };
 

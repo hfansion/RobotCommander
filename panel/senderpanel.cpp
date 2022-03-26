@@ -18,7 +18,7 @@ SenderPanel::SenderPanel(QWidget *parent) :
     connect(ui->radioButton_LS_hex, &QRadioButton::pressed, f_preview);
     connect(ui->radioButton_LS_str, &QRadioButton::pressed, f_preview);
     connect(ui->pushButton_LS_Send, &QPushButton::clicked, [this]() {
-        emit sendCommand(m_LS_tmpCmd->copy());
+        emit sendCommand(std::shared_ptr<AnyCommand>(dynamic_cast<AnyCommand *>(m_LS_tmpCmd->copy())));
     });
     f_preview();
 }

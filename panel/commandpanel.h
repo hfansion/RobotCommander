@@ -15,13 +15,13 @@
 #include "../protocol.h"
 
 class Command;
+class Compositor;
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class CommandPanel; }
 class QLabel;
 class QPushButton;
 QT_END_NAMESPACE
-
 
 struct CommandData {
     std::shared_ptr<Command> command;
@@ -61,11 +61,18 @@ public:
     ~CommandPanel() override;
     QString PanelName() override { return std::move(tr("Command Queue")); }
     void retranslateUi() override;
+    void addCommand(const std::shared_ptr<Command>& command);
+    void sendAll(Compositor *compositor);
+signals:
+    void startSendAll();
 
 public slots:
-    void slot_addCommand(const CommandData& commandData);
-//    void slot_removeCommand(int index);
+    void slot_removeCommand();
     void shot_showCommand(int index);
+    void slot_clearCommand();
+
+protected:
+    bool eventFilter(QObject *object, QEvent *event) override;
 
 private:
     Ui::CommandPanel *ui;

@@ -8,21 +8,38 @@
 #include "ui_commandpanel.h"
 #include <QLabel>
 #include <QLayoutItem>
+#include <QMenu>
 #include <QPainter>
 #include <QPushButton>
 #include "../command/command.h"
 #include "../command/anycommand.h"
 #include "../command/positioncommand.h"
+#include "../compositor.h"
 
 CommandPanel::CommandPanel(QWidget *parent) :
         PanelBase(parent), ui(new Ui::CommandPanel) {
+    this->installEventFilter(this);
     ui->setupUi(this);
     ui->commandEditor->setVisible(false);
+
+    auto menu = new QMenu(this);
+    menu->addAction(PositionCommand::NAME, [this]() {
+        addCommand(std::make_shared<PositionCommand>(0, 0));
+    });
+    menu->addAction(AnyCommand::NAME, [this]() {
+        addCommand(std::make_shared<AnyCommand>(""));
+    });
+    connect(ui->pushButton_add, &QPushButton::clicked, [this, menu]() {
+        menu->exec(ui->pushButton_add->mapToGlobal(ui->pushButton_add->geometry().bottomLeft()));
+    });
+
     connect(ui->listWidget, &QListWidget::currentRowChanged, this, &CommandPanel::shot_showCommand);
-    slot_addCommand({std::make_shared<PositionCommand>(1, 2)});
-    slot_addCommand({std::make_shared<PositionCommand>(1, 2)});
-    slot_addCommand({std::make_shared<PositionCommand>(1, 2)});
-    slot_addCommand({std::make_shared<AnyCommand>(QByteArray{})});
+    connect(ui->listWidget, &QListWidget::itemSelectionChanged, [this]() {
+        if (ui->listWidget->selectedItems().empty()) ui->commandEditor->setVisible(false);
+    });
+    connect(ui->pushButton_remove, &QPushButton::clicked, this, &CommandPanel::slot_removeCommand);
+    connect(ui->pushButton_sweep, &QPushButton::clicked, this, &CommandPanel::slot_clearCommand);
+    connect(ui->pushButton_send, &QPushButton::clicked, [this]() { emit startSendAll(); });
 }
 
 CommandPanel::~CommandPanel() {
@@ -34,14 +51,11 @@ void CommandPanel::retranslateUi() {
 }
 
 void CommandPanel::shot_showCommand(int index) {
-    if (ui->listWidget->selectedItems().size() != 1) {
-        ui->commandEditor->setVisible(false);
-        return;
-    }
     if (m_currentIndex >= 0 && m_currentIndex < m_commands.size()) {
         m_commands[m_currentIndex] = ui->commandEditor->getCommandData();
         ui->listWidget->item(m_currentIndex)->setText(m_commands[m_currentIndex].command->toString());
     }
+    if (m_currentIndex == index) return;
     if (index < 0 || index >= m_commands.size()) {
         ui->commandEditor->setVisible(false);
         m_currentIndex = -1;
@@ -52,18 +66,51 @@ void CommandPanel::shot_showCommand(int index) {
     }
 }
 
-void CommandPanel::slot_addCommand(const CommandData &commandData) {
+void CommandPanel::addCommand(const std::shared_ptr<Command>& command) {
     int index = static_cast<int>(m_commands.size());
-    m_commands.emplace_back(commandData);
+    m_commands.emplace_back(command);
     auto item = new QListWidgetItem(ui->listWidget);
     item->setText(m_commands[index].command->toString());
     ui->listWidget->addItem(item);
     ui->listWidget->setCurrentRow(index);
 }
 
-//void CommandPanel::slot_removeCommand(int index) {
-//
-//}
+void CommandPanel::slot_removeCommand() {
+    if (ui->listWidget->selectedItems().size() != 1) {
+        return;
+    }
+    int index = ui->listWidget->currentRow();
+    if (index < 0 || index >= m_commands.size()) {
+        return;
+    }
+    m_commands.erase(m_commands.begin() + index);
+    ui->listWidget->takeItem(index);
+    if (index >= m_commands.size()) {
+        index = m_commands.size() - 1;
+    }
+    ui->listWidget->setCurrentRow(index);
+}
+
+void CommandPanel::slot_clearCommand() {
+    m_commands.clear();
+    ui->listWidget->clear();
+    m_currentIndex = -1;
+}
+
+bool CommandPanel::eventFilter(QObject *object, QEvent *event) {
+    if (object == this && event->type() == QEvent::Leave) {
+        shot_showCommand(m_currentIndex);
+    }
+    return QWidget::eventFilter(object, event);
+}
+
+void CommandPanel::sendAll(Compositor *compositor) {
+    for (auto& data : m_commands) {
+        compositor->addCommand(std::unique_ptr<Command>(data.command->copy()));
+    }
+    compositor->send();
+    slot_clearCommand();
+}
 
 CommandEditor::CommandEditor(QWidget *parent) :
         QWidget(parent), m_labelName(new QLabel(this)), m_buttonEnabled(new QPushButton(this)),
@@ -83,6 +130,8 @@ CommandEditor::CommandEditor(QWidget *parent) :
 
     m_buttonEnabled->setCheckable(true);
     m_buttonFixed->setCheckable(true);
+    m_buttonEnabled->setVisible(false);
+    m_buttonFixed->setVisible(false);
 }
 
 void CommandEditor::setCommandData(const CommandData &commandData) {

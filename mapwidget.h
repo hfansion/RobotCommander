@@ -8,6 +8,7 @@
 #include <QWidget>
 #include "settings.h"
 
+class QMenu;
 class Command;
 
 class MapWidget : public QWidget {
@@ -26,7 +27,7 @@ public:
     void setViewForm(ViewForm viewForm);
 
 signals:
-    void sendCommand(Command *command);
+    void sendCommand(std::shared_ptr<Command> command);
     void updateViewForm(ViewForm viewForm);
 
 protected slots:
@@ -51,6 +52,7 @@ private:
     QPixmap m_imgRobotTar;
     QPointF m_curP;  // 位置由0到1之间的double类型表示，下同
     QPointF m_tarP;
+    QPointF m_tarPTmp;
     inline bool isInside(const QPoint &p);
     inline QPointF generateRatio(const QPoint &p);
     inline QPoint recoverRatio(const QPointF &ratio);
@@ -62,6 +64,10 @@ private:
     bool mod_Ctrl=false;
 
     inline void resizePaint();
+
+    QMenu *m_menu;
+    QAction *m_action_send;
+    std::shared_ptr<Command> m_command;
 };
 
 #endif //ROBOTCOMMANDER_MAPWIDGET_H

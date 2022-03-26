@@ -8,6 +8,8 @@
 #include <QSpinBox>
 #include <QString>
 
+const QString PositionCommand::NAME{"Position"};
+
 QByteArray PositionCommand::encode() const {
     QByteArray code{};
     code.append(static_cast<char8_t>(ProtocolSend::Position));
@@ -24,6 +26,10 @@ QString PositionCommand::toString() const {
 
 Form *PositionCommand::createForm(QWidget *parent) const {
     return new PositionForm(this, parent);
+}
+
+Command *PositionCommand::copy() const {
+    return new PositionCommand(this->x, this->y);
 }
 
 PositionForm::PositionForm(const PositionCommand *command, QWidget *parent) :

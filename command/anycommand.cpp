@@ -4,7 +4,11 @@
 
 #include "anycommand.h"
 #include <utility>
+#include <QHBoxLayout>
+#include <QLabel>
 #include "../data/hexdisplayer.h"
+
+const QString AnyCommand::NAME{"Any"};
 
 AnyCommand::AnyCommand(QByteArray cmd) : m_code(std::move(cmd)) {
     m_code.insert(0, (char) ((char8_t) m_code.length() | '\x80'));
@@ -29,11 +33,13 @@ Form *AnyCommand::createForm(QWidget *parent) const {
     return new AnyForm(this, parent);
 }
 
-AnyForm::AnyForm(const AnyCommand *command, QWidget *parent) {
-    // TODO
+AnyForm::AnyForm(const AnyCommand *command, QWidget *parent) :
+        Form(parent), m_label(new QLabel("暂不支持编辑Any，请付费后解锁", this)) {
+    auto layout = new QHBoxLayout(this);
+    layout->addWidget(m_label);
+    m_command = std::shared_ptr<AnyCommand>(dynamic_cast<AnyCommand *>(command->copy()));
 }
 
 std::shared_ptr<Command> AnyForm::getCommand() const {
-    // TODO
-    return std::make_shared<AnyCommand>("");
+    return m_command;
 }

@@ -5,6 +5,7 @@
 #include "mapwidget.h"
 #include <QAction>
 #include <QCursor>
+#include <QMenu>
 #include <QMouseEvent>
 #include <QPainter>
 #include <QPainterPath>
@@ -12,8 +13,13 @@
 #include "command/command.h"
 #include "command/positioncommand.h"
 
-MapWidget::MapWidget(QWidget *parent) : QWidget(parent) {
+MapWidget::MapWidget(QWidget *parent) : QWidget(parent), m_action_send(new QAction(this)), m_menu(new QMenu(this)) {
     this->setFocusPolicy(Qt::WheelFocus);
+    m_menu->addAction(m_action_send);
+    connect(m_action_send, &QAction::triggered, [this]() {
+        emit sendCommand(m_command);
+        m_tarP = m_tarPTmp;
+    });
 }
 
 MapWidget::~MapWidget() = default;
@@ -123,10 +129,13 @@ void MapWidget::mousePressEvent(QMouseEvent *event) {
             this->setCursor(QCursor{Qt::ClosedHandCursor});
         }
     } else if (event->button() == Qt::RightButton && isInside(event->pos())) {
-        m_tarP = generateRatio(event->pos());
+        m_tarPTmp = generateRatio(event->pos());
         repaint();
-        emit sendCommand(new PositionCommand(static_cast<int>(Position::X_RANGE * m_tarP.x()),
-                                             static_cast<int>(Position::Y_RANGE * m_tarP.y())));
+        int x = static_cast<int>(Position::X_RANGE * m_tarPTmp.x());
+        int y = static_cast<int>(Position::Y_RANGE * m_tarPTmp.y());
+        m_command = std::make_shared<PositionCommand>(x, y);
+        m_action_send->setText(tr("Send(%1, %2)").arg(x).arg(y));
+        m_menu->exec(event->globalPosition().toPoint());
     }
 }
 

@@ -104,12 +104,10 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(m_settingsDialog, &SettingsDialog::needUpdateSettings, this, &MainWindow::updateSettings);
     connect(m_settingsDialog, &SettingsDialog::needCheckForUpdate, this, &MainWindow::startCheckForUpdate);
 
-    auto send_command = [this](Command *command) {
-        if (m_serial->isOpen())
-            m_compositor->addCommand(Compositor::Ptr<Command>{command});
-    };
+    auto send_command = [this](const std::shared_ptr<Command>& command) { m_commandPanel->addCommand(command); };
     connect(ui->centralwidget, &MapWidget::sendCommand, send_command);
     connect(m_senderPanel, &SenderPanel::sendCommand, send_command);
+    connect(m_commandPanel, &CommandPanel::startSendAll, [this]() { m_commandPanel->sendAll(m_compositor); });
 
     // last init
     if (m_settingsDialog->settings()->auto_check_update) startCheckForUpdate();
