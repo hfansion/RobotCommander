@@ -12,6 +12,7 @@
 #include <QAbstractListModel>
 #include <QStyledItemDelegate>
 #include "panelbase.h"
+#include "../protocol.h"
 
 class Command;
 
@@ -37,22 +38,6 @@ struct CommandData {
 Q_DECLARE_METATYPE(CommandData);
 
 
-class CommandModel : public QAbstractListModel {
-Q_OBJECT
-public:
-    explicit CommandModel(QObject *parent = nullptr);
-    [[nodiscard]] int rowCount(const QModelIndex &parent) const override;
-    [[nodiscard]] QVariant data(const QModelIndex &index, int role) const override;
-    bool setData(const QModelIndex &index, const QVariant &value, int role) override;
-    [[nodiscard]] Qt::ItemFlags flags(const QModelIndex &index) const override;
-//    bool insertRows(int row, int count, const QModelIndex &parent = QModelIndex()) override;
-//    bool removeRows(int row, int count, const QModelIndex &parent = QModelIndex()) override;
-
-private:
-    std::vector<CommandData> m_commands;
-};
-
-
 class CommandEditor : public QWidget {
 Q_OBJECT
 public:
@@ -69,23 +54,6 @@ private:
 };
 
 
-class CommandDelegate : public QStyledItemDelegate {
-Q_OBJECT
-public:
-    explicit CommandDelegate(CommandEditor *editor, QObject *parent = nullptr);
-
-//    void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const override;
-//    QSize sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const override;
-    QWidget *createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index) const override;
-    void setEditorData(QWidget *editor, const QModelIndex &index) const override;
-    void setModelData(QWidget *editor, QAbstractItemModel *model, const QModelIndex &index) const override;
-//    void updateEditorGeometry(QWidget *editor, const QStyleOptionViewItem &option, const QModelIndex &index) const override;
-
-private:
-    CommandEditor *m_editor;
-};
-
-
 class CommandPanel : public PanelBase {
 Q_OBJECT
 public:
@@ -94,9 +62,15 @@ public:
     QString PanelName() override { return std::move(tr("Command Queue")); }
     void retranslateUi() override;
 
+public slots:
+    void slot_addCommand(const CommandData& commandData);
+//    void slot_removeCommand(int index);
+    void shot_showCommand(int index);
+
 private:
     Ui::CommandPanel *ui;
-    CommandModel *m_commandModel;
+    std::vector<CommandData> m_commands;
+    int m_currentIndex = -1;
 };
 
 

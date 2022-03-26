@@ -11,14 +11,18 @@
 #include <QPainter>
 #include <QPushButton>
 #include "../command/command.h"
+#include "../command/anycommand.h"
 #include "../command/positioncommand.h"
 
 CommandPanel::CommandPanel(QWidget *parent) :
-        PanelBase(parent), ui(new Ui::CommandPanel), m_commandModel(new CommandModel(this)) {
+        PanelBase(parent), ui(new Ui::CommandPanel) {
     ui->setupUi(this);
     ui->commandEditor->setVisible(false);
-    ui->listView->setModel(m_commandModel);
-    ui->listView->setItemDelegate(new CommandDelegate(ui->commandEditor, this));
+    connect(ui->listWidget, &QListWidget::currentRowChanged, this, &CommandPanel::shot_showCommand);
+    slot_addCommand({std::make_shared<PositionCommand>(1, 2)});
+    slot_addCommand({std::make_shared<PositionCommand>(1, 2)});
+    slot_addCommand({std::make_shared<PositionCommand>(1, 2)});
+    slot_addCommand({std::make_shared<AnyCommand>(QByteArray{})});
 }
 
 CommandPanel::~CommandPanel() {
@@ -29,90 +33,36 @@ void CommandPanel::retranslateUi() {
     ui->retranslateUi(this);
 }
 
-CommandModel::CommandModel(QObject *parent) : QAbstractListModel(parent) {
-    qRegisterMetaType<CommandData>();
-    for (int i = 0; i < 400; i += 10) {
-        m_commands.emplace_back(std::make_shared<PositionCommand>(i, i));
+void CommandPanel::shot_showCommand(int index) {
+    if (ui->listWidget->selectedItems().size() != 1) {
+        ui->commandEditor->setVisible(false);
+        return;
     }
-}
-
-int CommandModel::rowCount(const QModelIndex &parent) const {
-    return static_cast<int>(m_commands.size());
-}
-
-QVariant CommandModel::data(const QModelIndex &index, int role) const {
-    if (role == Qt::DisplayRole) {
-        return m_commands[index.row()].command->toString();
-    } else if (role == Qt::EditRole) {
-        return QVariant::fromValue(m_commands[index.row()]);
+    if (m_currentIndex >= 0 && m_currentIndex < m_commands.size()) {
+        m_commands[m_currentIndex] = ui->commandEditor->getCommandData();
+        ui->listWidget->item(m_currentIndex)->setText(m_commands[m_currentIndex].command->toString());
     }
-    return {};
-}
-
-bool CommandModel::setData(const QModelIndex &index, const QVariant &value, int role) {
-    if (role == Qt::EditRole) {
-        if (index.row() >= m_commands.size() || !value.canConvert<CommandData>())
-            return false;
-        m_commands[index.row()] = value.value<CommandData>();
-        return true;
-    }
-    return false;
-}
-
-Qt::ItemFlags CommandModel::flags(const QModelIndex &index) const {
-    return Qt::ItemIsEditable | QAbstractListModel::flags(index);
-}
-
-CommandDelegate::CommandDelegate(CommandEditor *editor, QObject *parent)
-        : QStyledItemDelegate(parent), m_editor(editor) {
-}
-
-QWidget *CommandDelegate::createEditor(QWidget *parent, const QStyleOptionViewItem &option,
-                                       const QModelIndex &index) const {
-    if (index.data(Qt::EditRole).canConvert<CommandData>()) {
-        m_editor->setVisible(true);
-    }
-    return QStyledItemDelegate::createEditor(parent, option, index);
-}
-
-void CommandDelegate::setEditorData(QWidget *editor, const QModelIndex &index) const {
-    if (index.data(Qt::EditRole).canConvert<CommandData>()) {
-        auto data = index.data(Qt::EditRole).value<CommandData>();
-        m_editor->setCommandData(data);
+    if (index < 0 || index >= m_commands.size()) {
+        ui->commandEditor->setVisible(false);
+        m_currentIndex = -1;
     } else {
-        QStyledItemDelegate::setEditorData(editor, index);
+        ui->commandEditor->setVisible(true);
+        m_currentIndex = index;
+        ui->commandEditor->setCommandData(m_commands[m_currentIndex]);
     }
 }
 
-void CommandDelegate::setModelData(QWidget *editor, QAbstractItemModel *model, const QModelIndex &index) const {
-    if (index.data(Qt::EditRole).canConvert<CommandData>()) {
-        m_editor->setVisible(false);
-        model->setData(index, QVariant::fromValue(m_editor->getCommandData()));
-    } else {
-        QStyledItemDelegate::setModelData(editor, model, index);
-    }
+void CommandPanel::slot_addCommand(const CommandData &commandData) {
+    int index = static_cast<int>(m_commands.size());
+    m_commands.emplace_back(commandData);
+    auto item = new QListWidgetItem(ui->listWidget);
+    item->setText(m_commands[index].command->toString());
+    ui->listWidget->addItem(item);
+    ui->listWidget->setCurrentRow(index);
 }
 
-//void CommandDelegate::updateEditorGeometry(QWidget *editor, const QStyleOptionViewItem &option,
-//                                           const QModelIndex &index) const {
-//    current_rect = option.rect;
-//    current_rect.setHeight(130);
-//    editor->setGeometry(current_rect);
-//}
-
-//QSize CommandDelegate::sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const {
-//    if (index.row() == current_row) {
-//        return current_size;
-//    } else {
-//    return QStyledItemDelegate::sizeHint(option, index);
-//    }
-//}
-
-//void CommandDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const {
-//    if (option.state & QStyle::State_Selected) {
-//        painter->fillRect(current_rect, option.palette.highlight());
-//    }
-//    QStyledItemDelegate::paint(painter, option, index);
+//void CommandPanel::slot_removeCommand(int index) {
+//
 //}
 
 CommandEditor::CommandEditor(QWidget *parent) :
