@@ -13,17 +13,12 @@
 #include "../command/command.h"
 #include "../command/positioncommand.h"
 
-static int current_row = 0;
-static QRect current_rect;
-
 CommandPanel::CommandPanel(QWidget *parent) :
         PanelBase(parent), ui(new Ui::CommandPanel), m_commandModel(new CommandModel(this)) {
     ui->setupUi(this);
+    ui->commandEditor->setVisible(false);
     ui->listView->setModel(m_commandModel);
-    ui->listView->setItemDelegate(new CommandDelegate(this));
-//    connect(ui->listView, &QListView::doubleClicked, [this]() {
-//        ui->listView->adjustSize();
-//    });
+    ui->listView->setItemDelegate(new CommandDelegate(ui->commandEditor, this));
 }
 
 CommandPanel::~CommandPanel() {
@@ -68,11 +63,14 @@ Qt::ItemFlags CommandModel::flags(const QModelIndex &index) const {
     return Qt::ItemIsEditable | QAbstractListModel::flags(index);
 }
 
+CommandDelegate::CommandDelegate(CommandEditor *editor, QObject *parent)
+        : QStyledItemDelegate(parent), m_editor(editor) {
+}
+
 QWidget *CommandDelegate::createEditor(QWidget *parent, const QStyleOptionViewItem &option,
                                        const QModelIndex &index) const {
     if (index.data(Qt::EditRole).canConvert<CommandData>()) {
-        current_row = index.row();
-        return new CommandEditor(parent);
+        m_editor->setVisible(true);
     }
     return QStyledItemDelegate::createEditor(parent, option, index);
 }
@@ -80,8 +78,7 @@ QWidget *CommandDelegate::createEditor(QWidget *parent, const QStyleOptionViewIt
 void CommandDelegate::setEditorData(QWidget *editor, const QModelIndex &index) const {
     if (index.data(Qt::EditRole).canConvert<CommandData>()) {
         auto data = index.data(Qt::EditRole).value<CommandData>();
-        auto commandEditor = qobject_cast<CommandEditor *>(editor);
-        commandEditor->setCommandData(data);
+        m_editor->setCommandData(data);
     } else {
         QStyledItemDelegate::setEditorData(editor, index);
     }
@@ -89,38 +86,40 @@ void CommandDelegate::setEditorData(QWidget *editor, const QModelIndex &index) c
 
 void CommandDelegate::setModelData(QWidget *editor, QAbstractItemModel *model, const QModelIndex &index) const {
     if (index.data(Qt::EditRole).canConvert<CommandData>()) {
-        auto commandEditor = qobject_cast<CommandEditor *>(editor);
-        model->setData(index, QVariant::fromValue(commandEditor->getCommandData()));
+        m_editor->setVisible(false);
+        model->setData(index, QVariant::fromValue(m_editor->getCommandData()));
     } else {
         QStyledItemDelegate::setModelData(editor, model, index);
     }
 }
 
-void CommandDelegate::updateEditorGeometry(QWidget *editor, const QStyleOptionViewItem &option,
-                                           const QModelIndex &index) const {
-    current_rect = option.rect;
-    current_rect.setHeight(130);
-    editor->setGeometry(current_rect);
-}
+//void CommandDelegate::updateEditorGeometry(QWidget *editor, const QStyleOptionViewItem &option,
+//                                           const QModelIndex &index) const {
+//    current_rect = option.rect;
+//    current_rect.setHeight(130);
+//    editor->setGeometry(current_rect);
+//}
 
-QSize CommandDelegate::sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const {
+//QSize CommandDelegate::sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const {
 //    if (index.row() == current_row) {
 //        return current_size;
 //    } else {
-    return QStyledItemDelegate::sizeHint(option, index);
+//    return QStyledItemDelegate::sizeHint(option, index);
 //    }
-}
+//}
 
-void CommandDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const {
-    if (option.state & QStyle::State_Selected) {
-        painter->fillRect(current_rect, option.palette.highlight());
-    }
-    QStyledItemDelegate::paint(painter, option, index);
-}
+//void CommandDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const {
+//    if (option.state & QStyle::State_Selected) {
+//        painter->fillRect(current_rect, option.palette.highlight());
+//    }
+//    QStyledItemDelegate::paint(painter, option, index);
+//}
 
 CommandEditor::CommandEditor(QWidget *parent) :
         QWidget(parent), m_labelName(new QLabel(this)), m_buttonEnabled(new QPushButton(this)),
         m_buttonFixed(new QPushButton(this)), m_form(new QWidget(this)), m_layout(nullptr) {
+    m_buttonEnabled->setText("Enabled");
+    m_buttonFixed->setText("Fixed");
     auto h_layout = new QHBoxLayout();
     h_layout->addWidget(m_labelName);
     h_layout->addSpacerItem(new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum));
@@ -149,6 +148,5 @@ void CommandEditor::setCommandData(const CommandData &commandData) {
 
 CommandData CommandEditor::getCommandData() {
     auto form = qobject_cast<Form *>(m_form);
-    CommandData commandData{form->getCommand(), m_buttonEnabled->isChecked(), m_buttonEnabled->isChecked()};
-    return commandData;
+    return {form->getCommand(), m_buttonEnabled->isChecked(), m_buttonEnabled->isChecked()};
 }

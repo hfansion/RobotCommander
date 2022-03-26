@@ -13,7 +13,7 @@
   <property name="windowTitle">
    <string>Command Queue</string>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout">
+  <layout class="QVBoxLayout" name="verticalLayout" stretch="0,1,0">
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
@@ -80,13 +80,27 @@
      <property name="frameShadow">
       <enum>QFrame::Plain</enum>
      </property>
+     <property name="editTriggers">
+      <set>QAbstractItemView::AllEditTriggers</set>
+     </property>
      <property name="selectionMode">
       <enum>QAbstractItemView::ExtendedSelection</enum>
      </property>
     </widget>
    </item>
+   <item>
+    <widget class="CommandEditor" name="commandEditor" native="true"/>
+   </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>CommandEditor</class>
+   <extends>QWidget</extends>
+   <header>commandpanel.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
  <resources>
   <include location="../RobotCommander.qrc"/>
  </resources>
