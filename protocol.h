@@ -5,14 +5,10 @@
 #ifndef ROBOTCOMMANDER_PROTOCOL_H
 #define ROBOTCOMMANDER_PROTOCOL_H
 
-enum class ProtocolSend : char8_t {
+enum class Protocol : char8_t {
+    GET = '\x00', SET = '\x40',
     Position = '\x01',
-    Any
-};
-
-enum class ProtocolReceive : char8_t {
-    Position = '\x01',
-    Any
+    Any = u'\x80',
 };
 
 #endif //ROBOTCOMMANDER_PROTOCOL_H

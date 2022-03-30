@@ -182,13 +182,14 @@ void MainWindow::compositorRead() {
     auto info = m_compositor->getInfo();
     while (info != nullptr) {
         switch (info->getType()) {
-            case ProtocolReceive::Position: {
+            case Protocol::Position: {
                 auto p = dynamic_cast<Position *>(info.get());
                 ui->centralwidget->infoCurPosition(
                         QPointF((qreal) p->x / Position::X_RANGE, (qreal) p->y / Position::Y_RANGE));
                 break;
             }
-            case ProtocolReceive::Any:
+            case Protocol::Any:
+            default:
                 break;
         }
         m_consolePanel->appendInfo(info.get());

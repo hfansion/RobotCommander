@@ -47,12 +47,12 @@ void Compositor::decode(QByteArray data) {
             Ptr<Info> info;
             bool succeed = true;
             char8_t typeData = extract(data, 1).at(0);
-            if (typeData & '\x80') {  // 第一位为1，即为Any类型
+            if (typeData & static_cast<char8_t>(Protocol::Any)) {  // 第一位为1，即为Any类型
                 int length = (typeData << 1) >> 1;
                 info = std::make_unique<AnyInfo>(extract(data, length));
             } else {
-                switch (static_cast<ProtocolReceive>(typeData)) {
-                    case ProtocolReceive::Position: {
+                switch (static_cast<Protocol>(typeData)) {
+                    case Protocol::Position: {
                         info = PositionInfo::decode(extract(data, PositionInfo::DATA_LENGTH));
                         break;
                     }

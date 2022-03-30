@@ -15,7 +15,7 @@ public:
     using Position::Position;
     static const QString NAME;
 
-    [[nodiscard]] ProtocolSend getType() const override { return ProtocolSend::Position; }
+    [[nodiscard]] Protocol getType() const override { return Protocol::Position; }
     [[nodiscard]] QString getName() const override { return NAME; }
     [[nodiscard]] QByteArray encode() const override;
     [[nodiscard]] QString toString() const override;

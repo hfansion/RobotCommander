@@ -14,7 +14,7 @@ public:
     explicit AnyCommand(QByteArray cmd);
     static const QString NAME;
 
-    [[nodiscard]] ProtocolSend getType() const override { return ProtocolSend::Any; }
+    [[nodiscard]] Protocol getType() const override { return Protocol::Any; }
     [[nodiscard]] QString getName() const override { return NAME; }
     [[nodiscard]] QByteArray encode() const override;
     [[nodiscard]] QString toString() const override;

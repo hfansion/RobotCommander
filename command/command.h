@@ -14,7 +14,7 @@ class Form;
 class Command {
 public:
     virtual ~Command() = default;
-    [[nodiscard]] virtual ProtocolSend getType() const = 0;
+    [[nodiscard]] virtual Protocol getType() const = 0;
     [[nodiscard]] virtual QString getName() const = 0;
     [[nodiscard]] virtual QByteArray encode() const = 0;
     [[nodiscard]] virtual QString toString() const = 0;

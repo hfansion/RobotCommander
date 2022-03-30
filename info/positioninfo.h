@@ -13,7 +13,7 @@ public:
     static std::unique_ptr<PositionInfo> decode(const QByteArray &data);
 
     using Position::Position;
-    [[nodiscard]] ProtocolReceive getType() const override { return ProtocolReceive::Position; }
+    [[nodiscard]] Protocol getType() const override { return Protocol::Position; }
     [[nodiscard]] QString toString() const override;
 };
 
