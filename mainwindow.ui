@@ -115,7 +115,8 @@
   </action>
   <action name="actionQuit">
    <property name="icon">
-    <iconset theme="application-exit"/>
+    <iconset theme="application-exit">
+     <normaloff>.</normaloff>.</iconset>
    </property>
    <property name="text">
     <string>Quit</string>
@@ -150,7 +151,8 @@
   </action>
   <action name="actionAbout_Qt">
    <property name="icon">
-    <iconset theme="qt"/>
+    <iconset resource="RobotCommander.qrc">
+     <normaloff>:/icon/QtProject-qtcreator.png</normaloff>:/icon/QtProject-qtcreator.png</iconset>
    </property>
    <property name="text">
     <string>About Qt</string>
@@ -158,7 +160,8 @@
   </action>
   <action name="actionConfigure">
    <property name="icon">
-    <iconset theme="configure"/>
+    <iconset theme="configure">
+     <normaloff>.</normaloff>.</iconset>
    </property>
    <property name="text">
     <string>Configure</string>
@@ -185,7 +188,8 @@
   </action>
   <action name="actionZoomIn">
    <property name="icon">
-    <iconset theme="zoom-in"/>
+    <iconset theme="zoom-in">
+     <normaloff>.</normaloff>.</iconset>
    </property>
    <property name="text">
     <string>Zoom In</string>
@@ -196,7 +200,8 @@
   </action>
   <action name="actionZoomOut">
    <property name="icon">
-    <iconset theme="zoom-out"/>
+    <iconset theme="zoom-out">
+     <normaloff>.</normaloff>.</iconset>
    </property>
    <property name="text">
     <string>Zoom Out</string>

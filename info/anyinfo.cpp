@@ -3,10 +3,10 @@
 //
 
 #include "anyinfo.h"
-#include "../data/hexdisplayer.h"
+#include "../data/datadisplayer.h"
 
 QString AnyInfo::toString() const {
-    QString text = QString("Any(%1)").arg(HexDisplayer::toString(DATA));
+    QString text = QString("Any(%1)").arg(DataDisplayer::toASCII(DATA));
     return std::move(text);
 }
 

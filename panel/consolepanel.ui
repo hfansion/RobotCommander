@@ -186,8 +186,7 @@
         <string>Move to Top</string>
        </property>
        <property name="icon">
-        <iconset theme="arrow-up">
-         <normaloff>.</normaloff>.</iconset>
+        <iconset theme="go-up"/>
        </property>
       </widget>
      </item>
@@ -197,8 +196,7 @@
         <string>Move to Bottom</string>
        </property>
        <property name="icon">
-        <iconset theme="arrow-down">
-         <normaloff>.</normaloff>.</iconset>
+        <iconset theme="go-down"/>
        </property>
       </widget>
      </item>

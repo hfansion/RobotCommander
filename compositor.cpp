@@ -6,7 +6,7 @@
 #include "compositor.h"
 #include "info/positioninfo.h"
 #include "info/anyinfo.h"
-#include "data/hexdisplayer.h"
+#include "data/datadisplayer.h"
 
 Compositor::~Compositor() = default;
 
@@ -40,8 +40,8 @@ const QString &Compositor::getEncodeMessage() const {
 }
 
 void Compositor::decode(QByteArray data) {
+    m_decodeMessage = timeStr().append(tr("receive: ")).append(DataDisplayer::toASCII(data)).append('\n');
     if (verifyAndPreProcess(data)) {
-        m_decodeMessage = timeStr().append(tr("receive: ")).append(HexDisplayer::toString(data)).append('\n');
         while (!m_queInfo.empty()) m_queInfo.pop();
         while (!data.isEmpty()) {
             Ptr<Info> info;
@@ -70,9 +70,6 @@ void Compositor::decode(QByteArray data) {
 }
 
 void Compositor::checkSumAndPostProcess(QByteArray &code) {
-    // 这里省略计算校验和的方法
-    code.append('\0');
-
     code.push_front("###");
     code.push_back("###");
 }
@@ -81,9 +78,6 @@ bool Compositor::verifyAndPreProcess(QByteArray &code) {
     if (code.startsWith("###") && code.endsWith("###")) {
         code.remove(0, 3);
         code.remove(code.size() - 3, 3);
-
-        // 这里省略计算校验和的方法
-        code.remove(code.size() - 1, 1);
         return true;
     } else {
         return false;

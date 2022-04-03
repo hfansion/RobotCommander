@@ -12,7 +12,7 @@
 Updater::Updater(Settings::ReleaseChannel channel, QObject *parent) :
         QObject(parent), m_manager(new QNetworkAccessManager(this)) {
     connect(m_manager, &QNetworkAccessManager::finished, this, &Updater::processData);
-    QString url = tr("https://gitee.com/hfansion/RobotCommander/raw/%1/release.json");
+    QString url = tr("https://gitee.com/jadulose/RobotCommander/raw/%1/release.json");
     switch (channel) {
         case Settings::Main:
             url = url.arg("main");

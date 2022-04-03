@@ -14,7 +14,7 @@
 #include <QSettings>
 #include "command/anycommand.h"
 #include "compositor.h"
-#include "data/hexdisplayer.h"
+#include "data/datadisplayer.h"
 #include "info/info.h"
 #include "panel/commandpanel.h"
 #include "panel/consolepanel.h"
@@ -48,6 +48,7 @@ MainWindow::MainWindow(QWidget *parent) :
         m_compositor(new Compositor), m_senderPanel(new SenderPanel(this)),
         m_consolePanel(new ConsolePanel(this)), m_updater(nullptr),
         m_commandPanel(new CommandPanel(this)) {
+    QIcon::setFallbackSearchPaths(QIcon::fallbackSearchPaths() << ":/icon");
     ui->setupUi(this);
     updateSettings(m_settingsDialog->settings());
     registerPanel(m_senderPanel, "senderPanel");
@@ -162,11 +163,11 @@ void MainWindow::about() {
     QMessageBox::about(this, tr("About Robot Commander"),
                        tr(R"(<html><head/><body><p><span style=" font-weight:600;">Robot Commander</span></p>
 <p>Version %1</p><p>Robot Commander is a tool for controlling and debugging the movements of robots in Robocon.</p>
-<p><a href="https://github.com/hfansion/RobotCommander/blob/main/LICENSE/">
-<span style=" text-decoration: underline; color:#1d99f3;">GPL-3.0 License</span>
+<p><a href="https://github.com/jadulose/RobotCommander/blob/main/LICENSE/">
+<span style=" text-decoration: underline; color:#1d99f3;">GPLv3 License</span>
 </a>: This is a <a href="https://www.gnu.org/"><span style=" text-decoration: underline; color:#1d99f3;">free software</span></a>.</p>
-<p><a href="https://github.com/hfansion/RobotCommander"><span style=" text-decoration: underline; color:#1d99f3;">
-https://github.com/hfansion/RobotCommander</span></a></p></body></html>)").arg(ROBOTCOMMANDER_VERSION));
+<p><a href="https://github.com/jadulose/RobotCommander"><span style=" text-decoration: underline; color:#1d99f3;">
+https://github.com/jadulose/RobotCommander</span></a></p></body></html>)").arg(ROBOTCOMMANDER_VERSION));
 }
 
 void MainWindow::handleError(QSerialPort::SerialPortError error) {
@@ -177,10 +178,12 @@ void MainWindow::handleError(QSerialPort::SerialPortError error) {
 }
 
 void MainWindow::compositorRead() {
-    m_compositor->decode(std::move(m_serial->readAll()));
+    m_readBuffer.append(m_serial->readAll());
+    if (!m_readBuffer.endsWith("###")) return;
+    m_compositor->decode(m_readBuffer);
     m_consolePanel->appendMessage(m_compositor->getDecodeMessage());
     auto info = m_compositor->getInfo();
-    while (info != nullptr) {
+    while (info != nullptr) {  // ?
         switch (info->getType()) {
             case Protocol::Position: {
                 auto p = dynamic_cast<Position *>(info.get());
@@ -188,13 +191,13 @@ void MainWindow::compositorRead() {
                         QPointF((qreal) p->x / Position::X_RANGE, (qreal) p->y / Position::Y_RANGE));
                 break;
             }
-            case Protocol::Any:
             default:
                 break;
         }
         m_consolePanel->appendInfo(info.get());
         info = m_compositor->getInfo();
     }
+    m_readBuffer.clear();
 }
 
 void MainWindow::compositorSend() {

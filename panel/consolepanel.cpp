@@ -6,7 +6,7 @@
 
 #include "consolepanel.h"
 #include "ui_consolepanel.h"
-#include "data/hexdisplayer.h"
+#include "data/datadisplayer.h"
 #include "info/info.h"
 
 ConsolePanel::ConsolePanel(QWidget *parent) :

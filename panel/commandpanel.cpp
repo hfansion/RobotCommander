@@ -13,7 +13,10 @@
 #include <QPushButton>
 #include "../command/command.h"
 #include "../command/anycommand.h"
+#include "../command/pid1command.h"
+#include "../command/pid2command.h"
 #include "../command/positioncommand.h"
+#include "../command/setgpscommand.h"
 #include "../compositor.h"
 
 CommandPanel::CommandPanel(QWidget *parent) :
@@ -24,10 +27,19 @@ CommandPanel::CommandPanel(QWidget *parent) :
 
     auto menu = new QMenu(this);
     menu->addAction(PositionCommand::NAME, [this]() {
-        addCommand(std::make_shared<PositionCommand>(0, 0));
+        addCommand(std::make_shared<PositionCommand>(0, 0, 0.0f));
     });
     menu->addAction(AnyCommand::NAME, [this]() {
         addCommand(std::make_shared<AnyCommand>(""));
+    });
+    menu->addAction(PID1Command::NAME, [this]() {
+        addCommand(std::make_shared<PID1Command>(0.0f, 0.0f, 0.0f));
+    });
+    menu->addAction(PID2Command::NAME, [this]() {
+        addCommand(std::make_shared<PID2Command>(0.0f, 0.0f, 0.0f));
+    });
+    menu->addAction(SetGPSCommand::NAME, [this]() {
+        addCommand(std::make_shared<SetGPSCommand>());
     });
     connect(ui->pushButton_add, &QPushButton::clicked, [this, menu]() {
         menu->exec(ui->pushButton_add->mapToGlobal(ui->pushButton_add->geometry().bottomLeft()));

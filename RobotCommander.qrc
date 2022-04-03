@@ -1,10 +1,19 @@
 <RCC>
   <qresource prefix="/">
+    <file>icon/document-send.svg</file>
+    <file>icon/edit-clear-history.svg</file>
+    <file>icon/list-add.svg</file>
+    <file>icon/list-remove.svg</file>
+    <file>icon/application-exit.svg</file>
+    <file>icon/zoom-out.svg</file>
+    <file>icon/zoom-in.svg</file>
+    <file>icon/configure.svg</file>
+    <file>icon/QtProject-qtcreator.png</file>
     <file>icon/update.png</file>
     <file>icon/appearance.png</file>
-    <file>icon/bottom.png</file>
-    <file>icon/top.png</file>
     <file>translation/RobotCommander_en.qm</file>
+    <file>icon/go-down.svg</file>
+    <file>icon/go-up.svg</file>
     <file>translation/RobotCommander_zh.qm</file>
     <file>resource/map.jpg</file>
     <file>icon/application-exit.png</file>

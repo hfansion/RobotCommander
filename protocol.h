@@ -8,6 +8,9 @@
 enum class Protocol : char8_t {
     GET = '\x00', SET = '\x40',
     Position = '\x01',
+    SET_GPS = '\x02',
+    PID1 = '\x04',
+    PID2 = '\x05',
     Any = u'\x80',
 };
 

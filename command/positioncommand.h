@@ -9,6 +9,7 @@
 #include "command.h"
 
 class QSpinBox;
+class QDoubleSpinBox;
 
 class PositionCommand : public Position, public Command {
 public:
@@ -31,6 +32,7 @@ public:
 private:
     QSpinBox *spinBox_X;
     QSpinBox *spinBox_Y;
+    QDoubleSpinBox *spinBox_R;
 };
 
 #endif //ROBOTCOMMANDER_POSITIONCOMMAND_H

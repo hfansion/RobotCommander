@@ -6,7 +6,7 @@
 #include <utility>
 #include <QHBoxLayout>
 #include <QLabel>
-#include "../data/hexdisplayer.h"
+#include "../data/datadisplayer.h"
 
 const QString AnyCommand::NAME{"Any"};
 
@@ -19,7 +19,7 @@ QByteArray AnyCommand::encode() const {
 }
 
 QString AnyCommand::toString() const {
-    QString text = QString("Any(%1)").arg(HexDisplayer::toString(m_code.right(m_code.length() - 1)));
+    QString text = QString("Any(%1)").arg(DataDisplayer::toASCII(m_code.right(m_code.length() - 1)));
     return std::move(text);
 }
 
@@ -34,7 +34,7 @@ Form *AnyCommand::createForm(QWidget *parent) const {
 }
 
 AnyForm::AnyForm(const AnyCommand *command, QWidget *parent) :
-        Form(parent), m_label(new QLabel("暂不支持编辑Any，请付费后解锁", this)) {
+        Form(parent), m_label(new QLabel("暂不支持编辑Any，请期待后续版本", this)) {
     auto layout = new QHBoxLayout(this);
     layout->addWidget(m_label);
     m_command = std::shared_ptr<AnyCommand>(dynamic_cast<AnyCommand *>(command->copy()));

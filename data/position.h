@@ -12,15 +12,16 @@ class QString;
 class Position {
 public:
     static int X_RANGE, Y_RANGE;
-    static void SET_RANGE(int x_range, int y_range);
-    static constexpr qsizetype DATA_LENGTH = 4;
+    [[maybe_unused]] static void SET_RANGE(int x_range, int y_range);
+    static constexpr qsizetype DATA_LENGTH = 8;
 
-    explicit Position(int x, int y);
+    explicit Position(int x, int y, float r);
     ~Position() = default;
     [[nodiscard]] QString toString() const;
 
     const int x;
     const int y;
+    const float r;
 };
 
 

@@ -133,7 +133,7 @@ void MapWidget::mousePressEvent(QMouseEvent *event) {
         repaint();
         int x = static_cast<int>(Position::X_RANGE * m_tarPTmp.x());
         int y = static_cast<int>(Position::Y_RANGE * m_tarPTmp.y());
-        m_command = std::make_shared<PositionCommand>(x, y);
+        m_command = std::make_shared<PositionCommand>(x, y, 0.0f);
         m_action_send->setText(tr("Send(%1, %2)").arg(x).arg(y));
         m_menu->exec(event->globalPosition().toPoint());
     }
