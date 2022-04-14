@@ -68,8 +68,6 @@ private:
     SenderPanel *m_senderPanel;
     ConsolePanel *m_consolePanel;
     CommandPanel *m_commandPanel;
-
-    QByteArray m_readBuffer;
 };
 
 /** 自动更新：

@@ -1,15 +1,15 @@
 cmake_minimum_required(VERSION 3.10)
 
 # Configure by yourself
-project(RobotCommander VERSION "0.5.0")
+project(RobotCommander VERSION "0.5.1")
 
 set(CMAKE_CXX_STANDARD 20)
-set(CMAKE_PREFIX_PATH "C:/buildsystem/Qt/6.2.3/msvc2019_64/lib/cmake")
+set(CMAKE_PREFIX_PATH "C:/buildsystem/Qt/6.3.0/msvc2019_64/lib/cmake")
 set(QT_VERSION 6)
 configure_file(RobotCommanderConfig.h.in robotcommanderconfig.h)
 
 # Required Qt Libraries
-set(REQUIRED_LIBS Core Gui Widgets SerialPort Network)
+set(REQUIRED_LIBS Core Gui Widgets SerialPort Network Svg)
 foreach (R_LIB ${REQUIRED_LIBS})
     set(REQUIRED_LIBS_QUALIFIED ${REQUIRED_LIBS_QUALIFIED} Qt${QT_VERSION}::${R_LIB})
 endforeach (R_LIB)

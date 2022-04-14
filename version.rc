@@ -26,12 +26,12 @@ BEGIN
     BEGIN
       VALUE "CompanyName",      "Fansionia Software\0"
       VALUE "FileDescription",  "Robot Commander\0"
-      VALUE "FileVersion",      "0.0.1.0\0"
+      VALUE "FileVersion",      "0.0.5.1\0"
       VALUE "InternalName",     "RobotCommander\0"
       VALUE "OriginalFilename", "RobotCommander.exe\0"
       VALUE "ProductName",      "RobotCommander\0"
-      VALUE "ProductVersion",   "0.0.1.0\0"
-      VALUE "LegalCopyright",   "Copyleft (C) 2021 Fan Peilin.\0"
+      VALUE "ProductVersion",   "0.0.5.1\0"
+      VALUE "LegalCopyright",   "Copyleft (C) 2022 Fan Peilin.\0"
     END
   END
 

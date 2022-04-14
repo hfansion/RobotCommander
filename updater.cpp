@@ -35,7 +35,19 @@ void Updater::processData(QNetworkReply *reply) {
     if (json.contains("rl_ver") && json["rl_ver"].toInt() >= 1) {
         m_version = std::move(json["version"].toString());
         m_link = {std::move(json["link"].toString())};
-        result = m_version == ROBOTCOMMANDER_VERSION ? isLatest : isNotLatest;
+        auto versions = m_version.split('.');
+        result = isLatest;
+        if (int major = versions[0].toInt(); major > ROBOTCOMMANDER_VERSION_MAJOR) {
+            result = isNotLatest;
+        } else if (major == ROBOTCOMMANDER_VERSION_MAJOR) {
+            if (int minor = versions[1].toInt(); minor > ROBOTCOMMANDER_VERSION_MINOR) {
+                result = isNotLatest;
+            } else if (minor == ROBOTCOMMANDER_VERSION_MINOR) {
+                if (int patch = versions[2].toInt(); patch > ROBOTCOMMANDER_VERSION_PATCH) {
+                    result = isNotLatest;
+                }
+            }
+        }
     }
     emit checkFinished(result);
     reply->deleteLater();

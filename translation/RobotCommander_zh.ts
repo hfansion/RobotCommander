@@ -6,19 +6,16 @@
     <message>
         <location filename="../panel/commandpanel.ui" line="14"/>
         <location filename="../panel/commandpanel.h" line="62"/>
-        <location filename="../panel/ui_commandpanel.h" line="109"/>
         <source>Command Queue</source>
         <translation>命令队列</translation>
     </message>
     <message>
-        <location filename="../panel/commandpanel.ui" line="55"/>
-        <location filename="../panel/ui_commandpanel.h" line="112"/>
+        <location filename="../panel/commandpanel.ui" line="57"/>
         <source>Sweep</source>
         <translation>清除</translation>
     </message>
     <message>
-        <location filename="../panel/commandpanel.ui" line="65"/>
-        <location filename="../panel/ui_commandpanel.h" line="113"/>
+        <location filename="../panel/commandpanel.ui" line="68"/>
         <source>Send</source>
         <translation>发送</translation>
     </message>
@@ -31,12 +28,17 @@
         <translation> 〔指令〕 </translation>
     </message>
     <message>
-        <location filename="../compositor.cpp" line="43"/>
+        <location filename="../compositor.cpp" line="35"/>
+        <source>send: </source>
+        <translation>发送： </translation>
+    </message>
+    <message>
+        <location filename="../compositor.cpp" line="44"/>
         <source>receive: </source>
         <translation>接收： </translation>
     </message>
     <message>
-        <location filename="../compositor.cpp" line="60"/>
+        <location filename="../compositor.cpp" line="75"/>
         <source> [ERROR] contains unknown information</source>
         <translation> 【错误】包含未知信息</translation>
     </message>
@@ -49,106 +51,89 @@
         <translation type="vanished"> 〔消息〕 </translation>
     </message>
     <message>
-        <location filename="../compositor.cpp" line="68"/>
         <source> [ERROR] information is broken</source>
-        <translation> 〔错误〕信息没有接收全</translation>
+        <translation type="vanished"> 〔错误〕信息没有接收全</translation>
     </message>
 </context>
 <context>
     <name>ConsolePanel</name>
     <message>
         <location filename="../panel/consolepanel.ui" line="24"/>
-        <location filename="../panel/ui_consolepanel.h" line="210"/>
         <source>Send</source>
         <translation>发送</translation>
     </message>
     <message>
         <location filename="../panel/consolepanel.ui" line="34"/>
-        <location filename="../panel/ui_consolepanel.h" line="211"/>
         <source>Receive</source>
         <translation>接收</translation>
     </message>
     <message>
         <location filename="../panel/consolepanel.ui" line="61"/>
-        <location filename="../panel/ui_consolepanel.h" line="212"/>
         <source>Position</source>
         <translation></translation>
     </message>
     <message>
         <location filename="../panel/consolepanel.ui" line="71"/>
-        <location filename="../panel/ui_consolepanel.h" line="213"/>
         <source>Any</source>
         <translation></translation>
     </message>
     <message>
         <location filename="../panel/consolepanel.ui" line="98"/>
-        <location filename="../panel/ui_consolepanel.h" line="214"/>
         <source>Max Record Lines:</source>
         <translation>最大记录行数：</translation>
     </message>
     <message>
         <location filename="../panel/consolepanel.ui" line="121"/>
-        <location filename="../panel/ui_consolepanel.h" line="215"/>
         <source>500</source>
         <translation></translation>
     </message>
     <message>
         <location filename="../panel/consolepanel.ui" line="126"/>
-        <location filename="../panel/ui_consolepanel.h" line="216"/>
         <source>1000</source>
         <translation></translation>
     </message>
     <message>
         <location filename="../panel/consolepanel.ui" line="131"/>
-        <location filename="../panel/ui_consolepanel.h" line="217"/>
         <source>1500</source>
         <translation></translation>
     </message>
     <message>
         <location filename="../panel/consolepanel.ui" line="136"/>
-        <location filename="../panel/ui_consolepanel.h" line="218"/>
         <source>2000</source>
         <translation></translation>
     </message>
     <message>
         <location filename="../panel/consolepanel.ui" line="141"/>
-        <location filename="../panel/ui_consolepanel.h" line="219"/>
         <source>3000</source>
         <translation></translation>
     </message>
     <message>
         <location filename="../panel/consolepanel.ui" line="146"/>
-        <location filename="../panel/ui_consolepanel.h" line="220"/>
         <source>4000</source>
         <translation></translation>
     </message>
     <message>
         <location filename="../panel/consolepanel.ui" line="151"/>
-        <location filename="../panel/ui_consolepanel.h" line="221"/>
         <source>5000</source>
         <translation></translation>
     </message>
     <message>
         <location filename="../panel/consolepanel.ui" line="162"/>
-        <location filename="../panel/ui_consolepanel.h" line="223"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-style:italic; color:#ffff00;&quot;&gt;NEED CLEAR!&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-style:italic; color:#ffff00;&quot;&gt;需要清空！&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../panel/consolepanel.ui" line="186"/>
-        <location filename="../panel/ui_consolepanel.h" line="225"/>
         <source>Move to Top</source>
         <translation>移到顶部</translation>
     </message>
     <message>
-        <location filename="../panel/consolepanel.ui" line="196"/>
-        <location filename="../panel/ui_consolepanel.h" line="228"/>
+        <location filename="../panel/consolepanel.ui" line="197"/>
         <source>Move to Bottom</source>
         <translation>移到底部</translation>
     </message>
     <message>
-        <location filename="../panel/consolepanel.ui" line="206"/>
-        <location filename="../panel/ui_consolepanel.h" line="231"/>
+        <location filename="../panel/consolepanel.ui" line="208"/>
         <source>Clear Console</source>
         <translation>清空终端</translation>
     </message>
@@ -159,7 +144,6 @@
     <message>
         <location filename="../panel/consolepanel.ui" line="14"/>
         <location filename="../panel/consolepanel.h" line="23"/>
-        <location filename="../panel/ui_consolepanel.h" line="209"/>
         <source>Console</source>
         <translation>终端</translation>
     </message>
@@ -172,16 +156,8 @@
 <context>
     <name>Form</name>
     <message>
-        <location filename="../untitled.ui" line="14"/>
-        <location filename="../ui_untitled.h" line="43"/>
         <source>Form</source>
-        <translation>表格</translation>
-    </message>
-    <message>
-        <location filename="../untitled.ui" line="26"/>
-        <location filename="../ui_untitled.h" line="44"/>
-        <source>π</source>
-        <translation></translation>
+        <translation type="vanished">表格</translation>
     </message>
     <message>
         <source>TextLabel</source>
@@ -201,14 +177,11 @@
     <message>
         <location filename="../mainwindow.ui" line="53"/>
         <location filename="../mainwindow.ui" line="146"/>
-        <location filename="../ui_mainwindow.h" line="211"/>
-        <location filename="../ui_mainwindow.h" line="235"/>
         <source>About</source>
         <translation>关于</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="65"/>
-        <location filename="../ui_mainwindow.h" line="237"/>
         <source>View</source>
         <translation>视图</translation>
     </message>
@@ -254,127 +227,106 @@
     </message>
     <message>
         <location filename="../mainwindow.ui" line="98"/>
-        <location filename="../ui_mainwindow.h" line="195"/>
         <source>Connect</source>
         <translation>连接</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="101"/>
-        <location filename="../ui_mainwindow.h" line="197"/>
         <source>Ctrl+O</source>
         <translation></translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="110"/>
-        <location filename="../ui_mainwindow.h" line="199"/>
         <source>Disconnect</source>
         <translation>断开</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="113"/>
-        <location filename="../ui_mainwindow.h" line="201"/>
         <source>Ctrl+D</source>
         <translation></translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="122"/>
-        <location filename="../ui_mainwindow.h" line="203"/>
         <source>Quit</source>
         <translation>退出</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="125"/>
-        <location filename="../ui_mainwindow.h" line="205"/>
         <source>Ctrl+Q</source>
         <translation></translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="134"/>
-        <location filename="../ui_mainwindow.h" line="207"/>
         <source>Configure Serial Port</source>
         <translation>配置串口</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="167"/>
-        <location filename="../ui_mainwindow.h" line="216"/>
         <source>Configure</source>
         <translation>配置</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="195"/>
-        <location filename="../ui_mainwindow.h" line="222"/>
         <source>Zoom In</source>
         <translation>放大</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="198"/>
-        <location filename="../ui_mainwindow.h" line="224"/>
         <source>Ctrl+=</source>
         <translation></translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="207"/>
-        <location filename="../ui_mainwindow.h" line="226"/>
         <source>Zoom Out</source>
         <translation>缩小</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="210"/>
-        <location filename="../ui_mainwindow.h" line="228"/>
         <source>Ctrl+-</source>
         <translation></translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="218"/>
-        <location filename="../ui_mainwindow.h" line="230"/>
         <source>Suitable View</source>
         <translation>适合视图</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="226"/>
-        <location filename="../ui_mainwindow.h" line="231"/>
         <source>Filled View</source>
         <translation>填满视图</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="234"/>
-        <location filename="../ui_mainwindow.h" line="232"/>
         <source>Normal View</source>
         <translation>普通视图</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="137"/>
-        <location filename="../ui_mainwindow.h" line="209"/>
         <source>Alt+C</source>
         <translation></translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="36"/>
-        <location filename="../ui_mainwindow.h" line="233"/>
         <source>Start</source>
         <translation>开始</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="44"/>
-        <location filename="../ui_mainwindow.h" line="234"/>
         <source>Serial Port</source>
         <translation>串口</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="60"/>
-        <location filename="../ui_mainwindow.h" line="236"/>
         <source>Panel</source>
         <translation>面板</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="149"/>
-        <location filename="../ui_mainwindow.h" line="213"/>
         <source>Alt+A</source>
         <translation></translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="158"/>
-        <location filename="../ui_mainwindow.h" line="215"/>
         <source>About Qt</source>
         <translation>关于 Qt</translation>
     </message>
@@ -384,25 +336,21 @@
     </message>
     <message>
         <location filename="../mainwindow.ui" line="170"/>
-        <location filename="../ui_mainwindow.h" line="218"/>
         <source>Ctrl+P</source>
         <translation></translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="178"/>
-        <location filename="../ui_mainwindow.h" line="220"/>
         <source>Little Sender</source>
         <translation>发送器</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="14"/>
-        <location filename="../ui_mainwindow.h" line="194"/>
         <source>Robot Commander</source>
         <translation></translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="186"/>
-        <location filename="../ui_mainwindow.h" line="221"/>
         <source>Console</source>
         <translation>终端</translation>
     </message>
@@ -501,7 +449,7 @@ https://github.com/hfansion/RobotCommander&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/
 https://gitee.com/hfansion/RobotCommander&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="225"/>
+        <location filename="../mainwindow.cpp" line="222"/>
         <source>发现新版本v%1，是否要更新？</source>
         <translation>发现新版本v%1，是否要更新？</translation>
     </message>
@@ -563,7 +511,7 @@ p, li { white-space: pre-wrap; }
         <translation type="vanished">接收：</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="206"/>
+        <location filename="../mainwindow.cpp" line="203"/>
         <source>send: </source>
         <translation>发送： </translation>
     </message>
@@ -647,37 +595,31 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../panel/senderpanel.ui" line="14"/>
         <location filename="../panel/senderpanel.h" line="23"/>
-        <location filename="../panel/ui_senderpanel.h" line="141"/>
         <source>Sender</source>
         <translation>发送器</translation>
     </message>
     <message>
         <location filename="../panel/senderpanel.ui" line="52"/>
-        <location filename="../panel/ui_senderpanel.h" line="142"/>
         <source>Hexadecimal digit</source>
         <translation>十六进制数</translation>
     </message>
     <message>
         <location filename="../panel/senderpanel.ui" line="62"/>
-        <location filename="../panel/ui_senderpanel.h" line="143"/>
         <source>Character string</source>
         <translation>字符串</translation>
     </message>
     <message>
         <location filename="../panel/senderpanel.ui" line="89"/>
-        <location filename="../panel/ui_senderpanel.h" line="144"/>
         <source>Send</source>
         <translation>发送</translation>
     </message>
     <message>
-        <location filename="../panel/senderpanel.ui" line="101"/>
-        <location filename="../panel/ui_senderpanel.h" line="145"/>
+        <location filename="../panel/senderpanel.ui" line="102"/>
         <source>Preview</source>
         <translation>预览</translation>
     </message>
     <message>
-        <location filename="../panel/senderpanel.ui" line="123"/>
-        <location filename="../panel/ui_senderpanel.h" line="146"/>
+        <location filename="../panel/senderpanel.ui" line="124"/>
         <source>###00###</source>
         <translation></translation>
     </message>
@@ -690,41 +632,35 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../settingsdialog.ui" line="14"/>
-        <location filename="../ui_settingsdialog.h" line="746"/>
         <source>Configure</source>
         <translation>配置</translation>
     </message>
     <message>
         <location filename="../settingsdialog.ui" line="54"/>
-        <location filename="../ui_settingsdialog.h" line="751"/>
         <location filename="../settingsdialog.cpp" line="402"/>
         <source>General</source>
         <translation>常规</translation>
     </message>
     <message>
         <location filename="../settingsdialog.ui" line="63"/>
-        <location filename="../ui_settingsdialog.h" line="753"/>
         <location filename="../settingsdialog.cpp" line="403"/>
         <source>Serial Port</source>
         <translation>串口</translation>
     </message>
     <message>
         <location filename="../settingsdialog.ui" line="72"/>
-        <location filename="../ui_settingsdialog.h" line="755"/>
         <location filename="../settingsdialog.cpp" line="404"/>
         <source>Appearance</source>
         <translation>外观</translation>
     </message>
     <message>
         <location filename="../settingsdialog.ui" line="81"/>
-        <location filename="../ui_settingsdialog.h" line="757"/>
         <location filename="../settingsdialog.cpp" line="405"/>
         <source>Update</source>
         <translation>更新</translation>
     </message>
     <message>
         <location filename="../settingsdialog.ui" line="139"/>
-        <location filename="../ui_settingsdialog.h" line="761"/>
         <source>Map</source>
         <translation>地图</translation>
     </message>
@@ -732,9 +668,6 @@ p, li { white-space: pre-wrap; }
         <location filename="../settingsdialog.ui" line="150"/>
         <location filename="../settingsdialog.ui" line="284"/>
         <location filename="../settingsdialog.ui" line="497"/>
-        <location filename="../ui_settingsdialog.h" line="760"/>
-        <location filename="../ui_settingsdialog.h" line="765"/>
-        <location filename="../ui_settingsdialog.h" line="794"/>
         <location filename="../settingsdialog.cpp" line="287"/>
         <location filename="../settingsdialog.cpp" line="295"/>
         <location filename="../settingsdialog.cpp" line="300"/>
@@ -743,77 +676,59 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../settingsdialog.ui" line="198"/>
-        <location filename="../ui_settingsdialog.h" line="820"/>
         <source>Robot</source>
         <translation>机器人</translation>
     </message>
     <message>
         <location filename="../settingsdialog.ui" line="237"/>
-        <location filename="../ui_settingsdialog.h" line="762"/>
         <source>Current Position</source>
         <translation>当前位置</translation>
     </message>
     <message>
         <location filename="../settingsdialog.ui" line="246"/>
         <location filename="../settingsdialog.ui" line="459"/>
-        <location filename="../ui_settingsdialog.h" line="763"/>
-        <location filename="../ui_settingsdialog.h" line="792"/>
         <source>Picture</source>
         <translation>图片</translation>
     </message>
     <message>
         <location filename="../settingsdialog.ui" line="253"/>
         <location filename="../settingsdialog.ui" line="466"/>
-        <location filename="../ui_settingsdialog.h" line="764"/>
-        <location filename="../ui_settingsdialog.h" line="793"/>
         <source>Shape</source>
         <translation>形状</translation>
     </message>
     <message>
         <location filename="../settingsdialog.ui" line="296"/>
         <location filename="../settingsdialog.ui" line="509"/>
-        <location filename="../ui_settingsdialog.h" line="766"/>
-        <location filename="../ui_settingsdialog.h" line="795"/>
         <source>8×8</source>
         <translation></translation>
     </message>
     <message>
         <location filename="../settingsdialog.ui" line="301"/>
         <location filename="../settingsdialog.ui" line="514"/>
-        <location filename="../ui_settingsdialog.h" line="767"/>
-        <location filename="../ui_settingsdialog.h" line="796"/>
         <source>16×16</source>
         <translation></translation>
     </message>
     <message>
         <location filename="../settingsdialog.ui" line="306"/>
         <location filename="../settingsdialog.ui" line="519"/>
-        <location filename="../ui_settingsdialog.h" line="768"/>
-        <location filename="../ui_settingsdialog.h" line="797"/>
         <source>32×32</source>
         <translation></translation>
     </message>
     <message>
         <location filename="../settingsdialog.ui" line="311"/>
         <location filename="../settingsdialog.ui" line="524"/>
-        <location filename="../ui_settingsdialog.h" line="769"/>
-        <location filename="../ui_settingsdialog.h" line="798"/>
         <source>48×48</source>
         <translation></translation>
     </message>
     <message>
         <location filename="../settingsdialog.ui" line="316"/>
         <location filename="../settingsdialog.ui" line="529"/>
-        <location filename="../ui_settingsdialog.h" line="770"/>
-        <location filename="../ui_settingsdialog.h" line="799"/>
         <source>64×64</source>
         <translation></translation>
     </message>
     <message>
         <location filename="../settingsdialog.ui" line="321"/>
         <location filename="../settingsdialog.ui" line="534"/>
-        <location filename="../ui_settingsdialog.h" line="771"/>
-        <location filename="../ui_settingsdialog.h" line="800"/>
         <source>128×128</source>
         <translation></translation>
     </message>
@@ -822,181 +737,140 @@ p, li { white-space: pre-wrap; }
         <location filename="../settingsdialog.ui" line="430"/>
         <location filename="../settingsdialog.ui" line="542"/>
         <location filename="../settingsdialog.ui" line="643"/>
-        <location filename="../ui_settingsdialog.h" line="773"/>
-        <location filename="../ui_settingsdialog.h" line="789"/>
-        <location filename="../ui_settingsdialog.h" line="802"/>
-        <location filename="../ui_settingsdialog.h" line="818"/>
         <source>px</source>
         <translation>像素</translation>
     </message>
     <message>
         <location filename="../settingsdialog.ui" line="358"/>
         <location filename="../settingsdialog.ui" line="571"/>
-        <location filename="../ui_settingsdialog.h" line="774"/>
-        <location filename="../ui_settingsdialog.h" line="803"/>
         <source>Square</source>
         <translation>方形</translation>
     </message>
     <message>
         <location filename="../settingsdialog.ui" line="363"/>
         <location filename="../settingsdialog.ui" line="576"/>
-        <location filename="../ui_settingsdialog.h" line="775"/>
-        <location filename="../ui_settingsdialog.h" line="804"/>
         <source>Triangle</source>
         <translation>三角形</translation>
     </message>
     <message>
         <location filename="../settingsdialog.ui" line="368"/>
         <location filename="../settingsdialog.ui" line="581"/>
-        <location filename="../ui_settingsdialog.h" line="776"/>
-        <location filename="../ui_settingsdialog.h" line="805"/>
         <source>Circular</source>
         <translation>圆形</translation>
     </message>
     <message>
         <location filename="../settingsdialog.ui" line="377"/>
         <location filename="../settingsdialog.ui" line="590"/>
-        <location filename="../ui_settingsdialog.h" line="778"/>
-        <location filename="../ui_settingsdialog.h" line="807"/>
         <source>2</source>
         <translation></translation>
     </message>
     <message>
         <location filename="../settingsdialog.ui" line="382"/>
         <location filename="../settingsdialog.ui" line="595"/>
-        <location filename="../ui_settingsdialog.h" line="779"/>
-        <location filename="../ui_settingsdialog.h" line="808"/>
         <source>4</source>
         <translation></translation>
     </message>
     <message>
         <location filename="../settingsdialog.ui" line="387"/>
         <location filename="../settingsdialog.ui" line="600"/>
-        <location filename="../ui_settingsdialog.h" line="780"/>
-        <location filename="../ui_settingsdialog.h" line="809"/>
         <source>6</source>
         <translation></translation>
     </message>
     <message>
         <location filename="../settingsdialog.ui" line="392"/>
         <location filename="../settingsdialog.ui" line="605"/>
-        <location filename="../ui_settingsdialog.h" line="781"/>
-        <location filename="../ui_settingsdialog.h" line="810"/>
         <source>8</source>
         <translation></translation>
     </message>
     <message>
         <location filename="../settingsdialog.ui" line="397"/>
         <location filename="../settingsdialog.ui" line="610"/>
-        <location filename="../ui_settingsdialog.h" line="782"/>
-        <location filename="../ui_settingsdialog.h" line="811"/>
         <source>10</source>
         <translation></translation>
     </message>
     <message>
         <location filename="../settingsdialog.ui" line="402"/>
         <location filename="../settingsdialog.ui" line="615"/>
-        <location filename="../ui_settingsdialog.h" line="783"/>
-        <location filename="../ui_settingsdialog.h" line="812"/>
         <source>12</source>
         <translation></translation>
     </message>
     <message>
         <location filename="../settingsdialog.ui" line="407"/>
         <location filename="../settingsdialog.ui" line="620"/>
-        <location filename="../ui_settingsdialog.h" line="784"/>
-        <location filename="../ui_settingsdialog.h" line="813"/>
         <source>14</source>
         <translation></translation>
     </message>
     <message>
         <location filename="../settingsdialog.ui" line="412"/>
         <location filename="../settingsdialog.ui" line="625"/>
-        <location filename="../ui_settingsdialog.h" line="785"/>
-        <location filename="../ui_settingsdialog.h" line="814"/>
         <source>16</source>
         <translation></translation>
     </message>
     <message>
         <location filename="../settingsdialog.ui" line="417"/>
         <location filename="../settingsdialog.ui" line="630"/>
-        <location filename="../ui_settingsdialog.h" line="786"/>
-        <location filename="../ui_settingsdialog.h" line="815"/>
         <source>18</source>
         <translation></translation>
     </message>
     <message>
         <location filename="../settingsdialog.ui" line="422"/>
         <location filename="../settingsdialog.ui" line="635"/>
-        <location filename="../ui_settingsdialog.h" line="787"/>
-        <location filename="../ui_settingsdialog.h" line="816"/>
         <source>20</source>
         <translation></translation>
     </message>
     <message>
         <location filename="../settingsdialog.ui" line="450"/>
-        <location filename="../ui_settingsdialog.h" line="791"/>
         <source>Target Position</source>
         <translation>目标位置</translation>
     </message>
     <message>
         <location filename="../settingsdialog.ui" line="837"/>
-        <location filename="../ui_settingsdialog.h" line="844"/>
         <source>Language</source>
         <translation>语言</translation>
     </message>
     <message>
         <location filename="../settingsdialog.ui" line="859"/>
-        <location filename="../ui_settingsdialog.h" line="838"/>
         <source>Chinese</source>
         <translation>简体中文</translation>
     </message>
     <message>
         <location filename="../settingsdialog.ui" line="864"/>
-        <location filename="../ui_settingsdialog.h" line="840"/>
         <source>English</source>
         <translation>英文</translation>
     </message>
     <message>
         <location filename="../settingsdialog.ui" line="872"/>
-        <location filename="../ui_settingsdialog.h" line="843"/>
         <location filename="../settingsdialog.cpp" line="344"/>
         <source>The language selected is %1.</source>
         <translation>选中的语言是%1。</translation>
     </message>
     <message>
         <location filename="../settingsdialog.ui" line="880"/>
-        <location filename="../ui_settingsdialog.h" line="845"/>
         <source>Style</source>
         <translation>样式</translation>
     </message>
     <message>
         <location filename="../settingsdialog.ui" line="936"/>
-        <location filename="../ui_settingsdialog.h" line="846"/>
         <source>Current update channel:</source>
         <translation>当前更新通道：</translation>
     </message>
     <message>
         <location filename="../settingsdialog.ui" line="944"/>
-        <location filename="../ui_settingsdialog.h" line="847"/>
         <source>main</source>
         <translation>正式版</translation>
     </message>
     <message>
         <location filename="../settingsdialog.ui" line="949"/>
-        <location filename="../ui_settingsdialog.h" line="848"/>
         <source>dev</source>
         <translation>开发版</translation>
     </message>
     <message>
         <location filename="../settingsdialog.ui" line="972"/>
-        <location filename="../ui_settingsdialog.h" line="850"/>
         <source>Auto check for update</source>
         <translation>自动检查更新</translation>
     </message>
     <message>
         <location filename="../settingsdialog.ui" line="984"/>
-        <location filename="../ui_settingsdialog.h" line="851"/>
         <source>check for update</source>
         <translation>检测更新</translation>
     </message>
@@ -1006,79 +880,66 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../settingsdialog.ui" line="702"/>
-        <location filename="../ui_settingsdialog.h" line="821"/>
         <source>Select Serial Port</source>
         <translation>选择串口</translation>
     </message>
     <message>
         <location filename="../settingsdialog.ui" line="711"/>
-        <location filename="../ui_settingsdialog.h" line="822"/>
         <source>Description:</source>
         <translation>描述：</translation>
     </message>
     <message>
         <location filename="../settingsdialog.ui" line="718"/>
-        <location filename="../ui_settingsdialog.h" line="823"/>
         <source>Manufacturer:</source>
         <translation>制造商：</translation>
     </message>
     <message>
         <location filename="../settingsdialog.ui" line="725"/>
-        <location filename="../ui_settingsdialog.h" line="824"/>
         <source>Serial number:</source>
         <translation>串口号：</translation>
     </message>
     <message>
         <location filename="../settingsdialog.ui" line="732"/>
-        <location filename="../ui_settingsdialog.h" line="825"/>
         <source>Location:</source>
         <translation>位置：</translation>
     </message>
     <message>
         <location filename="../settingsdialog.ui" line="739"/>
-        <location filename="../ui_settingsdialog.h" line="826"/>
         <source>Vendor ID:</source>
         <translation>厂商标识：</translation>
     </message>
     <message>
         <location filename="../settingsdialog.ui" line="746"/>
-        <location filename="../ui_settingsdialog.h" line="827"/>
         <source>Product ID:</source>
         <translation>产品标识：</translation>
     </message>
     <message>
         <location filename="../settingsdialog.ui" line="756"/>
-        <location filename="../ui_settingsdialog.h" line="828"/>
         <source>Select Parameters</source>
         <translation>选择参数</translation>
     </message>
     <message>
         <location filename="../settingsdialog.ui" line="762"/>
-        <location filename="../ui_settingsdialog.h" line="829"/>
         <source>BaudRate:</source>
         <translation>波特率：</translation>
     </message>
     <message>
         <location filename="../settingsdialog.ui" line="772"/>
-        <location filename="../ui_settingsdialog.h" line="830"/>
         <source>Data bits:</source>
         <translation>数据位：</translation>
     </message>
     <message>
         <location filename="../settingsdialog.ui" line="782"/>
-        <location filename="../ui_settingsdialog.h" line="831"/>
         <source>Parity:</source>
         <translation>校验：</translation>
     </message>
     <message>
         <location filename="../settingsdialog.ui" line="792"/>
-        <location filename="../ui_settingsdialog.h" line="832"/>
         <source>Stop bits:</source>
         <translation>停止位：</translation>
     </message>
     <message>
         <location filename="../settingsdialog.ui" line="802"/>
-        <location filename="../ui_settingsdialog.h" line="833"/>
         <source>Flow control:</source>
         <translation>流程控制：</translation>
     </message>

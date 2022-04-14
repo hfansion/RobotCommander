@@ -32,6 +32,7 @@ QByteArray Compositor::encode() {
         m_queCommand.pop();
     }
     checkSumAndPostProcess(code);
+    m_encodeMessage.insert(0,timeStr().append(tr("send: ")).append(DataDisplayer::toHex(code)).append('\n'));
     return std::move(code);
 }
 
@@ -39,34 +40,75 @@ const QString &Compositor::getEncodeMessage() const {
     return m_encodeMessage;
 }
 
-void Compositor::decode(QByteArray data) {
-    m_decodeMessage = timeStr().append(tr("receive: ")).append(DataDisplayer::toASCII(data)).append('\n');
-    if (verifyAndPreProcess(data)) {
-        while (!m_queInfo.empty()) m_queInfo.pop();
-        while (!data.isEmpty()) {
+void Compositor::decode(const QByteArray &data) {
+    m_decodeMessage = timeStr().append(tr("receive: ")).append(DataDisplayer::toHex(data)).append('\n');
+//    if (verifyAndPreProcess(data)) {
+//        while (!m_queInfo.empty()) m_queInfo.pop();
+    m_readBuffer.append(data);
+    while (!m_readBuffer.isEmpty()) {
+        if (m_readBuffer.startsWith("###")) {
+            extract(m_readBuffer, 3);
+        } else {
             Ptr<Info> info;
-            bool succeed = true;
-            char8_t typeData = extract(data, 1).at(0);
+            DecodeStatus status = DecodeStatus::INCOMPLETE;
+            char8_t typeData = extract(m_readBuffer, 1).at(0);
             if (typeData & static_cast<char8_t>(Protocol::Any)) {  // 第一位为1，即为Any类型
-                int length = (typeData << 1) >> 1;
-                info = std::make_unique<AnyInfo>(extract(data, length));
+                int length = typeData & (~static_cast<char8_t>(Protocol::Any));
+                if (m_readBuffer.length() >= length) {
+                    info = std::make_unique<AnyInfo>(extract(m_readBuffer, length));
+                    status = DecodeStatus::COMPLETE;
+                } else {
+                    m_readBuffer.insert(0, static_cast<char>(typeData));
+                }
             } else {
                 switch (static_cast<Protocol>(typeData)) {
                     case Protocol::Position: {
-                        info = PositionInfo::decode(extract(data, PositionInfo::DATA_LENGTH));
+                        if (m_readBuffer.length() >= PositionInfo::DATA_LENGTH) {
+                            info = PositionInfo::decode(extract(m_readBuffer, PositionInfo::DATA_LENGTH));
+                            status = DecodeStatus::COMPLETE;
+                        } else {
+                            m_readBuffer.insert(0, static_cast<char>(typeData));
+                        }
                         break;
                     }
                     default: {
                         m_decodeMessage.append(tr(" [ERROR] contains unknown information")).append('\n');
-                        succeed = false;
+                        int j_left = -3, j_right;
+                        bool found = false;
+                        for (int i = 0; i < m_readBuffer.length(); ++i) {
+                            if (m_readBuffer.at(i) == '#') {
+                                j_right = i;
+                                if ((j_right - j_left) > 2) {
+                                    j_left = j_right;
+                                } else if ((j_right - j_left) == 2) {
+                                    if (m_readBuffer.at(j_right - 1) == '#') {
+                                        found = true;
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                        if (found) {
+                            extract(m_readBuffer, j_left);
+                        } else {
+                            m_readBuffer.clear();
+                        }
+                        status = DecodeStatus::BROKEN;
                     }
                 }
             }
-            if (succeed) m_queInfo.push(std::move(info));
+            switch (status) {
+                case DecodeStatus::COMPLETE:
+                    m_queInfo.push(std::move(info));
+                    break;
+                case DecodeStatus::INCOMPLETE:
+                    goto OUT;
+                case DecodeStatus::BROKEN:
+                    break;
+            }
         }
-    } else {
-        m_decodeMessage.append(tr(" [ERROR] information is broken")).append('\n');
     }
+    OUT:;
 }
 
 void Compositor::checkSumAndPostProcess(QByteArray &code) {

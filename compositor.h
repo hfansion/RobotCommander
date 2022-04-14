@@ -28,7 +28,7 @@ public:
     static QByteArray previewEncode(const Command *command); // 预览编码
     [[nodiscard]] const QString &getEncodeMessage() const;   // 获取当前编码的显示内容
 
-    void decode(QByteArray data);                            // 解码信息
+    void decode(const QByteArray& data);                            // 解码信息
     Ptr<Info> getInfo();                                     // 获取解码结果
     [[nodiscard]] const QString &getDecodeMessage() const;   // 获取当前解码的显示内容
 
@@ -47,6 +47,11 @@ private:
     static void checkSumAndPostProcess(QByteArray &code);
     static bool verifyAndPreProcess(QByteArray &code);
     static inline QString timeStr();
+
+    QByteArray m_readBuffer;
+    enum class DecodeStatus {
+        COMPLETE, INCOMPLETE, BROKEN
+    };
 };
 
 
