@@ -6,89 +6,35 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>991</width>
-    <height>260</height>
+    <width>750</width>
+    <height>332</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Console</string>
   </property>
-  <layout class="QHBoxLayout" name="horizontalLayout" stretch="0,0,10">
+  <layout class="QHBoxLayout" name="horizontalLayout" stretch="7,1,30">
    <item>
-    <layout class="QVBoxLayout" name="verticalLayout_2">
+    <layout class="QVBoxLayout" name="verticalLayout">
      <item>
-      <layout class="QHBoxLayout" name="horizontalLayout_4">
-       <item>
-        <widget class="QCheckBox" name="checkBox_CS_send">
-         <property name="text">
-          <string>Send</string>
-         </property>
-         <property name="checked">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QCheckBox" name="checkBox_CS_receive">
-         <property name="text">
-          <string>Receive</string>
-         </property>
-         <property name="checked">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <spacer name="horizontalSpacer_4">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>40</width>
-           <height>20</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-      </layout>
+      <widget class="QLabel" name="label_3">
+       <property name="text">
+        <string>Receive</string>
+       </property>
+      </widget>
      </item>
      <item>
-      <layout class="QHBoxLayout" name="horizontalLayout_7">
-       <item>
-        <widget class="QCheckBox" name="checkBox_CS_position">
-         <property name="text">
-          <string>Position</string>
-         </property>
-         <property name="checked">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QCheckBox" name="checkBox_CS_any">
-         <property name="text">
-          <string>Any</string>
-         </property>
-         <property name="checked">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <spacer name="horizontalSpacer_5">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>40</width>
-           <height>20</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-      </layout>
+      <widget class="QListWidget" name="listWidget_receive">
+       <property name="verticalScrollBarPolicy">
+        <enum>Qt::ScrollBarAlwaysOff</enum>
+       </property>
+       <property name="horizontalScrollBarPolicy">
+        <enum>Qt::ScrollBarAlwaysOff</enum>
+       </property>
+       <property name="editTriggers">
+        <set>QAbstractItemView::NoEditTriggers</set>
+       </property>
+      </widget>
      </item>
      <item>
       <layout class="QHBoxLayout" name="horizontalLayout_5">
@@ -186,7 +132,8 @@
         <string>Move to Top</string>
        </property>
        <property name="icon">
-        <iconset theme="go-up"/>
+        <iconset theme="go-up">
+         <normaloff>.</normaloff>.</iconset>
        </property>
       </widget>
      </item>
@@ -196,7 +143,8 @@
         <string>Move to Bottom</string>
        </property>
        <property name="icon">
-        <iconset theme="go-down"/>
+        <iconset theme="go-down">
+         <normaloff>.</normaloff>.</iconset>
        </property>
       </widget>
      </item>
@@ -239,8 +187,8 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>728</width>
-        <height>244</height>
+        <width>539</width>
+        <height>316</height>
        </rect>
       </property>
       <layout class="QGridLayout" name="gridLayout_3">

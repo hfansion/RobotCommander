@@ -179,7 +179,7 @@ void MainWindow::handleError(QSerialPort::SerialPortError error) {
 
 void MainWindow::compositorRead() {
     m_compositor->decode(m_serial->readAll());
-    m_consolePanel->appendMessage(m_compositor->getDecodeMessage());
+    m_consolePanel->beginInfo(m_compositor->getDecodeMessage());
     auto info = m_compositor->getInfo();
     while (info != nullptr) {  // ?
         switch (info->getType()) {
@@ -195,6 +195,7 @@ void MainWindow::compositorRead() {
         m_consolePanel->appendInfo(info.get());
         info = m_compositor->getInfo();
     }
+    m_consolePanel->commitInfo();
 }
 
 void MainWindow::compositorSend() {

@@ -8,11 +8,43 @@
 #include "ui_consolepanel.h"
 #include "data/datadisplayer.h"
 #include "info/info.h"
+#include "command/positioncommand.h"
+#include "command/anycommand.h"
+#include "command/pid1command.h"
+#include "command/pid2command.h"
+#include "command/setgpscommand.h"
+
+QString check_mark = "✓";
 
 ConsolePanel::ConsolePanel(QWidget *parent) :
         PanelBase(parent), ui(new Ui::ConsolePanel) {
     ui->setupUi(this);
     ui->label_CS_Alert->setVisible(false);
+
+    auto add_item = [this](const QString &name, Protocol p) {
+        auto item = new QListWidgetItem(check_mark + name);
+        item->setToolTip(QString::number(static_cast<int>(p)));
+        ui->listWidget_receive->addItem(item);
+        m_visibleMap[p] = true;
+    };
+
+    add_item(PositionCommand::NAME, Protocol::Position);
+    add_item(AnyCommand::NAME, Protocol::Any);
+    add_item(PID1Command::NAME, Protocol::PID1);
+    add_item(PID2Command::NAME, Protocol::PID2);
+    add_item(SetGPSCommand::NAME, Protocol::SET_GPS);
+
+    connect(ui->listWidget_receive, &QListWidget::itemDoubleClicked, [this](QListWidgetItem *item) {
+        auto proto = static_cast<Protocol>(item->toolTip().toInt());
+        auto txt = item->text();
+        if (txt.startsWith(check_mark)) {
+            item->setText(txt.right(txt.size() - check_mark.size()));
+            m_visibleMap[proto] = false;
+        } else {
+            item->setText(check_mark + txt);
+            m_visibleMap[proto] = true;
+        }
+    });
 
     connect(ui->pushButton_CS_top, &QPushButton::clicked,
             [this]() { ui->textEdit_CS->moveCursor(QTextCursor::Start); });
@@ -50,11 +82,22 @@ void ConsolePanel::appendMessage(const QString &content) {
 }
 
 void ConsolePanel::appendInfo(const Info *info) {
-//    switch (info->getType()) {
-//    }
+    if (!m_visibleMap[info->getType()]) return;
     ui->textEdit_CS->append(tr(" [info] ").append(info->toString()).append('\n'));
+    ++m_infoNum;
 }
 
 void ConsolePanel::retranslateUi() {
     ui->retranslateUi(this);
+}
+
+void ConsolePanel::commitInfo() {
+    if (m_infoNum == 0) return;
+    ui->textEdit_CS->append(m_tmpInfo);
+    m_tmpInfo.clear();
+    m_infoNum = 0;
+}
+
+void ConsolePanel::beginInfo(const QString &content) {
+    m_tmpInfo.append(content);
 }
