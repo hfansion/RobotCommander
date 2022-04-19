@@ -32,7 +32,7 @@ QByteArray Compositor::encode() {
         m_queCommand.pop();
     }
     checkSumAndPostProcess(code);
-    m_encodeMessage.insert(0,timeStr().append(tr("send: ")).append(DataDisplayer::toHex(code)).append('\n'));
+    m_encodeMessage.insert(0, timeStr().append(tr("send: ")).append(DataDisplayer::toHex(code)).append('\n'));
     return std::move(code);
 }
 
@@ -46,7 +46,11 @@ void Compositor::decode(const QByteArray &data) {
 //        while (!m_queInfo.empty()) m_queInfo.pop();
     m_readBuffer.append(data);
     while (!m_readBuffer.isEmpty()) {
-        if (m_readBuffer.startsWith("###")) {
+        if (m_readBuffer.length() < 3) {
+            if (m_readBuffer.startsWith("#") || m_readBuffer.startsWith("##")) {
+                goto OUT;
+            }
+        } else if (m_readBuffer.startsWith("###")) {
             extract(m_readBuffer, 3);
         } else {
             Ptr<Info> info;

@@ -40,7 +40,7 @@
     <message>
         <location filename="../compositor.cpp" line="75"/>
         <source> [ERROR] contains unknown information</source>
-        <translation> 【错误】包含未知信息</translation>
+        <translation> 〔错误〕包含未知信息</translation>
     </message>
     <message>
         <source> [ERROR] cannot decode information</source>
