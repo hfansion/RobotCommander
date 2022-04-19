@@ -89,7 +89,8 @@
             <string>Send</string>
            </property>
            <property name="icon">
-            <iconset theme="document-send"/>
+            <iconset resource="../RobotCommander.qrc">
+             <normaloff>:/icon/document-send.svg</normaloff>:/icon/document-send.svg</iconset>
            </property>
           </widget>
          </item>
@@ -158,6 +159,8 @@
    </item>
   </layout>
  </widget>
- <resources/>
+ <resources>
+  <include location="../RobotCommander.qrc"/>
+ </resources>
  <connections/>
 </ui>

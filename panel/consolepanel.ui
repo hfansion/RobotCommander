@@ -132,8 +132,8 @@
         <string>Move to Top</string>
        </property>
        <property name="icon">
-        <iconset theme="go-up">
-         <normaloff>.</normaloff>.</iconset>
+        <iconset resource="../RobotCommander.qrc">
+         <normaloff>:/icon/go-up.svg</normaloff>:/icon/go-up.svg</iconset>
        </property>
       </widget>
      </item>
@@ -143,8 +143,8 @@
         <string>Move to Bottom</string>
        </property>
        <property name="icon">
-        <iconset theme="go-down">
-         <normaloff>.</normaloff>.</iconset>
+        <iconset resource="../RobotCommander.qrc">
+         <normaloff>:/icon/go-down.svg</normaloff>:/icon/go-down.svg</iconset>
        </property>
       </widget>
      </item>
@@ -158,7 +158,7 @@
        </property>
        <property name="icon">
         <iconset resource="../RobotCommander.qrc">
-         <normaloff>:/icon/clear.png</normaloff>:/icon/clear.png</iconset>
+         <normaloff>:/icon/edit-clear-history.svg</normaloff>:/icon/edit-clear-history.svg</iconset>
        </property>
       </widget>
      </item>
@@ -187,8 +187,8 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>539</width>
-        <height>316</height>
+        <width>557</width>
+        <height>312</height>
        </rect>
       </property>
       <layout class="QGridLayout" name="gridLayout_3">

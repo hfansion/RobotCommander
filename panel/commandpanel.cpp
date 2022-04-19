@@ -51,7 +51,10 @@ CommandPanel::CommandPanel(QWidget *parent) :
     });
     connect(ui->pushButton_remove, &QPushButton::clicked, this, &CommandPanel::slot_removeCommand);
     connect(ui->pushButton_sweep, &QPushButton::clicked, this, &CommandPanel::slot_clearCommand);
-    connect(ui->pushButton_send, &QPushButton::clicked, [this]() { emit startSendAll(); });
+    connect(ui->pushButton_send, &QPushButton::clicked, [this]() {
+        shot_showCommand(m_currentIndex);
+        emit startSendAll();
+    });
 }
 
 CommandPanel::~CommandPanel() {

@@ -28,7 +28,7 @@
      <x>0</x>
      <y>0</y>
      <width>995</width>
-     <height>34</height>
+     <height>22</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -115,8 +115,8 @@
   </action>
   <action name="actionQuit">
    <property name="icon">
-    <iconset theme="application-exit">
-     <normaloff>.</normaloff>.</iconset>
+    <iconset resource="RobotCommander.qrc">
+     <normaloff>:/icon/application-exit.svg</normaloff>:/icon/application-exit.svg</iconset>
    </property>
    <property name="text">
     <string>Quit</string>
@@ -160,8 +160,8 @@
   </action>
   <action name="actionConfigure">
    <property name="icon">
-    <iconset theme="configure">
-     <normaloff>.</normaloff>.</iconset>
+    <iconset resource="RobotCommander.qrc">
+     <normaloff>:/icon/configure.svg</normaloff>:/icon/configure.svg</iconset>
    </property>
    <property name="text">
     <string>Configure</string>
@@ -188,8 +188,8 @@
   </action>
   <action name="actionZoomIn">
    <property name="icon">
-    <iconset theme="zoom-in">
-     <normaloff>.</normaloff>.</iconset>
+    <iconset resource="RobotCommander.qrc">
+     <normaloff>:/icon/zoom-in.svg</normaloff>:/icon/zoom-in.svg</iconset>
    </property>
    <property name="text">
     <string>Zoom In</string>
@@ -200,8 +200,8 @@
   </action>
   <action name="actionZoomOut">
    <property name="icon">
-    <iconset theme="zoom-out">
-     <normaloff>.</normaloff>.</iconset>
+    <iconset resource="RobotCommander.qrc">
+     <normaloff>:/icon/zoom-out.svg</normaloff>:/icon/zoom-out.svg</iconset>
    </property>
    <property name="text">
     <string>Zoom Out</string>

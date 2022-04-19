@@ -83,7 +83,7 @@ void ConsolePanel::appendMessage(const QString &content) {
 
 void ConsolePanel::appendInfo(const Info *info) {
     if (!m_visibleMap[info->getType()]) return;
-    ui->textEdit_CS->append(tr(" [info] ").append(info->toString()).append('\n'));
+    m_tmpInfo.append(tr(" [info] ").append(info->toString()).append('\n'));
     ++m_infoNum;
 }
 
@@ -92,8 +92,8 @@ void ConsolePanel::retranslateUi() {
 }
 
 void ConsolePanel::commitInfo() {
-    if (m_infoNum == 0) return;
-    ui->textEdit_CS->append(m_tmpInfo);
+    if (m_infoNum != 0)
+        ui->textEdit_CS->append(m_tmpInfo);
     m_tmpInfo.clear();
     m_infoNum = 0;
 }

@@ -22,7 +22,8 @@
         <string/>
        </property>
        <property name="icon">
-        <iconset theme="list-add"/>
+        <iconset resource="../RobotCommander.qrc">
+         <normaloff>:/icon/list-add.svg</normaloff>:/icon/list-add.svg</iconset>
        </property>
       </widget>
      </item>
@@ -32,7 +33,8 @@
         <string/>
        </property>
        <property name="icon">
-        <iconset theme="list-remove"/>
+        <iconset resource="../RobotCommander.qrc">
+         <normaloff>:/icon/list-remove.svg</normaloff>:/icon/list-remove.svg</iconset>
        </property>
       </widget>
      </item>
@@ -55,7 +57,8 @@
         <string>Sweep</string>
        </property>
        <property name="icon">
-        <iconset theme="edit-clear-history"/>
+        <iconset resource="../RobotCommander.qrc">
+         <normaloff>:/icon/edit-clear-history.svg</normaloff>:/icon/edit-clear-history.svg</iconset>
        </property>
       </widget>
      </item>
@@ -65,8 +68,8 @@
         <string>Send</string>
        </property>
        <property name="icon">
-        <iconset theme="document-send">
-         <normaloff>.</normaloff>.</iconset>
+        <iconset resource="../RobotCommander.qrc">
+         <normaloff>:/icon/document-send.svg</normaloff>:/icon/document-send.svg</iconset>
        </property>
       </widget>
      </item>
